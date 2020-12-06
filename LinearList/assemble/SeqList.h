@@ -1,92 +1,91 @@
 #ifndef __SQ_LIST_H__
 #define __SQ_LIST_H__
-#include "Assistance.h"	// ¸¨ÖúÈí¼ş°ü
+#include "Assistance.h" // è¾…åŠ©è½¯ä»¶åŒ…
 
-// Ë³Ğò±íÄ£°åÀàµÄÉêÃ÷ 
+// é¡ºåºè¡¨æ¨¡æ¿ç±»çš„ç”³æ˜
 template <class ElemType>
-class SeqList 
+class SeqList
 {
 protected:
-// Ë³Ğò±íµÄÊı¾İ³ÉÔ±
-	int length;					// Ë³Ğò±íµÄµ±Ç°³¤¶È 
-	int maxLength;				// Ë³Ğò±íµÄ×î´óÈİÁ¿
-	ElemType *elems;			// ÔªËØ´æ´¢¿Õ¼äµÄÊ×µØÖ· 
+	// é¡ºåºè¡¨çš„æ•°æ®æˆå‘˜
+	int length;		 // é¡ºåºè¡¨çš„å½“å‰é•¿åº¦
+	int maxLength;	 // é¡ºåºè¡¨çš„æœ€å¤§å®¹é‡
+	ElemType *elems; // å…ƒç´ å­˜å‚¨ç©ºé—´çš„é¦–åœ°å€
 
 public:
-// Ë³Ğò±íµÄº¯Êı³ÉÔ±
-	SeqList(int size = DEFAULT_SIZE);	// ¹¹ÔìÒ»¸ö¿Õ±í 
-	SeqList(ElemType v[], int n, int size = DEFAULT_SIZE);	// ¸ù¾İÊı×évµÄÄÚÈİ¹¹ÔìË³Ğò±í 
-	virtual ~SeqList();			// Îö¹¹º¯Êı
-	int GetLength() const;		// È¡Ë³Ğò±í³¤¶È			 
-	bool IsEmpty() const;		// ÅĞ¶ÏË³Ğò±íÊÇ·ñÎª¿Õ
-	void Clear();				// ½«Ë³Ğò±íÇå¿Õ
-	void Traverse(void (*Visit)(const ElemType &)) const;	// ±éÀúË³Ğò±í
-	int LocateElem(const ElemType &e) const;	// ÔªËØ¶¨Î»£¬ÇóÖ¸¶¨ÔªËØÔÚË³Ğò±íÖĞµÄÎ»ÖÃ
-	Status GetElem(int i, ElemType &e) const;	// È¡Ë³Ğò±íÖĞµÚi¸öÔªËØµÄÖµ	
-	Status SetElem(int i, const ElemType &e);	// ĞŞ¸ÄË³Ğò±íÖĞµÚi¸öÔªËØµÄÖµ
-	Status DeleteElem(int i, ElemType &e);      // É¾³ıË³Ğò±íÖĞµÚi¸öÔªËØ		
-	Status InsertElem(int i, const ElemType &e); // ÔÚË³Ğò±íµÚi¸öÎ»ÖÃ²åÈëÔªËØ
- 	Status InsertElem(const ElemType &e);        // ÔÚË³Ğò±í±íÎ²²åÈëÔªËØ
-	SeqList(const SeqList<ElemType> &sa);        // ¸´ÖÆ¹¹Ôìº¯Êı
-	SeqList<ElemType> &operator =(const SeqList<ElemType> &sa); // ¸³ÖµÓï¾äÖØÔØ
+	// é¡ºåºè¡¨çš„å‡½æ•°æˆå‘˜
+	SeqList(int size = DEFAULT_SIZE);						   // æ„é€ ä¸€ä¸ªç©ºè¡¨
+	SeqList(ElemType v[], int n, int size = DEFAULT_SIZE);	   // æ ¹æ®æ•°ç»„vçš„å†…å®¹æ„é€ é¡ºåºè¡¨
+	virtual ~SeqList();										   // ææ„å‡½æ•°
+	int GetLength() const;									   // å–é¡ºåºè¡¨é•¿åº¦
+	bool IsEmpty() const;									   // åˆ¤æ–­é¡ºåºè¡¨æ˜¯å¦ä¸ºç©º
+	void Clear();											   // å°†é¡ºåºè¡¨æ¸…ç©º
+	void Traverse(void (*Visit)(const ElemType &)) const;	   // éå†é¡ºåºè¡¨
+	int LocateElem(const ElemType &e) const;				   // å…ƒç´ å®šä½ï¼Œæ±‚æŒ‡å®šå…ƒç´ åœ¨é¡ºåºè¡¨ä¸­çš„ä½ç½®
+	Status GetElem(int i, ElemType &e) const;				   // å–é¡ºåºè¡¨ä¸­ç¬¬iä¸ªå…ƒç´ çš„å€¼
+	Status SetElem(int i, const ElemType &e);				   // ä¿®æ”¹é¡ºåºè¡¨ä¸­ç¬¬iä¸ªå…ƒç´ çš„å€¼
+	Status DeleteElem(int i, ElemType &e);					   // åˆ é™¤é¡ºåºè¡¨ä¸­ç¬¬iä¸ªå…ƒç´ 
+	Status InsertElem(int i, const ElemType &e);			   // åœ¨é¡ºåºè¡¨ç¬¬iä¸ªä½ç½®æ’å…¥å…ƒç´ 
+	Status InsertElem(const ElemType &e);					   // åœ¨é¡ºåºè¡¨è¡¨å°¾æ’å…¥å…ƒç´ 
+	SeqList(const SeqList<ElemType> &sa);					   // å¤åˆ¶æ„é€ å‡½æ•°
+	SeqList<ElemType> &operator=(const SeqList<ElemType> &sa); // èµ‹å€¼è¯­å¥é‡è½½
 };
 
-
-// Ë³Ğò±íº¯Êı³ÉÔ±µÄÊµÏÖ²¿·Ö
+// é¡ºåºè¡¨å‡½æ•°æˆå‘˜çš„å®ç°éƒ¨åˆ†
 
 template <class ElemType>
 SeqList<ElemType>::SeqList(int size)
-// ²Ù×÷½á¹û£º¹¹ÔìÒ»¸ö×î´óÈİÁ¿ÎªsizeµÄ¿ÕË³Ğò±í
+// æ“ä½œç»“æœï¼šæ„é€ ä¸€ä¸ªæœ€å¤§å®¹é‡ä¸ºsizeçš„ç©ºé¡ºåºè¡¨
 {
-	elems = new ElemType[size];		    // ÉêÇë´æ´¢¿Õ¼ä
-	assert(elems);                      // ÉêÇë´æ´¢¿Õ¼äÊ§°Ü£¬³ÌĞòÖÕÖ¹ 
-	maxLength = size;					// ÉèÖÃË³Ğò±íµÄ×î´óÈİÁ¿
-	length = 0;							// ¿ÕÏßĞÔ±íµÄ³¤¶ÈÎª0
+	elems = new ElemType[size]; // ç”³è¯·å­˜å‚¨ç©ºé—´
+	assert(elems);				// ç”³è¯·å­˜å‚¨ç©ºé—´å¤±è´¥ï¼Œç¨‹åºç»ˆæ­¢
+	maxLength = size;			// è®¾ç½®é¡ºåºè¡¨çš„æœ€å¤§å®¹é‡
+	length = 0;					// ç©ºçº¿æ€§è¡¨çš„é•¿åº¦ä¸º0
 }
 
 template <class ElemType>
 SeqList<ElemType>::SeqList(ElemType v[], int n, int size)
-// ²Ù×÷½á¹û£º¸ù¾İÊı×évÖĞµÄÄÚÈİ¹¹ÔìË³Ğò±í
+// æ“ä½œç»“æœï¼šæ ¹æ®æ•°ç»„vä¸­çš„å†…å®¹æ„é€ é¡ºåºè¡¨
 {
-	elems = new ElemType[size];		    // ÉêÇë´æ´¢¿Õ¼ä
-	assert(elems);                      // ÉêÇë´æ´¢¿Õ¼äÊ§°Ü£¬³ÌĞòÖÕÖ¹ 
-	maxLength = size;					// ÉèÖÃË³Ğò±íµÄ×î´óÈİÁ¿
-	length = n;							// Ë³Ğò±íµÄµ±Ç°³¤¶ÈÎªn 
-	for (int i = 0; i < length; i++)	// ½«Êı×évÖĞµÄÔªËØÒÀ´Î´æ·Åµ½elemsÊı×éÖĞ 
-		elems[i] = v[i]; 
+	elems = new ElemType[size];		 // ç”³è¯·å­˜å‚¨ç©ºé—´
+	assert(elems);					 // ç”³è¯·å­˜å‚¨ç©ºé—´å¤±è´¥ï¼Œç¨‹åºç»ˆæ­¢
+	maxLength = size;				 // è®¾ç½®é¡ºåºè¡¨çš„æœ€å¤§å®¹é‡
+	length = n;						 // é¡ºåºè¡¨çš„å½“å‰é•¿åº¦ä¸ºn
+	for (int i = 0; i < length; i++) // å°†æ•°ç»„vä¸­çš„å…ƒç´ ä¾æ¬¡å­˜æ”¾åˆ°elemsæ•°ç»„ä¸­
+		elems[i] = v[i];
 }
- 
+
 template <class ElemType>
 SeqList<ElemType>::~SeqList()
-// ¹¦ÄÜ£º»ØÊÕË³Ğò±íµÄ´æ´¢¿Õ¼ä 
+// åŠŸèƒ½ï¼šå›æ”¶é¡ºåºè¡¨çš„å­˜å‚¨ç©ºé—´
 {
-	delete []elems;						// ÊÍ·Å´æ´¢¿Õ¼ä
+	delete[] elems; // é‡Šæ”¾å­˜å‚¨ç©ºé—´
 }
 
 template <class ElemType>
 int SeqList<ElemType>::GetLength() const
-// ¹¦ÄÜ£º·µ»ØË³Ğò±íÖĞÔªËØ¸öÊı
+// åŠŸèƒ½ï¼šè¿”å›é¡ºåºè¡¨ä¸­å…ƒç´ ä¸ªæ•°
 {
 	return length;
 }
 
 template <class ElemType>
 bool SeqList<ElemType>::IsEmpty() const
-// ¹¦ÄÜ£ºÈçË³Ğò±íÎª¿Õ£¬Ôò·µ»Øtrue£¬·ñÔò·µ»Øfalse
+// åŠŸèƒ½ï¼šå¦‚é¡ºåºè¡¨ä¸ºç©ºï¼Œåˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›false
 {
 	return length == 0;
 }
 
 template <class ElemType>
 void SeqList<ElemType>::Clear()
-// ¹¦ÄÜ£ºÇå¿ÕË³Ğò±í
+// åŠŸèƒ½ï¼šæ¸…ç©ºé¡ºåºè¡¨
 {
 	length = 0;
 }
 
 template <class ElemType>
 void SeqList<ElemType>::Traverse(void (*visit)(const ElemType &)) const
-// ¹¦ÄÜ£ºÒÀ´Î¶ÔË³Ğò±íµÄÃ¿¸öÔªËØµ÷ÓÃº¯Êı(*visit)½øĞĞ·ÃÎÊ 
+// åŠŸèƒ½ï¼šä¾æ¬¡å¯¹é¡ºåºè¡¨çš„æ¯ä¸ªå…ƒç´ è°ƒç”¨å‡½æ•°(*visit)è¿›è¡Œè®¿é—®
 {
 	for (int i = 0; i < length; i++)
 		(*visit)(elems[i]);
@@ -94,119 +93,127 @@ void SeqList<ElemType>::Traverse(void (*visit)(const ElemType &)) const
 
 template <class ElemType>
 int SeqList<ElemType>::LocateElem(const ElemType &e) const
-// ¹¦ÄÜ£ºÇóÔªËØeÔÚË³Ğò±íÖĞµÄĞòºÅ,Èç¹ûË³Ğò±íÖĞ²»´æÔÚÔªËØeÔò·µ»Ø0
+// åŠŸèƒ½ï¼šæ±‚å…ƒç´ eåœ¨é¡ºåºè¡¨ä¸­çš„åºå·,å¦‚æœé¡ºåºè¡¨ä¸­ä¸å­˜åœ¨å…ƒç´ eåˆ™è¿”å›0
 {
 	int i = 0;
-    while (i < length && elems[i] != e)
-         i++;	
-    return i < length ? i+1 : 0;
+	while (i < length && elems[i] != e)
+		i++;
+	return i < length ? i + 1 : 0;
 }
 
 template <class ElemType>
 Status SeqList<ElemType>::GetElem(int i, ElemType &e) const
-// ¹¦ÄÜ£ºµ±Ë³Ğò±í´æÔÚµÚi¸öÔªËØÊ±£¬ÓÃe·µ»ØÆäÖµ£¬º¯Êı·µ»ØENTRY_FOUND,·ñÔòº¯Êı·µ»ØNOT_PRESENT
+// åŠŸèƒ½ï¼šå½“é¡ºåºè¡¨å­˜åœ¨ç¬¬iä¸ªå…ƒç´ æ—¶ï¼Œç”¨eè¿”å›å…¶å€¼ï¼Œå‡½æ•°è¿”å›ENTRY_FOUND,å¦åˆ™å‡½æ•°è¿”å›NOT_PRESENT
 {
-	if(i < 1 || i > length)
-		return NOT_PRESENT;	// ·µ»ØÔªËØ²»´æÔÚ
-	else	{
+	if (i < 1 || i > length)
+		return NOT_PRESENT; // è¿”å›å…ƒç´ ä¸å­˜åœ¨
+	else
+	{
 		e = elems[i - 1];
-		return ENTRY_FOUND;	// ÔªËØ´æÔÚ
+		return ENTRY_FOUND; // å…ƒç´ å­˜åœ¨
 	}
 }
 
 template <class ElemType>
 Status SeqList<ElemType>::SetElem(int i, const ElemType &e)
-// ¹¦ÄÜ£º½«Ë³Ğò±íµÄµÚi¸öÎ»ÖÃµÄÔªËØ¸³ÖµÎªe¡£iµÄÈ¡Öµ·¶Î§Îª1¡Üi¡Ülength,iºÏ·¨Ê±º¯Êı·µ»ØSUCCESS,·ñÔòº¯Êı·µ»ØRANGE_ERROR
+// åŠŸèƒ½ï¼šå°†é¡ºåºè¡¨çš„ç¬¬iä¸ªä½ç½®çš„å…ƒç´ èµ‹å€¼ä¸ºeã€‚içš„å–å€¼èŒƒå›´ä¸º1â‰¤iâ‰¤length,iåˆæ³•æ—¶å‡½æ•°è¿”å›SUCCESS,å¦åˆ™å‡½æ•°è¿”å›RANGE_ERROR
 {
 	if (i < 1 || i > length)
-		return RANGE_ERROR;	// ·µ»ØÎ»ÖÃ´í
-	else	{
+		return RANGE_ERROR; // è¿”å›ä½ç½®é”™
+	else
+	{
 		elems[i - 1] = e;
-		return SUCCESS;		// ·µ»ØĞŞ¸Ä³É¹¦
+		return SUCCESS; // è¿”å›ä¿®æ”¹æˆåŠŸ
 	}
 }
 
 template <class ElemType>
 Status SeqList<ElemType>::DeleteElem(int i, ElemType &e)
-// ¹¦ÄÜ£ºÉ¾³ıË³Ğò±íµÚi¸öÎ»ÖÃµÄÔªËØ, ²¢Ç°ÓÃe·µ»ØÆäÖµ¡£iµÄµÄÈ¡Öµ·¶Î§Îª1¡Üi¡Ülength,iºÏ·¨Ê±º¯Êı·µ»ØSUCCESS,·ñÔòº¯Êı·µ»ØRANGE_ERROR
+// åŠŸèƒ½ï¼šåˆ é™¤é¡ºåºè¡¨ç¬¬iä¸ªä½ç½®çš„å…ƒç´ , å¹¶å‰ç”¨eè¿”å›å…¶å€¼ã€‚içš„çš„å–å€¼èŒƒå›´ä¸º1â‰¤iâ‰¤length,iåˆæ³•æ—¶å‡½æ•°è¿”å›SUCCESS,å¦åˆ™å‡½æ•°è¿”å›RANGE_ERROR
 {
-	if (i < 1 || i > length)		
-		return RANGE_ERROR;      // ·µ»ØÎ»ÖÃ´í
-	else	{
-		e = elems[i - 1];	     // ÓÃe·µ»Ø±»É¾³ıÔªËØµÄÖµ
-		for (int j = i; j < length; j++)// ±»É¾³ıÔªËØÖ®ºóµÄÔªËØÒÀ´Î×óÒÆÒ»¸öÎ»ÖÃ 
-			elems[j-1] = elems[j]; 
-		length--;				// É¾³ıºóË³Ğò±íÔªËØ¸öÊı¼õ1
-		return SUCCESS;	        // ·µ»ØÉ¾³ı³É¹¦
+	if (i < 1 || i > length)
+		return RANGE_ERROR; // è¿”å›ä½ç½®é”™
+	else
+	{
+		e = elems[i - 1];				 // ç”¨eè¿”å›è¢«åˆ é™¤å…ƒç´ çš„å€¼
+		for (int j = i; j < length; j++) // è¢«åˆ é™¤å…ƒç´ ä¹‹åçš„å…ƒç´ ä¾æ¬¡å·¦ç§»ä¸€ä¸ªä½ç½®
+			elems[j - 1] = elems[j];
+		length--;		// åˆ é™¤åé¡ºåºè¡¨å…ƒç´ ä¸ªæ•°å‡1
+		return SUCCESS; // è¿”å›åˆ é™¤æˆåŠŸ
 	}
 }
 
 template <class ElemType>
 Status SeqList<ElemType>::InsertElem(int i, const ElemType &e)
-// ¹¦ÄÜ£ºÔÚË³Ğò±íµÄµÚi¸öÎ»ÖÃ²åÈëÔªËØe,iµÄµÄÈ¡Öµ·¶Î§Îª1¡Üi¡ÜLength()+1¡£ 
-//	ÈçË³Ğò±íÒÑÂú,Ôò·µ»ØOVER_FLOW,
-//	ÈçiºÏ·¨, Ôò·µ»ØSUCCESS, ·ñÔòº¯Êı·µ»ØRANGE_ERROR
+// åŠŸèƒ½ï¼šåœ¨é¡ºåºè¡¨çš„ç¬¬iä¸ªä½ç½®æ’å…¥å…ƒç´ e,içš„çš„å–å€¼èŒƒå›´ä¸º1â‰¤iâ‰¤Length()+1ã€‚
+//	å¦‚é¡ºåºè¡¨å·²æ»¡,åˆ™è¿”å›OVER_FLOW,
+//	å¦‚iåˆæ³•, åˆ™è¿”å›SUCCESS, å¦åˆ™å‡½æ•°è¿”å›RANGE_ERROR
 {
 	if (length == maxLength)
-		return OVER_FLOW;	            	// Ë³Ğò±íÒÑÂú,·µ»ØOVER_FLOW
-	else if (i < 1 || i > length + 1)		// i·¶Î§´í,·µ»ØÎ»ÖÃ´í
+		return OVER_FLOW;			  // é¡ºåºè¡¨å·²æ»¡,è¿”å›OVER_FLOW
+	else if (i < 1 || i > length + 1) // ièŒƒå›´é”™,è¿”å›ä½ç½®é”™
 		return RANGE_ERROR;
-	else	{
-		for (int j = length; j >= i; j--)  // ²åÈëÎ»ÖÃÖ®ºóµÄÔªËØÓÒÒÆ
-			elems[j] = elems[j - 1]; 
-		elems[i - 1] = e;	               // ½«e¸³Öµµ½Ë³Ğò±íiÎ»ÖÃ	
-   		length++;				           // ²åÈëºóÔªËØ¸öÊı¼Ó1
-     	return SUCCESS;			           // ·µ»Ø²åÈë³É¹¦
+	else
+	{
+		for (int j = length; j >= i; j--) // æ’å…¥ä½ç½®ä¹‹åçš„å…ƒç´ å³ç§»
+			elems[j] = elems[j - 1];
+		elems[i - 1] = e; // å°†eèµ‹å€¼åˆ°é¡ºåºè¡¨iä½ç½®
+		length++;		  // æ’å…¥åå…ƒç´ ä¸ªæ•°åŠ 1
+		return SUCCESS;	  // è¿”å›æ’å…¥æˆåŠŸ
 	}
 }
 
 template <class ElemType>
 Status SeqList<ElemType>::InsertElem(const ElemType &e)
-// ¹¦ÄÜ£ºÔÚË³Ğò±íµÄ±íÎ²²åÈëÔªËØe,²¢Ôò·µ»ØSUCCESS£¬ÈçË³Ğò±íÒÑÂú,Ôò·µ»ØOVER_FLOW
+// åŠŸèƒ½ï¼šåœ¨é¡ºåºè¡¨çš„è¡¨å°¾æ’å…¥å…ƒç´ e,å¹¶åˆ™è¿”å›SUCCESSï¼Œå¦‚é¡ºåºè¡¨å·²æ»¡,åˆ™è¿”å›OVER_FLOW
 {
-	if (length==maxLength)		// Ë³Ğò±íÒÑÂú·µ»ØOVER_FLOW
-		return OVER_FLOW;	
-	else	{
-		elems[length] = e;	    // ½«ÔªËØe²åÈëµ½±íÎ²	
-   		length++;				// ²åÈëºó£¬Ë³Ğò±íÔªËØ¸öÊı¼Ó1
-     	return SUCCESS;			// ·µ»Ø²åÈë³É¹¦
+	if (length == maxLength) // é¡ºåºè¡¨å·²æ»¡è¿”å›OVER_FLOW
+		return OVER_FLOW;
+	else
+	{
+		elems[length] = e; // å°†å…ƒç´ eæ’å…¥åˆ°è¡¨å°¾
+		length++;		   // æ’å…¥åï¼Œé¡ºåºè¡¨å…ƒç´ ä¸ªæ•°åŠ 1
+		return SUCCESS;	   // è¿”å›æ’å…¥æˆåŠŸ
 	}
 }
 
 template <class ElemType>
 SeqList<ElemType>::SeqList(const SeqList<ElemType> &sa)
-// ¹¦ÄÜ£º¸´ÖÆ¹¹Ôìº¯Êı£¬ÓÉË³Ğò±ísa¹¹ÔìĞÂË³Ğò±í
+// åŠŸèƒ½ï¼šå¤åˆ¶æ„é€ å‡½æ•°ï¼Œç”±é¡ºåºè¡¨saæ„é€ æ–°é¡ºåºè¡¨
 {
-	int saLength = sa.GetLength();	// È¡Ë³Ğò±ísaµÄ³¤¶È
+	int saLength = sa.GetLength(); // å–é¡ºåºè¡¨saçš„é•¿åº¦
 	ElemType e;
 
-	maxLength = sa.maxLength;		// È¡Ë³Ğò±íµÄ×î´óÈİÁ¿
-	elems = new ElemType[maxLength];// ·ÖÅä´æ´¢¿Õ¼ä
-	assert(elems);                  // ·ÖÅä´æ´¢¿Õ¼äÊ§°Ü 
-	length = 0;					    // ¿ÕË³Ğò±íÔªËØ¸öÊıÎª0
+	maxLength = sa.maxLength;		 // å–é¡ºåºè¡¨çš„æœ€å¤§å®¹é‡
+	elems = new ElemType[maxLength]; // åˆ†é…å­˜å‚¨ç©ºé—´
+	assert(elems);					 // åˆ†é…å­˜å‚¨ç©ºé—´å¤±è´¥
+	length = 0;						 // ç©ºé¡ºåºè¡¨å…ƒç´ ä¸ªæ•°ä¸º0
 
-	for (int i = 1; i <= saLength; i++)	{
-		sa.getElem(i, e);		    // È¡³öË³Ğò±ísaÖĞµÚi¸öÔªËØ
-		insertElem(e);			    // ½«e²åÈëµ½µ±Ç°Ë³Ğò±íµÄ±íÎ² 
+	for (int i = 1; i <= saLength; i++)
+	{
+		sa.getElem(i, e); // å–å‡ºé¡ºåºè¡¨saä¸­ç¬¬iä¸ªå…ƒç´ 
+		insertElem(e);	  // å°†eæ’å…¥åˆ°å½“å‰é¡ºåºè¡¨çš„è¡¨å°¾
 	}
 }
 
 template <class ElemType>
-SeqList<ElemType> &SeqList<ElemType>::operator =(const SeqList<ElemType> &sa)
-// ¹¦ÄÜ£º¸³ÖµÓï¾äÖØÔØ£¬½«Ë³Ğò±ísa¸³Öµ¸øµ±Ç°Ë³Ğò±í
+SeqList<ElemType> &SeqList<ElemType>::operator=(const SeqList<ElemType> &sa)
+// åŠŸèƒ½ï¼šèµ‹å€¼è¯­å¥é‡è½½ï¼Œå°†é¡ºåºè¡¨saèµ‹å€¼ç»™å½“å‰é¡ºåºè¡¨
 {
-	if (&sa != this)	{
-		int saLength = sa.GetLength();	// È¡Ë³Ğò±ísaµÄ³¤¶È
+	if (&sa != this)
+	{
+		int saLength = sa.GetLength(); // å–é¡ºåºè¡¨saçš„é•¿åº¦
 		ElemType e;
 
-        maxLength = sa.maxLength;		// È¡Ë³Ğò±íµÄ×î´óÈİÁ¿
-        delete []elems;                 // ÊÍ·ÅË³Ğò±íÔ­À´µÄ´æ´¢¿Õ¼ä
-        elems = new ElemType[maxLength];// ·ÖÅä´æ´¢¿Õ¼ä
-	    assert(elems);                  // ·ÖÅä´æ´¢¿Õ¼äÊ§°Ü 
-        length = 0;						// ¿ÕË³Ğò±íÔªËØ¸öÊıÎª0
-        for (int i = 1; i <= saLength; i++)	{
-			sa.getElem(i, e);	        // È¡³öË³Ğò±ísaÖĞµÚi¸öÔªËØ
-			insert(e);		            // ½«e²åÈëµ½µ±Ç°Ë³Ğò±íµÄ±íÎ²
+		maxLength = sa.maxLength;		 // å–é¡ºåºè¡¨çš„æœ€å¤§å®¹é‡
+		delete[] elems;					 // é‡Šæ”¾é¡ºåºè¡¨åŸæ¥çš„å­˜å‚¨ç©ºé—´
+		elems = new ElemType[maxLength]; // åˆ†é…å­˜å‚¨ç©ºé—´
+		assert(elems);					 // åˆ†é…å­˜å‚¨ç©ºé—´å¤±è´¥
+		length = 0;						 // ç©ºé¡ºåºè¡¨å…ƒç´ ä¸ªæ•°ä¸º0
+		for (int i = 1; i <= saLength; i++)
+		{
+			sa.getElem(i, e); // å–å‡ºé¡ºåºè¡¨saä¸­ç¬¬iä¸ªå…ƒç´ 
+			insert(e);		  // å°†eæ’å…¥åˆ°å½“å‰é¡ºåºè¡¨çš„è¡¨å°¾
 		}
 	}
 	return *this;
