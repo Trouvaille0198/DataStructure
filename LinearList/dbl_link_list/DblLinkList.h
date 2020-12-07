@@ -1,240 +1,248 @@
 #ifndef __DBL_LK_LIST_H__
 #define __DBL_LK_LIST_H__
 
-#include "Assistance.h"				// ¸¨ÖúÈí¼ş°ü
-#include "DblNode.h"				// Ë«ÏòÁ´±í½áµãÀà
+#include "Assistance.h" // è¾…åŠ©è½¯ä»¶åŒ…
+#include "DblNode.h"	// åŒå‘é“¾è¡¨ç»“ç‚¹ç±»
 
-// Ë«ÏòÁ´±íÀà
+// åŒå‘é“¾è¡¨ç±»
 template <class ElemType>
-class DblLinkList 
+class DblLinkList
 {
 protected:
-//  Ñ­»·Á´±íµÄÊı¾İ³ÉÔ±:
-	DblNode<ElemType> *head;			// Í·½áµãÖ¸Õë
-	int length;							// ÔªËØ¸öÊı
+	//  å¾ªç¯é“¾è¡¨çš„æ•°æ®æˆå‘˜:
+	DblNode<ElemType> *head; // å¤´ç»“ç‚¹æŒ‡é’ˆ
+	int length;				 // å…ƒç´ ä¸ªæ•°
 
 public:
-	DblLinkList();				        // ÎŞ²ÎÊıµÄ¹¹Ôìº¯Êı
-	DblLinkList(ElemType v[], int n);	// ÓĞ²ÎÊıµÄ¹¹Ôìº¯Êı
- 	virtual ~DblLinkList();		        // Îö¹¹º¯Êı
-	int GetLength() const;			    // ÇóÑ­»·Á´±í³¤¶È			 
-	bool IsEmpty() const;			    // ÅĞ¶ÏÑ­»·Á´±íÊÇ·ñÎª¿Õ
-	void Clear();				        // ½«Ñ­»·Á´±íÇå¿Õ
-	void Traverse(void (*Visit)(const ElemType &)) const;// ±éÀúÑ­»·Á´±í
-	int LocateElem(const ElemType &e);	// ÔªËØ¶¨Î» 
-	Status GetElem(int i, ElemType &e) const;	 // È¡Ö¸¶¨Î»ÖÃµÄÔªËØ	
-	Status SetElem(int i, const ElemType &e);	// ÉèÖÃÖ¸¶¨Î»ÖÃµÄÔªËØÖµ
-	Status DeleteElem(int i, ElemType &e);		// É¾³ıÔªËØ		
-	Status InsertElem(int i, const ElemType &e);// ÔÚÈÎÒâÎ»ÖÃ²åÈëÔªËØ
-	Status InsertElem(const ElemType &e);	    // ÔÚ±íÎ²²åÈëÔªËØ
-	DblLinkList(const DblLinkList<ElemType> &la);// ¸´ÖÆ¹¹Ôìº¯Êı
-	DblLinkList<ElemType> &operator =(const DblLinkList<ElemType> &la); // ÖØÔØ¸³ÖµÔËËã 
+	DblLinkList();													   // æ— å‚æ•°çš„æ„é€ å‡½æ•°
+	DblLinkList(ElemType v[], int n);								   // æœ‰å‚æ•°çš„æ„é€ å‡½æ•°
+	virtual ~DblLinkList();											   // ææ„å‡½æ•°
+	int GetLength() const;											   // æ±‚å¾ªç¯é“¾è¡¨é•¿åº¦
+	bool IsEmpty() const;											   // åˆ¤æ–­å¾ªç¯é“¾è¡¨æ˜¯å¦ä¸ºç©º
+	void Clear();													   // å°†å¾ªç¯é“¾è¡¨æ¸…ç©º
+	void Traverse(void (*Visit)(const ElemType &)) const;			   // éå†å¾ªç¯é“¾è¡¨
+	int LocateElem(const ElemType &e);								   // å…ƒç´ å®šä½
+	Status GetElem(int i, ElemType &e) const;						   // å–æŒ‡å®šä½ç½®çš„å…ƒç´ 
+	Status SetElem(int i, const ElemType &e);						   // è®¾ç½®æŒ‡å®šä½ç½®çš„å…ƒç´ å€¼
+	Status DeleteElem(int i, ElemType &e);							   // åˆ é™¤å…ƒç´ 
+	Status InsertElem(int i, const ElemType &e);					   // åœ¨ä»»æ„ä½ç½®æ’å…¥å…ƒç´ 
+	Status InsertElem(const ElemType &e);							   // åœ¨è¡¨å°¾æ’å…¥å…ƒç´ 
+	DblLinkList(const DblLinkList<ElemType> &la);					   // å¤åˆ¶æ„é€ å‡½æ•°
+	DblLinkList<ElemType> &operator=(const DblLinkList<ElemType> &la); // é‡è½½èµ‹å€¼è¿ç®—
 };
 
-
-// Á´±íÀàµÄÊµÏÖ²¿·Ö
+// é“¾è¡¨ç±»çš„å®ç°éƒ¨åˆ†
 template <class ElemType>
 DblLinkList<ElemType>::DblLinkList()
-// ²Ù×÷½á¹û£º¹¹ÔìÒ»¸ö¿ÕÁ´±í
+// æ“ä½œç»“æœï¼šæ„é€ ä¸€ä¸ªç©ºé“¾è¡¨
 {
-	head = new DblNode<ElemType>;	// ¹¹ÔìÍ·Ö¸Õë
-	assert(head);                   // ¹¹ÔìÍ·½áµãÊ§°Ü£¬ÖÕÖ¹³ÌĞòÔËĞĞ 
-	head->prior = head->next = head;// ¿ÕÑ­»·Á´±íÍ·½áµãµÄÇ°Çı¡¢ºó¼ÌÎªÍ·½áµã±¾Éí
-	length = 0;						// ³õÊ¼»¯ÔªËØ¸öÊı
+	head = new DblNode<ElemType>;	 // æ„é€ å¤´æŒ‡é’ˆ
+	assert(head);					 // æ„é€ å¤´ç»“ç‚¹å¤±è´¥ï¼Œç»ˆæ­¢ç¨‹åºè¿è¡Œ
+	head->prior = head->next = head; // ç©ºå¾ªç¯é“¾è¡¨å¤´ç»“ç‚¹çš„å‰é©±ã€åç»§ä¸ºå¤´ç»“ç‚¹æœ¬èº«
+	length = 0;						 // åˆå§‹åŒ–å…ƒç´ ä¸ªæ•°
 }
 
 template <class ElemType>
 DblLinkList<ElemType>::DblLinkList(ElemType v[], int n)
-// ²Ù×÷½á¹û£º¸ù¾İÊı×évÖĞµÄÔªËØ£¬¹¹ÔìË«ÏòÑ­»·Á´±í
+// æ“ä½œç»“æœï¼šæ ¹æ®æ•°ç»„vä¸­çš„å…ƒç´ ï¼Œæ„é€ åŒå‘å¾ªç¯é“¾è¡¨
 {
-    DblNode<ElemType> *p;
-	p = head =  new DblNode<ElemType>;	// ¹¹ÔìÍ·½áµã 
-	assert(head);                       // ¹¹ÔìÍ·½áµãÊ§°Ü£¬ÖÕÖ¹³ÌĞòÔËĞĞ 
-	for (int i = 0; i < n; i++) {
-	    p->next = new DblNode<ElemType>(v[i],p);
-	    assert(p->next);                // ¹¹ÔìÔªËØ½áµãÊ§°Ü£¬ÖÕÖ¹³ÌĞòÔËĞĞ 
-	    p = p->next;
-    }
-	length = n;						    // ³õÊ¼»¯ÔªËØ¸öÊı
-    head->prior = p;                    //Í·½áµãµÄpriorÖ¸ÏòÎ²½áµã 
-    p->next = head;	                    //Î²½áµãµÄnextÖ¸ÏòÍ·½áµã 
+	DblNode<ElemType> *p;
+	p = head = new DblNode<ElemType>; // æ„é€ å¤´ç»“ç‚¹
+	assert(head);					  // æ„é€ å¤´ç»“ç‚¹å¤±è´¥ï¼Œç»ˆæ­¢ç¨‹åºè¿è¡Œ
+	for (int i = 0; i < n; i++)
+	{
+		p->next = new DblNode<ElemType>(v[i], p);
+		assert(p->next); // æ„é€ å…ƒç´ ç»“ç‚¹å¤±è´¥ï¼Œç»ˆæ­¢ç¨‹åºè¿è¡Œ
+		p = p->next;
+	}
+	length = n;		 // åˆå§‹åŒ–å…ƒç´ ä¸ªæ•°
+	head->prior = p; //å¤´ç»“ç‚¹çš„prioræŒ‡å‘å°¾ç»“ç‚¹
+	p->next = head;	 //å°¾ç»“ç‚¹çš„nextæŒ‡å‘å¤´ç»“ç‚¹
 }
 
 template <class ElemType>
 DblLinkList<ElemType>::~DblLinkList()
-// ²Ù×÷½á¹û£ºÏú»ÙÑ­»·Á´±í
+// æ“ä½œç»“æœï¼šé”€æ¯å¾ªç¯é“¾è¡¨
 {
-	Clear();			// Çå¿ÕÑ­»·Á´±í
-	delete head;		// ÊÍ·ÅÍ·½áµã¿Õ¼ä
+	Clear();	 // æ¸…ç©ºå¾ªç¯é“¾è¡¨
+	delete head; // é‡Šæ”¾å¤´ç»“ç‚¹ç©ºé—´
 }
 
 template <class ElemType>
 int DblLinkList<ElemType>::GetLength() const
-// ²Ù×÷½á¹û£º·µ»ØÑ­»·Á´±íÔªËØ¸öÊı
+// æ“ä½œç»“æœï¼šè¿”å›å¾ªç¯é“¾è¡¨å…ƒç´ ä¸ªæ•°
 {
 	return length;
 }
 
 template <class ElemType>
 bool DblLinkList<ElemType>::IsEmpty() const
-// ²Ù×÷½á¹û£ºÈçÑ­»·Á´±íÎª¿Õ£¬Ôò·µ»Øtrue£¬·ñÔò·µ»Øfalse
+// æ“ä½œç»“æœï¼šå¦‚å¾ªç¯é“¾è¡¨ä¸ºç©ºï¼Œåˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›false
 {
 	return head->next == head;
 }
 
 template <class ElemType>
 void DblLinkList<ElemType>::Clear()
-// ²Ù×÷½á¹û£ºÇå¿ÕÑ­»·Á´±í
+// æ“ä½œç»“æœï¼šæ¸…ç©ºå¾ªç¯é“¾è¡¨
 {
 
-	ElemType tmpElem;	// ÁÙÊ±ÔªËØÖµ
-	while (length > 0)	// Ñ­»·Á´±í·Ç¿Õ£¬ÔòÉ¾³ıµÚ1¸öÔªËØ
+	ElemType tmpElem;  // ä¸´æ—¶å…ƒç´ å€¼
+	while (length > 0) // å¾ªç¯é“¾è¡¨éç©ºï¼Œåˆ™åˆ é™¤ç¬¬1ä¸ªå…ƒç´ 
 		DeleteElem(1, tmpElem);
 }
 
 template <class ElemType>
 void DblLinkList<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
-// ²Ù×÷½á¹û£ºÒÀ´Î¶ÔÑ­»·Á´±íµÄÃ¿¸öÔªËØµ÷ÓÃº¯Êı(*visit)
+// æ“ä½œç»“æœï¼šä¾æ¬¡å¯¹å¾ªç¯é“¾è¡¨çš„æ¯ä¸ªå…ƒç´ è°ƒç”¨å‡½æ•°(*visit)
 {
-    DblNode<ElemType> *p;
-	for (p = head->next; p != head; p = p->next)		// ÓÃpÒÀ´Î·ÃÎÊÃ¿¸öÔªËØ
-		(*Visit)(p->data);	// ¶ÔÑ­»·Á´±íµÄÃ¿¸öÔªËØµ÷ÓÃº¯Êı(*visit)
+	DblNode<ElemType> *p;
+	for (p = head->next; p != head; p = p->next) // ç”¨pä¾æ¬¡è®¿é—®æ¯ä¸ªå…ƒç´ 
+		(*Visit)(p->data);						 // å¯¹å¾ªç¯é“¾è¡¨çš„æ¯ä¸ªå…ƒç´ è°ƒç”¨å‡½æ•°(*visit)
 }
 
 template <class ElemType>
 int DblLinkList<ElemType>::LocateElem(const ElemType &e)
-// ²Ù×÷½á¹û£º·µ»ØÖ¸¶¨ÔªËØÔÚÑ­»·Á´±íÖĞµÚÒ»´Î³öÏÖµÄĞòºÅ£¬Èç¹û²»´æÔÚ·µ»Ø0 
+// æ“ä½œç»“æœï¼šè¿”å›æŒ‡å®šå…ƒç´ åœ¨å¾ªç¯é“¾è¡¨ä¸­ç¬¬ä¸€æ¬¡å‡ºç°çš„åºå·ï¼Œå¦‚æœä¸å­˜åœ¨è¿”å›0
 {
-    DblNode<ElemType> *p = head->next;
-    int count=1;
-	while (p != head && p->data != e) {
-	    count++;
+	DblNode<ElemType> *p = head->next;
+	int count = 1;
+	while (p != head && p->data != e)
+	{
+		count++;
 		p = p->next;
 	}
 	if (p != head)
-	    return count;
-    else 
-        return 0;
+		return count;
+	else
+		return 0;
 }
 
 template <class ElemType>
 Status DblLinkList<ElemType>::GetElem(int i, ElemType &e) const
-// ²Ù×÷½á¹û£ºµ±Ñ­»·Á´±í´æÔÚµÚi¸öÔªËØÊ±£¬ÓÃe·µ»ØÆäÖµ£¬º¯Êı·µ»ØENTRY_FOUND,
-//	·ñÔòº¯Êı·µ»ØNOT_PRESENT
+// æ“ä½œç»“æœï¼šå½“å¾ªç¯é“¾è¡¨å­˜åœ¨ç¬¬iä¸ªå…ƒç´ æ—¶ï¼Œç”¨eè¿”å›å…¶å€¼ï¼Œå‡½æ•°è¿”å›ENTRY_FOUND,
+//	å¦åˆ™å‡½æ•°è¿”å›NOT_PRESENT
 {
-    DblNode<ElemType> *p = head->next;
-    int count;
-	if (i < 1 || i > length)		// i·¶Î§´í
-		return NOT_PRESENT;				
-	else	{	// iºÏ·¨
+	DblNode<ElemType> *p = head->next;
+	int count;
+	if (i < 1 || i > length) // ièŒƒå›´é”™
+		return NOT_PRESENT;
+	else
+	{ // iåˆæ³•
 		for (count = 1; count < i; count++)
-		  p = p->next;	            // pÖ¸ÏòµÚi¸ö½áµã	
-		e = p->data;				// ÓÃe·µ»ØµÚi¸öÔªËØµÄÖµ
+			p = p->next; // pæŒ‡å‘ç¬¬iä¸ªç»“ç‚¹
+		e = p->data;	 // ç”¨eè¿”å›ç¬¬iä¸ªå…ƒç´ çš„å€¼
 		return ENTRY_FOUND;
 	}
 }
 
 template <class ElemType>
 Status DblLinkList<ElemType>::SetElem(int i, const ElemType &e)
-// ²Ù×÷½á¹û£º½«Ñ­»·Á´±íµÄµÚi¸öÎ»ÖÃµÄÔªËØ¸³ÖµÎªe,
-//	iµÄÈ¡Öµ·¶Î§Îª1¡Üi¡Ülength,
-//	iºÏ·¨Ê±º¯Êı·µ»ØSUCCESS,·ñÔòº¯Êı·µ»ØRANGE_ERROR
+// æ“ä½œç»“æœï¼šå°†å¾ªç¯é“¾è¡¨çš„ç¬¬iä¸ªä½ç½®çš„å…ƒç´ èµ‹å€¼ä¸ºe,
+//	içš„å–å€¼èŒƒå›´ä¸º1â‰¤iâ‰¤length,
+//	iåˆæ³•æ—¶å‡½æ•°è¿”å›SUCCESS,å¦åˆ™å‡½æ•°è¿”å›RANGE_ERROR
 {
-    DblNode<ElemType> *p = head->next;
-    int count;
+	DblNode<ElemType> *p = head->next;
+	int count;
 	if (i < 1 || i > length)
 		return RANGE_ERROR;
-	else	{	// iºÏ·¨
+	else
+	{ // iåˆæ³•
 		for (count = 1; count < i; count++)
-		  p = p->next;	// pÖ¸ÏòµÚi¸ö½áµã	
-		p->data = e;	// ÉèÖÃµÚi¸öÔªËØµÄÖµ
+			p = p->next; // pæŒ‡å‘ç¬¬iä¸ªç»“ç‚¹
+		p->data = e;	 // è®¾ç½®ç¬¬iä¸ªå…ƒç´ çš„å€¼
 		return SUCCESS;
 	}
 }
 
 template <class ElemType>
 Status DblLinkList<ElemType>::DeleteElem(int i, ElemType &e)
-// ²Ù×÷½á¹û£ºÉ¾³ıÑ­»·Á´±íµÄµÚi¸öÎ»ÖÃµÄÔªËØ, ²¢ÓÃe·µ»ØÆäÖµ,
-//	iµÄÈ¡Öµ·¶Î§Îª1¡Üi¡Ülength,
-//	iºÏ·¨Ê±º¯Êı·µ»ØSUCCESS,·ñÔòº¯Êı·µ»ØRANGE_ERROR
+// æ“ä½œç»“æœï¼šåˆ é™¤å¾ªç¯é“¾è¡¨çš„ç¬¬iä¸ªä½ç½®çš„å…ƒç´ , å¹¶ç”¨eè¿”å›å…¶å€¼,
+//	içš„å–å€¼èŒƒå›´ä¸º1â‰¤iâ‰¤length,
+//	iåˆæ³•æ—¶å‡½æ•°è¿”å›SUCCESS,å¦åˆ™å‡½æ•°è¿”å›RANGE_ERROR
 {
-    DblNode<ElemType> *p = head->next;
-    int count;
+	DblNode<ElemType> *p = head->next;
+	int count;
 	if (i < 1 || i > length)
 		return RANGE_ERROR;
-	else	{	// iºÏ·¨
+	else
+	{ // iåˆæ³•
 		for (count = 1; count < i; count++)
-		  p = p->next;	// pÖ¸ÏòµÚi¸ö½áµã	
-		p->prior->next = p->next;	// pµÄÇ°Çı½áµãµÄnextÖ¸Ïòp½áµãµÄºó¼Ì½áµã 
-		p->next->prior = p->prior;	// pµÄºó¼Ì½áµãµÄpriorÖ¸Ïòp½áµãµÄÇ°Çı½áµã
-		e = p->data;				// ÓÃe·µ»Ø±»É¾½áµãÔªËØÖµ	
-		length--;					// É¾³ı³É¹¦ºóÔªËØ¸öÊı¼õ1 
-		delete p;				    // ÊÍ·Å±»É¾½áµã
+			p = p->next;		   // pæŒ‡å‘ç¬¬iä¸ªç»“ç‚¹
+		p->prior->next = p->next;  // pçš„å‰é©±ç»“ç‚¹çš„nextæŒ‡å‘pç»“ç‚¹çš„åç»§ç»“ç‚¹
+		p->next->prior = p->prior; // pçš„åç»§ç»“ç‚¹çš„prioræŒ‡å‘pç»“ç‚¹çš„å‰é©±ç»“ç‚¹
+		e = p->data;			   // ç”¨eè¿”å›è¢«åˆ ç»“ç‚¹å…ƒç´ å€¼
+		length--;				   // åˆ é™¤æˆåŠŸåå…ƒç´ ä¸ªæ•°å‡1
+		delete p;				   // é‡Šæ”¾è¢«åˆ ç»“ç‚¹
 		return SUCCESS;
 	}
 }
 
 template <class ElemType>
 Status DblLinkList<ElemType>::InsertElem(int i, const ElemType &e)
-// ²Ù×÷½á¹û£ºÔÚÑ­»·Á´±íµÄµÚi¸öÎ»ÖÃÇ°²åÈëÔªËØe
-//	iµÄÈ¡Öµ·¶Î§Îª1¡Üi¡Ülength+1
-//	iºÏ·¨Ê±·µ»ØSUCCESS, ·ñÔòº¯Êı·µ»ØRANGE_ERROR
+// æ“ä½œç»“æœï¼šåœ¨å¾ªç¯é“¾è¡¨çš„ç¬¬iä¸ªä½ç½®å‰æ’å…¥å…ƒç´ e
+//	içš„å–å€¼èŒƒå›´ä¸º1â‰¤iâ‰¤length+1
+//	iåˆæ³•æ—¶è¿”å›SUCCESS, å¦åˆ™å‡½æ•°è¿”å›RANGE_ERROR
 {
-    DblNode<ElemType> *p = head->next,*q;
-    int count;
-	if (i < 1 || i > length + 1)	// i·¶Î§´í,Î»ÖÃ²»ºÏ·¨
-		return RANGE_ERROR; 
-	else	{	// iºÏ·¨
+	DblNode<ElemType> *p = head->next, *q;
+	int count;
+	if (i < 1 || i > length + 1) // ièŒƒå›´é”™,ä½ç½®ä¸åˆæ³•
+		return RANGE_ERROR;
+	else
+	{ // iåˆæ³•
 		for (count = 1; count < i; count++)
-		  p = p->next;	// pÖ¸ÏòµÚi¸ö½áµã	
-		q = new DblNode<ElemType>(e, p->prior, p);// Éú³ÉĞÂ½áµãq
-		p->prior->next = q;			// pµÄÇ°Çı½áµãµÄnextÖ¸Ïòq½áµã
-		p->prior = q;				// pµÄpriorÖ¸Ïòq½áµã
-		length++;					// ²åÈë³É¹¦ºóÔªËØ¸öÊı¼Ó1 
+			p = p->next;						   // pæŒ‡å‘ç¬¬iä¸ªç»“ç‚¹
+		q = new DblNode<ElemType>(e, p->prior, p); // ç”Ÿæˆæ–°ç»“ç‚¹q
+		p->prior->next = q;						   // pçš„å‰é©±ç»“ç‚¹çš„nextæŒ‡å‘qç»“ç‚¹
+		p->prior = q;							   // pçš„prioræŒ‡å‘qç»“ç‚¹
+		length++;								   // æ’å…¥æˆåŠŸåå…ƒç´ ä¸ªæ•°åŠ 1
 		return SUCCESS;
 	}
 }
 
 template <class ElemType>
 Status DblLinkList<ElemType>::InsertElem(const ElemType &e)
-// ²Ù×÷½á¹û£ºÔÚÑ­»·Á´±íµÄ±íÎ²²åÈëÔªËØe
+// æ“ä½œç»“æœï¼šåœ¨å¾ªç¯é“¾è¡¨çš„è¡¨å°¾æ’å…¥å…ƒç´ e
 {
-    DblNode<ElemType> *p;
-	p = new DblNode<ElemType>(e, head->prior,head);// Éú³ÉĞÂ½áµã
-	assert(p);                   	// ¹¹ÔìÔªËØ½áµãÊ§°Ü£¬ÖÕÖ¹³ÌĞòÔËĞĞ 
-	head->prior->next = p;			// Ô­Î²½áµãµÄnextÖ¸Ïòp½áµã
-	head->prior = p;				// Í·½áµãpriorÖ¸Ïòq½áµã
-	length++;						// ²åÈë³É¹¦ºóÔªËØ¸öÊı¼Ó1 
+	DblNode<ElemType> *p;
+	p = new DblNode<ElemType>(e, head->prior, head); // ç”Ÿæˆæ–°ç»“ç‚¹
+	assert(p);										 // æ„é€ å…ƒç´ ç»“ç‚¹å¤±è´¥ï¼Œç»ˆæ­¢ç¨‹åºè¿è¡Œ
+	head->prior->next = p;							 // åŸå°¾ç»“ç‚¹çš„nextæŒ‡å‘pç»“ç‚¹
+	head->prior = p;								 // å¤´ç»“ç‚¹prioræŒ‡å‘qç»“ç‚¹
+	length++;										 // æ’å…¥æˆåŠŸåå…ƒç´ ä¸ªæ•°åŠ 1
 	return SUCCESS;
 }
 
 template <class ElemType>
 DblLinkList<ElemType>::DblLinkList(const DblLinkList<ElemType> &la)
-// ²Ù×÷½á¹û£º¸´ÖÆ¹¹Ôìº¯Êı£¬ÓÉµ¥Á´±íla¹¹ÔìĞÂµ¥Á´±í
+// æ“ä½œç»“æœï¼šå¤åˆ¶æ„é€ å‡½æ•°ï¼Œç”±å•é“¾è¡¨laæ„é€ æ–°å•é“¾è¡¨
 {
-	int laLength = la.GetLength();	// È¡±»¸´ÖÆµ¥Á´±íµÄ³¤¶È
+	int laLength = la.GetLength(); // å–è¢«å¤åˆ¶å•é“¾è¡¨çš„é•¿åº¦
 	ElemType e;
-	head = new DblNode<ElemType>;	// ¹¹ÔìÍ·Ö¸Õë
-	assert(head);                   // ¹¹ÔìÍ·Ö¸ÕëÊ§°Ü£¬ÖÕÖ¹³ÌĞòÔËĞĞ 
-	length = 0;						// ³õÊ¼»¯ÔªËØ¸öÊı
+	head = new DblNode<ElemType>; // æ„é€ å¤´æŒ‡é’ˆ
+	assert(head);				  // æ„é€ å¤´æŒ‡é’ˆå¤±è´¥ï¼Œç»ˆæ­¢ç¨‹åºè¿è¡Œ
+	length = 0;					  // åˆå§‹åŒ–å…ƒç´ ä¸ªæ•°
 
-	for (int i = 1; i <= laLength; i++)	{	// ¸´ÖÆÊı¾İÔªËØ
-		la.GetElem(i, e);	// È¡³öµÚi¸öÔªËØµÄÖµ·ÅÔÚeÖĞ 
-		InsertElem(e);		// ½«e²åÈëµ½µ±Ç°µ¥Á´±íµÄ±íÎ² 
+	for (int i = 1; i <= laLength; i++)
+	{					  // å¤åˆ¶æ•°æ®å…ƒç´ 
+		la.GetElem(i, e); // å–å‡ºç¬¬iä¸ªå…ƒç´ çš„å€¼æ”¾åœ¨eä¸­
+		InsertElem(e);	  // å°†eæ’å…¥åˆ°å½“å‰å•é“¾è¡¨çš„è¡¨å°¾
 	}
 }
 
 template <class ElemType>
-DblLinkList<ElemType> &DblLinkList<ElemType>::operator =(const DblLinkList<ElemType> &la)
-// ²Ù×÷½á¹û£ºÖØÔØ¸³ÖµÔËËã·û£¬½«µ¥Á´±íla¸³Öµ¸øµ±Ç°µ¥Á´±í
+DblLinkList<ElemType> &DblLinkList<ElemType>::operator=(const DblLinkList<ElemType> &la)
+// æ“ä½œç»“æœï¼šé‡è½½èµ‹å€¼è¿ç®—ç¬¦ï¼Œå°†å•é“¾è¡¨laèµ‹å€¼ç»™å½“å‰å•é“¾è¡¨
 {
-	if (&la != this)	{
-		int laLength = la.GetLength();// È¡±»¸³Öµµ¥Á´±íµÄ³¤¶È
+	if (&la != this)
+	{
+		int laLength = la.GetLength(); // å–è¢«èµ‹å€¼å•é“¾è¡¨çš„é•¿åº¦
 		ElemType e;
-		Clear();							// Çå¿Õµ±Ç°µ¥Á´±í
-		for (int i = 1; i <= laLength; i++)		{
-			la.GetElem(i, e);		    // È¡³öµÚi¸öÔªËØµÄÖµ·ÅÔÚeÖĞ
-			InsertElem(e);		            // ½«e²åÈëµ½µ±Ç°µ¥Á´±íµÄ±íÎ²
+		Clear(); // æ¸…ç©ºå½“å‰å•é“¾è¡¨
+		for (int i = 1; i <= laLength; i++)
+		{
+			la.GetElem(i, e); // å–å‡ºç¬¬iä¸ªå…ƒç´ çš„å€¼æ”¾åœ¨eä¸­
+			InsertElem(e);	  // å°†eæ’å…¥åˆ°å½“å‰å•é“¾è¡¨çš„è¡¨å°¾
 		}
 	}
 	return *this;

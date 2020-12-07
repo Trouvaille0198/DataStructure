@@ -1,43 +1,41 @@
 #ifndef __DBL_NODE_H__
 #define __DBL_NODE_H__
 
-
-// Ë«ÏòÁ´±í½áµãÀà
+// åŒå‘é“¾è¡¨ç»“ç‚¹ç±»
 template <class ElemType>
-struct DblNode 
+struct DblNode
 {
-// Êı¾İ³ÉÔ±:
-	ElemType data;				// Êı¾İÓò
-	DblNode<ElemType> *prior;	// Ö¸ÏòÇ°Çı½áµãµÄÖ¸ÕëÓò
-	DblNode<ElemType> *next;	// Ö¸Ïòºó¼Ì½áµãµÄÖ¸ÕëÓò
+	// æ•°æ®æˆå‘˜:
+	ElemType data;			  // æ•°æ®åŸŸ
+	DblNode<ElemType> *prior; // æŒ‡å‘å‰é©±ç»“ç‚¹çš„æŒ‡é’ˆåŸŸ
+	DblNode<ElemType> *next;  // æŒ‡å‘åç»§ç»“ç‚¹çš„æŒ‡é’ˆåŸŸ
 
-// ¹¹Ôìº¯Êı:
-	DblNode();						// ÎŞÊı¾İµÄ¹¹Ôìº¯Êı
-	DblNode(ElemType item, 
-	DblNode<ElemType> *priorlink = NULL,
-	DblNode<ElemType> *nextlink = NULL);// ÒÑÖªÊı¾İÓòºÍÖ¸ÕëÓò½¨Á¢½á¹¹
+	// æ„é€ å‡½æ•°:
+	DblNode(); // æ— æ•°æ®çš„æ„é€ å‡½æ•°
+	DblNode(ElemType item,
+			DblNode<ElemType> *priorlink = NULL,
+			DblNode<ElemType> *nextlink = NULL); // å·²çŸ¥æ•°æ®åŸŸå’ŒæŒ‡é’ˆåŸŸå»ºç«‹ç»“æ„
 };
 
+// åŒå‘é“¾è¡¨ç»“ç‚¹ç±»çš„å®ç°éƒ¨åˆ†
 
-// Ë«ÏòÁ´±í½áµãÀàµÄÊµÏÖ²¿·Ö
-
-template<class ElemType>
+template <class ElemType>
 DblNode<ElemType>::DblNode()
-// ²Ù×÷½á¹û£º¹¹ÔìÖ¸ÕëÓòÎª¿ÕµÄ½áµã
+// æ“ä½œç»“æœï¼šæ„é€ æŒ‡é’ˆåŸŸä¸ºç©ºçš„ç»“ç‚¹
 {
-   prior = NULL;
-   next = NULL;
+	prior = NULL;
+	next = NULL;
 }
 
-template<class ElemType>
+template <class ElemType>
 DblNode<ElemType>::DblNode(ElemType item,
-			DblNode<ElemType> *priorlink,
-			DblNode<ElemType> *nextlink)
-// ²Ù×÷½á¹û£º¹¹ÔìÒ»¸öÊı¾İÓòÎªitem¡¢priorÖ¸ÕëÓòÎªpriorlinkºÍnextÖ¸ÕëÓòÎªnextlinkµÄ½áµã
+						   DblNode<ElemType> *priorlink,
+						   DblNode<ElemType> *nextlink)
+// æ“ä½œç»“æœï¼šæ„é€ ä¸€ä¸ªæ•°æ®åŸŸä¸ºitemã€prioræŒ‡é’ˆåŸŸä¸ºpriorlinkå’ŒnextæŒ‡é’ˆåŸŸä¸ºnextlinkçš„ç»“ç‚¹
 {
-   data = item;
-   prior = priorlink;
-   next = nextlink;
+	data = item;
+	prior = priorlink;
+	next = nextlink;
 }
 
 #endif

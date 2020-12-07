@@ -1,33 +1,33 @@
 #ifndef __NODE_H__
 #define __NODE_H__
 
-// ½áµãÀà
+// ç»“ç‚¹ç±»
 template <class ElemType>
-struct Node 
+struct Node
 {
-// Êı¾İ³ÉÔ±:
-	ElemType data;				// Êı¾İÓò
-	Node<ElemType> *next;		// Ö¸ÕëÓò
+	// æ•°æ®æˆå‘˜:
+	ElemType data;		  // æ•°æ®åŸŸ
+	Node<ElemType> *next; // æŒ‡é’ˆåŸŸ
 
-// ¹¹Ôìº¯Êı:
-	Node();						// ÎŞ²ÎÊıµÄ¹¹Ôìº¯Êı
-	Node(ElemType e, Node<ElemType> *link = NULL);	// ÒÑÖªÊıÊı¾İÔªËØÖµºÍÖ¸Õë½¨Á¢½á¹¹
+	// æ„é€ å‡½æ•°:
+	Node();										   // æ— å‚æ•°çš„æ„é€ å‡½æ•°
+	Node(ElemType e, Node<ElemType> *link = NULL); // å·²çŸ¥æ•°æ•°æ®å…ƒç´ å€¼å’ŒæŒ‡é’ˆå»ºç«‹ç»“æ„
 };
 
-// ½áµãÀàµÄÊµÏÖ²¿·Ö
-template<class ElemType>
+// ç»“ç‚¹ç±»çš„å®ç°éƒ¨åˆ†
+template <class ElemType>
 Node<ElemType>::Node()
-// ²Ù×÷½á¹û£º¹¹ÔìÖ¸ÕëÓòÎª¿ÕµÄ½áµã
+// æ“ä½œç»“æœï¼šæ„é€ æŒ‡é’ˆåŸŸä¸ºç©ºçš„ç»“ç‚¹
 {
-   next = NULL;
+	next = NULL;
 }
 
-template<class ElemType>
+template <class ElemType>
 Node<ElemType>::Node(ElemType e, Node<ElemType> *link)
-// ²Ù×÷½á¹û£º¹¹ÔìÒ»¸öÊı¾İÓòÎªeºÍÖ¸ÕëÓòÎªlinkµÄ½áµã
+// æ“ä½œç»“æœï¼šæ„é€ ä¸€ä¸ªæ•°æ®åŸŸä¸ºeå’ŒæŒ‡é’ˆåŸŸä¸ºlinkçš„ç»“ç‚¹
 {
-   data = e;
-   next = link;
+	data = e;
+	next = link;
 }
 
 #endif

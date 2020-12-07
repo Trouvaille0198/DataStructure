@@ -1,116 +1,128 @@
-#ifndef __ASSISTANCE_H__				// Èç¹ûÃ»ÓĞ¶¨Òå__ASSISTANCE_H__
-#define __ASSISTANCE_H__				// ÄÇÃ´¶¨Òå__ASSISTANCE_H__
+#ifndef __ASSISTANCE_H__ // å¦‚æœæ²¡æœ‰å®šä¹‰__ASSISTANCE_H__
+#define __ASSISTANCE_H__ // é‚£ä¹ˆå®šä¹‰__ASSISTANCE_H__
 
-// ¸¨ÖúÈí¼ş°ü
+// è¾…åŠ©è½¯ä»¶åŒ…
 
-// ANSI C++±ê×¼¿âÍ·ÎÄ¼ş
-#include <cstring>					// ±ê×¼´®²Ù×÷
-#include <iostream>					// ±ê×¼Á÷²Ù×÷
-#include <limits>					// ¼«ÏŞ
-#include <cmath>					// Êı¾İº¯Êı
-#include <fstream>					// ÎÄ¼şÊäÈëÊä³ö
-#include <cctype>					// ×Ö·û´¦Àí
-#include <ctime>       				// ÈÕÆÚºÍÊ±¼äº¯Êı
-#include <cstdlib>					// ±ê×¼¿â
-#include <cstdio>       			// ±ê×¼ÊäÈëÊä³ö
-#include <iomanip>					// ÊäÈëÊä³öÁ÷¸ñÊ½ÉèÖÃ	
-#include <cstdarg> 					// Ö§³Ö±ä³¤º¯Êı²ÎÊı	
-#include <cassert>					// Ö§³Ö¶ÏÑÔ
-using namespace std;				// ±ê×¼¿â°üº¬ÔÚÃüÃû¿Õ¼ästdÖĞ
+// ANSI C++æ ‡å‡†åº“å¤´æ–‡ä»¶
+#include <cstring>	 // æ ‡å‡†ä¸²æ“ä½œ
+#include <iostream>	 // æ ‡å‡†æµæ“ä½œ
+#include <limits>	 // æé™
+#include <cmath>	 // æ•°æ®å‡½æ•°
+#include <fstream>	 // æ–‡ä»¶è¾“å…¥è¾“å‡º
+#include <cctype>	 // å­—ç¬¦å¤„ç†
+#include <ctime>	 // æ—¥æœŸå’Œæ—¶é—´å‡½æ•°
+#include <cstdlib>	 // æ ‡å‡†åº“
+#include <cstdio>	 // æ ‡å‡†è¾“å…¥è¾“å‡º
+#include <iomanip>	 // è¾“å…¥è¾“å‡ºæµæ ¼å¼è®¾ç½®
+#include <cstdarg>	 // æ”¯æŒå˜é•¿å‡½æ•°å‚æ•°
+#include <cassert>	 // æ”¯æŒæ–­è¨€
+using namespace std; // æ ‡å‡†åº“åŒ…å«åœ¨å‘½åç©ºé—´stdä¸­
 
-// ×Ô¶¨ÒåÀàĞÍ
-enum Status {SUCCESS, FAIL, UNDER_FLOW, OVER_FLOW,RANGE_ERROR, DUPLICATE_ERROR,
-	NOT_PRESENT, ENTRY_INSERTED, ENTRY_FOUND, VISITED, UNVISITED};
+// è‡ªå®šä¹‰ç±»å‹
+enum Status
+{
+	SUCCESS,
+	FAIL,
+	UNDER_FLOW,
+	OVER_FLOW,
+	RANGE_ERROR,
+	DUPLICATE_ERROR,
+	NOT_PRESENT,
+	ENTRY_INSERTED,
+	ENTRY_FOUND,
+	VISITED,
+	UNVISITED
+};
 
-// ºê¶¨Òå
-#define DEFAULT_SIZE 1000			// È±Ê¡ÔªËØ¸öÊı
-#define DEFAULT_INFINITY 1000000	// È±Ê¡ÎŞÇî´ó
+// å®å®šä¹‰
+#define DEFAULT_SIZE 1000		 // ç¼ºçœå…ƒç´ ä¸ªæ•°
+#define DEFAULT_INFINITY 1000000 // ç¼ºçœæ— ç©·å¤§
 
+// è¾…åŠ©å‡½æ•°å£°æ˜
 
-// ¸¨Öúº¯ÊıÉùÃ÷
-
-char GetChar(istream &inStream = cin); // ´ÓÊäÈëÁ÷inStreamÖĞÌø¹ı¿Õ¸ñ¼°ÖÆ±í·û»ñÈ¡Ò»×Ö·û
-
-template <class ElemType >
-void Swap(ElemType &e1, ElemType &e2);	// ½»»»e1, e2Ö®Öµ
-
-template<class ElemType>
-void Display(ElemType elem[], int n);	// ÏÔÊ¾Êı×éelemµÄ¸÷Êı¾İÔªËØÖµ
+char GetChar(istream &inStream = cin); // ä»è¾“å…¥æµinStreamä¸­è·³è¿‡ç©ºæ ¼åŠåˆ¶è¡¨ç¬¦è·å–ä¸€å­—ç¬¦
 
 template <class ElemType>
-void Write(const ElemType &e);			// ÏÔÊ¾Êı¾İÔªËØ
+void Swap(ElemType &e1, ElemType &e2); // äº¤æ¢e1, e2ä¹‹å€¼
 
-// ¸¨ÖúÀà
-class Error;			// Í¨ÓÃÒì³£Àà
+template <class ElemType>
+void Display(ElemType elem[], int n); // æ˜¾ç¤ºæ•°ç»„elemçš„å„æ•°æ®å…ƒç´ å€¼
+
+template <class ElemType>
+void Write(const ElemType &e); // æ˜¾ç¤ºæ•°æ®å…ƒç´ 
+
+// è¾…åŠ©ç±»
+class Error; // é€šç”¨å¼‚å¸¸ç±»
 
 char GetChar(istream &inStream)
-// ²Ù×÷½á¹û£º´ÓÊäÈëÁ÷inStreamÖĞÌø¹ı¿Õ¸ñ¼°ÖÆ±í·û»ñÈ¡Ò»×Ö·û
+// æ“ä½œç»“æœï¼šä»è¾“å…¥æµinStreamä¸­è·³è¿‡ç©ºæ ¼åŠåˆ¶è¡¨ç¬¦è·å–ä¸€å­—ç¬¦
 {
-	char ch;								// ÁÙÊ±±äÁ¿
-	while ((ch = (inStream).peek()) != EOF	// ÎÄ¼ş½áÊø·û(peek()º¯Êı´ÓÊäÈëÁ÷ÖĞ½ÓÊÜ1
-											// ×Ö·û,Á÷µÄµ±Ç°Î»ÖÃ²»±ä)
-		&& ((ch = (inStream).get()) == ' '	// ¿Õ¸ñ(get()º¯Êı´ÓÊäÈëÁ÷ÖĞ½ÓÊÜ1×Ö·û,Á÷
-											// µÄµ±Ç°Î»ÖÃÏòºóÒÆ1¸öÎ»ÖÃ)
-		|| ch == '\t'));					// ÖÆ±í·û
-	
-	return ch;								// ·µ»Ø×Ö·û
+	char ch;								  // ä¸´æ—¶å˜é‡
+	while ((ch = (inStream).peek()) != EOF	  // æ–‡ä»¶ç»“æŸç¬¦(peek()å‡½æ•°ä»è¾“å…¥æµä¸­æ¥å—1
+											  // å­—ç¬¦,æµçš„å½“å‰ä½ç½®ä¸å˜)
+		   && ((ch = (inStream).get()) == ' ' // ç©ºæ ¼(get()å‡½æ•°ä»è¾“å…¥æµä¸­æ¥å—1å­—ç¬¦,æµ
+											  // çš„å½“å‰ä½ç½®å‘åç§»1ä¸ªä½ç½®)
+			   || ch == '\t'))
+		; // åˆ¶è¡¨ç¬¦
+
+	return ch; // è¿”å›å­—ç¬¦
 }
 
-
-// Í¨ÓÃÒì³£Àà                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+// é€šç”¨å¼‚å¸¸ç±»
 #define MAX_ERROR_MESSAGE_LEN 100
 class Error
 {
 private:
-// Êı¾İ³ÉÔ±
-	char message[MAX_ERROR_MESSAGE_LEN];// Òì³£ĞÅÏ¢
+	// æ•°æ®æˆå‘˜
+	char message[MAX_ERROR_MESSAGE_LEN]; // å¼‚å¸¸ä¿¡æ¯
 
 public:
-//  ·½·¨ÉùÃ÷
-	Error(const char *mes = "Ò»°ãĞÔÒì³£!");	// ¹¹Ôìº¯Êı 
-	~Error(void) {};					// Îö¹¹º¯Êı	
-	void Show() const;					// ÏÔÊ¾Òì³£ĞÅÏ¢
+	//  æ–¹æ³•å£°æ˜
+	Error(const char *mes = "ä¸€èˆ¬æ€§å¼‚å¸¸!"); // æ„é€ å‡½æ•°
+	~Error(void){};							// ææ„å‡½æ•°
+	void Show() const;						// æ˜¾ç¤ºå¼‚å¸¸ä¿¡æ¯
 };
 
-// Í¨ÓÃÒì³£ÀàµÄÊµÏÖ²¿·Ö
+// é€šç”¨å¼‚å¸¸ç±»çš„å®ç°éƒ¨åˆ†
 Error::Error(const char *mes)
-// ²Ù×÷½á¹û£ºÓÉmes¹¹¹¹Í¨ÓÃÒì³£¶ÔÏó
+// æ“ä½œç»“æœï¼šç”±mesæ„æ„é€šç”¨å¼‚å¸¸å¯¹è±¡
 {
-	strcpy(message, mes);				// ¸´ÖÆÒì³£ĞÅÏ¢
+	strcpy(message, mes); // å¤åˆ¶å¼‚å¸¸ä¿¡æ¯
 }
 
-void Error::Show()const
-// ²Ù×÷½á¹û£ºÏÔÊ¾Òì³£ĞÅÏ¢
+void Error::Show() const
+// æ“ä½œç»“æœï¼šæ˜¾ç¤ºå¼‚å¸¸ä¿¡æ¯
 {
-	cout << message << endl;			// ÏÔÊ¾Òì³£ĞÅÏ¢	
+	cout << message << endl; // æ˜¾ç¤ºå¼‚å¸¸ä¿¡æ¯
 }
 
-
-template <class ElemType >
+template <class ElemType>
 void Swap(ElemType &e1, ElemType &e2)
-// ²Ù×÷½á¹û: ½»»»e1, e2Ö®Öµ
+// æ“ä½œç»“æœ: äº¤æ¢e1, e2ä¹‹å€¼
 {
-	ElemType temp;		// ÁÙÊ±±äÁ¿
-	// Ñ­»·¸³ÖµÊµÏÖ½»»»e1, e2
-	temp = e1;	e1 = e2;  e2 = temp;
+	ElemType temp; // ä¸´æ—¶å˜é‡
+	// å¾ªç¯èµ‹å€¼å®ç°äº¤æ¢e1, e2
+	temp = e1;
+	e1 = e2;
+	e2 = temp;
 }
 
-template<class ElemType>
+template <class ElemType>
 void Display(ElemType elem[], int n)
-// ²Ù×÷½á¹û: ÏÔÊ¾Êı×éelemµÄ¸÷Êı¾İÔªËØÖµ
+// æ“ä½œç»“æœ: æ˜¾ç¤ºæ•°ç»„elemçš„å„æ•°æ®å…ƒç´ å€¼
 {
 	for (int i = 0; i < n; i++)
-	{	// ÏÔÊ¾Êı×éelem
+	{ // æ˜¾ç¤ºæ•°ç»„elem
 		cout << elem[i] << "  ";
 	}
-	cout << endl; 
+	cout << endl;
 }
 
 template <class ElemType>
 void Write(const ElemType &e)
-// ²Ù×÷½á¹û: ÏÔÊ¾Êı¾İÔªËØ
+// æ“ä½œç»“æœ: æ˜¾ç¤ºæ•°æ®å…ƒç´ 
 {
-    cout << e << "  ";
+	cout << e << "  ";
 }
 
 #endif

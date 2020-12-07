@@ -1,85 +1,105 @@
-#include "DblLinkList.h"		// À´œÚ—≠ª∑¡¥±Ì¿‡
- 
+#include "DblLinkList.h" // ÂèåÂêëÂæ™ÁéØÈìæË°®Á±ª
+
 int main(void)
 {
 	char c = '1';
-    DblLinkList<double> la,lb;
-    double e;
+	DblLinkList<double> la, lb;
+	double e;
 	int i;
 
-    while (c != '0')	{
-        cout << endl << "1. …˙≥…œﬂ–‘±Ì.";
-        cout << endl << "2. œ‘ æœﬂ–‘±Ì.";
-        cout << endl << "3. »°÷∏∂®‘™Àÿ÷µ.";
-        cout << endl << "4. …Ë÷√‘™Àÿ÷µ.";
-        cout << endl << "5. …æ≥˝‘™Àÿ.";
-        cout << endl << "6. ≤Â»Î‘™Àÿ.";
-        cout << endl << "7. ‘™Àÿ∂®Œª.";
-		cout << endl << "0. ÕÀ≥ˆ";
-		cout << endl << "—°‘Òπ¶ƒ‹(0~7):";
+	while (c != '0')
+	{
+		cout << endl
+			 << "1. ÁîüÊàêÁ∫øÊÄßË°®.";
+		cout << endl
+			 << "2. ÊòæÁ§∫Á∫øÊÄßË°®.";
+		cout << endl
+			 << "3. ÂèñÊåáÂÆöÂÖÉÁ¥†ÂÄº.";
+		cout << endl
+			 << "4. ËÆæÁΩÆÂÖÉÁ¥†ÂÄº.";
+		cout << endl
+			 << "5. Âà†Èô§ÂÖÉÁ¥†.";
+		cout << endl
+			 << "6. ÊèíÂÖ•ÂÖÉÁ¥†.";
+		cout << endl
+			 << "7. ÂÖÉÁ¥†ÂÆö‰Ωç.";
+		cout << endl
+			 << "0. ÈÄÄÂá∫";
+		cout << endl
+			 << "ÈÄâÊã©ÂäüËÉΩ(0~7):";
 		cin >> c;
-		switch (c) 		{
-			case '1':
-                la.Clear();
-				cout << endl << " ‰»Îe(e = 0 ±ÕÀ≥ˆ):";
+		switch (c)
+		{
+		case '1':
+			la.Clear();
+			cout << endl
+				 << "ËæìÂÖ•e(e = 0Êó∂ÈÄÄÂá∫):";
+			cin >> e;
+			while (e != 0)
+			{
+				la.InsertElem(la.GetLength() + 1, e);
 				cin >> e;
-				while (e != 0)				{
-					la.InsertElem(la.GetLength() + 1, e);
-					cin >> e;
-				}
-				break;
-			case '2':
-			    lb = la;
-			    lb.Traverse(Write<double>);
-				break;
-			case '3':
-			    cout << endl << " ‰»Î‘™ÀÿŒª÷√:";
-			    cin >> i;
-			    if (la.GetElem(i, e) == NOT_PRESENT) 
-					cout << "‘™Àÿ≤ª¥Ê¥¢." << endl;
-				else
-					cout << "‘™Àÿ:" << e << endl;
-			    break;
-			case '4':
-			    cout << endl << " ‰»ÎŒª÷√:";
-			    cin >> i;
-			    cout << endl << " ‰»Î‘™Àÿ÷µ:";
-			    cin >> e;
-				if (la.SetElem(i, e) == RANGE_ERROR)
-					cout << "Œª÷√∑∂Œß¥Ì." << endl;
-				else
-					cout << "…Ë÷√≥…π¶." << endl;
-			    break;
-			case '5':
-			    cout << endl << " ‰»ÎŒª÷√:";
-			    cin >> i;
-			    if (la.DeleteElem(i, e) == RANGE_ERROR) 
-					cout << "Œª÷√∑∂Œß¥Ì." << endl;
-				else
-					cout << "±ª…æ≥˝‘™Àÿ÷µ:" << e << endl;
-			    break;
-			case '6':
-			    cout << endl << " ‰»ÎŒª÷√:";
-			    cin >> i;
-			    cout << endl << " ‰»Î‘™Àÿ÷µ:";
-			    cin >> e;
-			    if (la.InsertElem(i, e) == RANGE_ERROR) 
-					cout << "Œª÷√∑∂Œß¥Ì." << endl;
-				else
-					cout << "≥…π¶:" << e << endl;
-			    break;
-			case '7':
-			    cout << endl << " ‰»Î‘™Àÿ÷µ:";
-			    cin >> e;
-			    i = la.LocateElem(e);
-			    if (i == 0) 
-					cout << "÷∏∂®‘™Àÿ≤ª¥Ê‘⁄." << endl;
-				else
-					cout << "÷∏∂®‘™Àÿµƒ–Ú∫≈Œ™£∫" << i << endl;
-			    break;		
-          }
+			}
+			break;
+		case '2':
+			lb = la;
+			lb.Traverse(Write<double>);
+			break;
+		case '3':
+			cout << endl
+				 << "ËæìÂÖ•ÂÖÉÁ¥†‰ΩçÁΩÆ:";
+			cin >> i;
+			if (la.GetElem(i, e) == NOT_PRESENT)
+				cout << "ÂÖÉÁ¥†‰∏çÂ≠òÂÇ®." << endl;
+			else
+				cout << "ÂÖÉÁ¥†:" << e << endl;
+			break;
+		case '4':
+			cout << endl
+				 << "ËæìÂÖ•‰ΩçÁΩÆ:";
+			cin >> i;
+			cout << endl
+				 << "ËæìÂÖ•ÂÖÉÁ¥†ÂÄº:";
+			cin >> e;
+			if (la.SetElem(i, e) == RANGE_ERROR)
+				cout << "‰ΩçÁΩÆËåÉÂõ¥Èîô." << endl;
+			else
+				cout << "ËÆæÁΩÆÊàêÂäü." << endl;
+			break;
+		case '5':
+			cout << endl
+				 << "ËæìÂÖ•‰ΩçÁΩÆ:";
+			cin >> i;
+			if (la.DeleteElem(i, e) == RANGE_ERROR)
+				cout << "‰ΩçÁΩÆËåÉÂõ¥Èîô." << endl;
+			else
+				cout << "Ë¢´Âà†Èô§ÂÖÉÁ¥†ÂÄº:" << e << endl;
+			break;
+		case '6':
+			cout << endl
+				 << "ËæìÂÖ•‰ΩçÁΩÆ:";
+			cin >> i;
+			cout << endl
+				 << "ËæìÂÖ•ÂÖÉÁ¥†ÂÄº:";
+			cin >> e;
+			if (la.InsertElem(i, e) == RANGE_ERROR)
+				cout << "‰ΩçÁΩÆËåÉÂõ¥Èîô." << endl;
+			else
+				cout << "ÊàêÂäü:" << e << endl;
+			break;
+		case '7':
+			cout << endl
+				 << "ËæìÂÖ•ÂÖÉÁ¥†ÂÄº:";
+			cin >> e;
+			i = la.LocateElem(e);
+			if (i == 0)
+				cout << "ÊåáÂÆöÂÖÉÁ¥†‰∏çÂ≠òÂú®." << endl;
+			else
+				cout << "ÊåáÂÆöÂÖÉÁ¥†ÁöÑÂ∫èÂè∑‰∏∫Ôºö" << i << endl;
+			break;
+		}
 	}
 
-	system("PAUSE");			
-	return 0;		
+	system("PAUSE");
+	return 0;
 }
