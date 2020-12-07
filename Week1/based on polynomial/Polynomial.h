@@ -178,5 +178,4 @@ int Polynomial::Calc(int x)
 	}
 	return result;
 }
-
 #endif
