@@ -52,7 +52,7 @@ void LinkList<ElemType>::Reverse()
 }
 ```
 
-# Work 7，T7
+# Work3，T7
 
 ```c++
 int Polynomial::Calc(int x)
@@ -68,3 +68,60 @@ int Polynomial::Calc(int x)
 }
 ```
 
+# Work4，T2(4)
+
+```c++
+template <class T>
+void OrderedList<T>::DeleteSandT(T s, T t)
+{
+	if (s >= t || length == 0)
+		cout << "Error!";
+	else
+	{
+		int i = 0;
+		while (i < length || elems[i] < s)
+			i++;
+		int j = i;
+		while (j < length || elems[j] < t)
+			j++;
+		elems[i + 1] = elems[j];
+	}
+}
+```
+
+# Work5，T10
+```C++
+LinkList<T> Merge(const LinkList<T> &la, const LinkList<T> &lb)
+{
+	Node<T> *a, *b, *newHead;
+	Node<T> *q = NULL;
+	a = la.head;
+	b = lb.head;
+	while (a != NULL && b != NULL)
+	{
+		if (a->data <= b->data)
+		{
+			newHead = a;
+			a = a->next;
+		}
+		else
+		{
+			newHead = b;
+			b = b->next;
+		}
+		newHead->next = q;
+		q = newHead;
+	}
+	Node<T> *last;
+	last = (a != NULL) ? a : b;
+	while (last != NULL)
+	{
+		newHead = last;
+		last = last->next;
+		newHead->next = q;
+		q = newHead;
+	}
+	LinkList<T> Result(newHead, la.Length + lb.Length);
+	return Result;
+}
+```
