@@ -71,57 +71,63 @@ int Polynomial::Calc(int x)
 # Work4，T2(4)
 
 ```c++
-template <class T>
-void OrderedList<T>::DeleteSandT(T s, T t)
+template <class ElemType>
+void SeqList<ElemType>::DeleteSandT(ElemType s, ElemType t)
 {
-	if (s >= t || length == 0)
-		cout << "Error!";
-	else
-	{
-		int i = 0;
-		while (i < length || elems[i] < s)
+    if (s >= t || length == 0)
+        cout << "Error!";
+    else
+    {
+        int i = 0;
+        while (i < length && elems[i] <= s)
+            i++;
+        int j = i + 1;
+        while (j < length && elems[j] < t)
+            j++;
+        while (j < length)
+        {
+            elems[i] = elems[j];
 			i++;
-		int j = i;
-		while (j < length || elems[j] < t)
 			j++;
-		elems[i + 1] = elems[j];
-	}
+        }
+        length = length + i - j;
+    }
 }
 ```
 
 # Work5，T10
 ```C++
-LinkList<T> Merge(const LinkList<T> &la, const LinkList<T> &lb)
-{
-	Node<T> *a, *b, *newHead;
-	Node<T> *q = NULL;
-	a = la.head;
-	b = lb.head;
-	while (a != NULL && b != NULL)
+friend LinkList<ElemType> Merge(const LinkList<ElemType> &la, const LinkList<ElemType> &lb)
 	{
-		if (a->data <= b->data)
+		Node<ElemType> *a, *b, *newHead;
+		Node<ElemType> *q = NULL;
+		a = la.head;
+		b = lb.head;
+		while (a != NULL && b != NULL)
 		{
-			newHead = a;
-			a = a->next;
+			if (a->data <= b->data)
+			{
+				newHead = a;
+				a = a->next;
+			}
+			else
+			{
+				newHead = b;
+				b = b->next;
+			}
+			newHead->next = q;
+			q = newHead;
 		}
-		else
+		Node<ElemType> *last;
+		last = (a != NULL) ? a : b;
+		while (last != NULL)
 		{
-			newHead = b;
-			b = b->next;
+			newHead = last;
+			last = last->next;
+			newHead->next = q;
+			q = newHead;
 		}
-		newHead->next = q;
-		q = newHead;
+		LinkList<ElemType> Result(newHead, la.length + lb.length);
+		return Result;
 	}
-	Node<T> *last;
-	last = (a != NULL) ? a : b;
-	while (last != NULL)
-	{
-		newHead = last;
-		last = last->next;
-		newHead->next = q;
-		q = newHead;
-	}
-	LinkList<T> Result(newHead, la.Length + lb.Length);
-	return Result;
-}
 ```

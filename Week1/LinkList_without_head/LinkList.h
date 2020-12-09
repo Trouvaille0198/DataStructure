@@ -65,6 +65,7 @@ public:
 		LinkList<ElemType> Result(newHead, la.length + lb.length);
 		return Result;
 	}
+	void Cout();
 };
 // 单链表类的实现部分
 
@@ -82,14 +83,15 @@ LinkList<ElemType>::LinkList(ElemType v[], int n)
 // 操作结果：根据数组v中的元素构造单链表
 {
 	Node<ElemType> *p;
-	p = head = new Node<ElemType>; // 构造头结点
-	assert(head != 0);			   // 构造头结点失败，终止程序运行
+	//p = head = new Node<ElemType>; // 构造头结点
+	//assert(head != 0);			   // 构造头结点失败，终止程序运行
 	for (int i = 0; i < n; i++)
 	{
-		p->next = new Node<ElemType>(v[i], NULL);
-		assert(p->next); // 构造元素结点失败，终止程序运行
-		p = p->next;
+		head = new Node<ElemType>(v[i], NULL);
+		//assert(p); // 构造元素结点失败，终止程序运行
+		head = head->next;
 	}
+	//head = p;
 	length = n; // 初始化单链表长度为n
 }
 
@@ -303,6 +305,18 @@ void LinkList<ElemType>::Reverse()
 		p->next = head->next; //指针域倒置，保证当前节点指向前一个节点
 		head->next = p;		  //head指向当前节点
 	}
+}
+
+template <class ElemType>
+void LinkList<ElemType>::Cout()
+{
+	Node<ElemType> *p = head;
+	while (p != NULL)
+	{
+		cout << p->data << " ";
+		p = p->next;
+	}
+	cout << endl;
 }
 
 #endif

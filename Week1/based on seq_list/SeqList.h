@@ -31,6 +31,8 @@ public:
     SeqList<ElemType> &operator=(const SeqList<ElemType> &sa); // 赋值语句重载
     void DeleteSameElem();
     void Reverse();
+    void DeleteSandT(ElemType s, ElemType t);
+    void Cout();
 };
 
 // 顺序表函数成员的实现部分
@@ -68,6 +70,7 @@ template <class ElemType>
 int SeqList<ElemType>::GetLength() const
 // 功能：返回顺序表中元素个数
 {
+    cout << length << endl;
     return length;
 }
 
@@ -247,6 +250,37 @@ void SeqList<ElemType>::Reverse()
         elems[i] = elems[length - i - 1];
         elems[length - i - 1] = e;
     }
+}
+
+template <class ElemType>
+void SeqList<ElemType>::DeleteSandT(ElemType s, ElemType t)
+{
+    if (s >= t || length == 0)
+        cout << "Error!";
+    else
+    {
+        int i = 0;
+        while (i < length && elems[i] <= s)
+            i++;
+        int j = i + 1;
+        while (j < length && elems[j] < t)
+            j++;
+        while (j < length)
+        {
+            elems[i++] = elems[j++];
+        }
+        length = length + i - j;
+    }
+}
+
+template <class ElemType>
+void SeqList<ElemType>::Cout()
+{
+    for (int i = 0; i < length; i++)
+    {
+        cout << elems[i] << " ";
+    }
+    cout << endl;
 }
 
 #endif
