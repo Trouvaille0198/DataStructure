@@ -19,19 +19,19 @@ public:
     virtual ~SeqList();                                          //析构函数
     SeqList<DataType> &operator=(const SeqList<DataType> &sa);   //赋值运算符重载
 
-    void ClearList();      //清空顺序表
-    int GetLength() const; //返回长度
-    bool IsEmpty() const;  //判空
-    bool IsFull() const;   //判满
-    void DisplayList() const;
-    int LocateElem(const DataType &e) const;
+    void ClearList();                        //清空顺序表，暂时不知道有啥用
+    int GetLength() const;                   //返回长度
+    bool IsEmpty() const;                    //判空
+    bool IsFull() const;                     //判满
+    void DisplayList() const;                //遍历显示顺序表
+    int LocateElem(const DataType &e) const; //元素定位，返回指定元素位置
 
-    DataType GetElem(int i) const;
-    void SetElem(int i, const DataType &e);
-    void InsertElem(int i, const DataType &e);
-    void InsertElem(const DataType &e);
-    void DeleteElemByIndex(int i);
-    void DeleteElemByValue(const DataType &e);
+    DataType GetElem(int i) const;             //查找元素，返回查找的元素
+    void SetElem(int i, const DataType &e);    //修改i位置的元素值
+    void InsertElem(int i, const DataType &e); //在i位置插入新元素
+    void InsertElem(const DataType &e);        //在末尾插入新元素
+    void DeleteElemByIndex(int i);             //删除i位置的元素
+    void DeleteElemByValue(const DataType &e); //删除指定元素
 };
 
 /*建立一个有默认最大长度的空表*/
