@@ -8,8 +8,12 @@ int main()
     l1.PushElem(2);
     l1.PushElem(3);
     l1.PushElem(4);
-    cout << l1.TopElem() << endl;
     l1.DisplayStack();
+    SeqStack<int> l2(l1);
+    SeqStack<int> l3;
+    l3 = l1;
+    l2.DisplayStack();
+    l3.DisplayStack();
 
     system("pause");
 }

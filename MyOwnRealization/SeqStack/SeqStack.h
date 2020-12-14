@@ -40,11 +40,10 @@ template <class DataType>
 SeqStack<DataType>::SeqStack(const SeqStack<DataType> &sa)
 //拷贝构造函数
 {
-    DataType e;
     _maxlen = sa._maxlen;
     _data = new DataType[_maxlen];
     _top = sa._top;
-    for (int i = 0; i < sa._length; i++)
+    for (int i = 0; i < sa.GetLength(); i++)
     {
         _data[i] = sa._data[i];
     }
@@ -63,13 +62,12 @@ SeqStack<DataType> &SeqStack<DataType>::operator=(const SeqStack<DataType> &sa)
 {
     if (&sa != this)
     {
-        DataType e;
         _maxlen = sa._maxlen;
         if (_data)
             delete[] _data; //相较于拷贝构造函数，多了释放被赋值对象原来的空间这个步骤
         _data = new DataType[_maxlen];
         _top = sa._top;
-        for (int i = 0; i < sa._length; i++)
+        for (int i = 0; i < sa.GetLength(); i++)
         {
             _data[i] = sa._data[i];
         }
