@@ -1,5 +1,5 @@
 #ifndef SEQ_LIST
-#define SQE_LIST
+#define SEQ_LIST
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -39,22 +39,12 @@ template <class DataType>
 SeqList<DataType>::SeqList(int maxlen) : _length(0), _maxlen(maxlen)
 {
     _data = new DataType[_maxlen]; //申请存储空间
-    if (_data == NULL)
-    {
-        cout << "动态存储分配失败！" << endl;
-        exit(1);
-    }
 }
 
 template <class DataType>
 SeqList<DataType>::SeqList(DataType *a, int length, int maxlen) : _length(length), _maxlen(maxlen)
 {
     _data = new DataType[maxlen];
-    if (_data == NULL)
-    {
-        cout << "动态存储分配失败！" << endl;
-        exit(1);
-    }
     for (int i = 0; i < length; i++)
         _data[i] = a[i];
 }
@@ -65,11 +55,6 @@ SeqList<DataType>::SeqList(const SeqList<DataType> &sa)
     DataType e;
     _maxlen = sa._maxlen;
     _data = new DataType[_maxlen];
-    if (_data == NULL)
-    {
-        cout << "动态存储分配失败！" << endl;
-        exit(1);
-    }
     _length = 0;
     for (int i = 1; i <= sa._length; i++)
     {
@@ -95,11 +80,6 @@ SeqList<DataType> &SeqList<DataType>::operator=(const SeqList<DataType> &sa)
         if (_data)
             delete[] _data; //相较于拷贝构造函数，多了释放被赋值对象原来的空间这个步骤
         _data = new DataType[_maxlen];
-        if (_data == NULL)
-        {
-            cout << "动态存储分配失败！" << endl;
-            exit(1);
-        }
         _length = 0;
         for (int i = 1; i <= sa._length; i++)
         {
@@ -160,16 +140,14 @@ DataType SeqList<DataType>::GetElem(int i) const
     if (i >= 1 && i <= _length)
         return _data[i - 1]; //第i个元素的数组索引为i-1
     cout << "位置不合理！" << endl;
-    return NULL;
+    return NULL; //此处有Warning
 }
 
 template <class DataType>
 void SeqList<DataType>::SetElem(int i, const DataType &e)
 {
     if (i > 0 && i <= _length)
-    {
         _data[i - 1] = e;
-    }
     else
         cout << "位置不合理！" << endl;
 }
@@ -187,12 +165,15 @@ void SeqList<DataType>::InsertElem(int i, const DataType &e)
         cout << "位置不合理！" << endl;
         return;
     }
-    for (int j = _length; j >= i; j--)
+    else
     {
-        _data[j] = _data[j - 1];
+        for (int j = _length; j >= i; j--)
+        {
+            _data[j] = _data[j - 1];
+        }
+        _data[i - 1] = e;
+        _length++;
     }
-    _data[i - 1] = e;
-    _length++;
 }
 
 template <class DataType>
