@@ -34,8 +34,8 @@ public:
 	void Inverse();								  //逆置
 	friend LinkList<ElemType> Merge(const LinkList<ElemType> &la, const LinkList<ElemType> &lb)
 	{
-		Node<ElemType> *a, *b, *newHead;
-		Node<ElemType> *q = NULL;
+		Node<ElemType> *a, *b;
+		//Node<ElemType> *q = NULL;
 		a = la.head;
 		b = lb.head;
 		ElemType data[la.length + lb.length];
@@ -47,7 +47,7 @@ public:
 				data[i] = a->data;
 				i++;
 
-				newHead = a;
+				//newHead = a;
 				a = a->next;
 			}
 			else
@@ -55,11 +55,11 @@ public:
 				data[i] = b->data;
 				i++;
 
-				newHead = b;
+				//newHead = b;
 				b = b->next;
 			}
-			newHead->next = q;
-			q = newHead;
+			//newHead->next = q;
+			//q = newHead;
 		}
 		Node<ElemType> *last;
 		last = (a != NULL) ? a : b;
@@ -68,10 +68,10 @@ public:
 			data[i] = last->data;
 			i++;
 
-			newHead = last;
+			//newHead = last;
 			last = last->next;
-			newHead->next = q;
-			q = newHead;
+			//newHead->next = q;
+			//q = newHead;
 		}
 		/* LinkList<ElemType> Result;
 		//Node<ElemType> *cur = newHead;
@@ -80,8 +80,10 @@ public:
 			Result.InsertElem(q->data);
 			q = q->next;
 		} */
+		//cout << "data[0]: " << data[0] << endl
+		//	 << endl;
 		LinkList<ElemType> Result(data, la.length + lb.length);
-
+		Result.Inverse();
 		//LinkList<ElemType>Result(newHead, la.length + lb.length);
 		return Result;
 	}
@@ -111,11 +113,15 @@ LinkList<ElemType>::LinkList(ElemType v[], int n)
 {
 	Node<ElemType> *p;
 	p = head = new Node<ElemType>(v[0], NULL); // 构造头结点
+	/* cout << "v[0]!!" << v[0] << endl;
+	cout << "head: " << head->data << endl
+		 << endl; */
 	for (int i = 1; i < n; i++)
 	{
 		p->next = new Node<ElemType>(v[i], NULL);
 		p = p->next;
 	}
+
 	length = n; // 初始化单链表长度为n
 }
 
@@ -124,7 +130,7 @@ LinkList<ElemType>::~LinkList()
 // 操作结果：销毁单链表
 {
 	Clear(); // 清空单链表
-			 //delete head; // 释放头结点所指空间
+		//delete head; // 释放头结点所指空间
 }
 
 template <class ElemType>
@@ -169,6 +175,8 @@ void LinkList<ElemType>::Show() const
 {
 	cout << "显示链表：" << endl;
 	Node<ElemType> *p = head;
+	//cout << "head: " << p->data << endl
+	//	 << endl;
 	while (p != NULL)
 	{
 		cout << p->data << endl;
@@ -242,7 +250,6 @@ LinkList<ElemType>::LinkList(const LinkList<ElemType> &la)
 	int laLength = la.GetLength(); // 取被复制单链表的长度
 	ElemType e;
 	head = new Node<ElemType>; // 构造头指针
-	assert(head);			   // 构造头指针失败，终止程序运行
 	length = 0;				   // 初始化元素个数
 
 	for (int i = 1; i <= laLength; i++)
@@ -259,13 +266,27 @@ LinkList<ElemType> &LinkList<ElemType>::operator=(const LinkList<ElemType> &la)
 	if (&la != this)
 	{
 		int laLength = la.GetLength(); // 取被赋值单链表的长度
-		ElemType e;
+		ElemType e[laLength];
 		Clear(); // 清空当前单链表
-		for (int i = 1; i <= laLength; i++)
+		length = 0;
+		for (int i = 0; i < laLength; i++)
 		{
-			la.GetElem(i, e); // 取出第i个元素的值放在e中
-			InsertElem(e);	  // 将e插入到当前单链表的表尾
+			la.GetElem(i + 1, e[i]); // 取出第i个元素的值放在e中
+									 //InsertElemI(length, e); // 将e插入到当前单链表的表尾
 		}
+
+		Node<ElemType> *p;
+		p = head = new Node<ElemType>(e[0], NULL); // 构造头结点
+		/* cout << "v[0]!!" << v[0] << endl;
+	cout << "head: " << head->data << endl
+		 << endl; */
+		for (int i = 1; i < laLength; i++)
+		{
+			p->next = new Node<ElemType>(e[i], NULL);
+			p = p->next;
+		}
+
+		length = laLength; // 初始化单链表长度为n
 	}
 	return *this;
 }
