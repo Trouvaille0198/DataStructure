@@ -3,10 +3,13 @@ using namespace std;
 
 int main()
 {
-    SeqList<string> SufxExpr = InputSufxExpr();
-    cout << SufxExpr.GetLength() << endl;
+    SeqList<string> InfxExpr = InputInfxExpr();
+    cout << InfxExpr.GetLength() << endl;
+    //cout<<InfxExpr.DisplayList();
+    SeqList<string> SufxExpr = InfxExprToSufxExpr(InfxExpr);
+    cout << "转换成后缀表达式为：";
     SufxExpr.DisplayList();
-    double re = SufxExprCal(SufxExpr);
-    cout << re;
+    cout << "Result:" << SufxExprCal(SufxExpr) << endl;
+
     system("pause");
 }
