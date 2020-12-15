@@ -256,7 +256,7 @@ template <class ElemType>
 void SeqList<ElemType>::DeleteSandT(ElemType s, ElemType t)
 {
     if (s >= t || length == 0)
-        cout << "Error!";
+        cout << "Error!" << endl;
     else
     {
         int i = 0;
