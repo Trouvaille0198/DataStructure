@@ -7,7 +7,8 @@ int main(void)
     LinkList<int> lb(b, 5);
     la.Show();
     lb.Show();
-    LinkList<int> lc = Merge(la, lb);
+    LinkList<int> lc;
+    lc = Merge(la, lb);
     lc.Show();
     system("pause");
     return 0;
