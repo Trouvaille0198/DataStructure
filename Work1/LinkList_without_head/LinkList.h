@@ -35,7 +35,6 @@ public:
 	friend LinkList<ElemType> Merge(const LinkList<ElemType> &la, const LinkList<ElemType> &lb)
 	{
 		Node<ElemType> *a, *b;
-		//Node<ElemType> *q = NULL;
 		a = la.head;
 		b = lb.head;
 		ElemType data[la.length + lb.length];
@@ -46,20 +45,14 @@ public:
 			{
 				data[i] = a->data;
 				i++;
-
-				//newHead = a;
 				a = a->next;
 			}
 			else
 			{
 				data[i] = b->data;
 				i++;
-
-				//newHead = b;
 				b = b->next;
 			}
-			//newHead->next = q;
-			//q = newHead;
 		}
 		Node<ElemType> *last;
 		last = (a != NULL) ? a : b;
@@ -68,23 +61,10 @@ public:
 			data[i] = last->data;
 			i++;
 
-			//newHead = last;
 			last = last->next;
-			//newHead->next = q;
-			//q = newHead;
 		}
-		/* LinkList<ElemType> Result;
-		//Node<ElemType> *cur = newHead;
-		while (q != NULL)
-		{
-			Result.InsertElem(q->data);
-			q = q->next;
-		} */
-		//cout << "data[0]: " << data[0] << endl
-		//	 << endl;
 		LinkList<ElemType> Result(data, la.length + lb.length);
 		Result.Inverse();
-		//LinkList<ElemType>Result(newHead, la.length + lb.length);
 		return Result;
 	}
 };
@@ -130,7 +110,7 @@ LinkList<ElemType>::~LinkList()
 // 操作结果：销毁单链表
 {
 	Clear(); // 清空单链表
-		//delete head; // 释放头结点所指空间
+			 //delete head; // 释放头结点所指空间
 }
 
 template <class ElemType>
