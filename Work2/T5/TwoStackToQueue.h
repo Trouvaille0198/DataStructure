@@ -1,8 +1,7 @@
 #ifndef TWO_STACK_TO_QUEUE
 #define TWO_STACK_TO_QUEUE
+#include "../../MyOwnRealization/SeqStack/SeqStack.h"
 #include <bits/stdc++.h>
-//#include "../../MyOwnRealization/SeqStack/SeqStack.h"
-#include "SeqStack.h"
 using namespace std;
 
 template <class DataType>
