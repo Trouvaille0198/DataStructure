@@ -1,4 +1,4 @@
-#include "SeqList.h"	// À≥–Ú±Ì¿‡
+#include "SeqList.h"	// È°∫Â∫èË°®Á±ª
 
 int main(void)
 {
@@ -6,23 +6,23 @@ int main(void)
 	SeqList<char> la(a,5,50), lb(b,7,50), lc(50);
 	
 	for (int i = 1; i <= la.GetLength(); i++)	{
-		la.GetElem(i, e);		// »°≥ˆla÷–µ⁄i∏ˆ‘™Àÿe
-		if (lb.LocateElem(e))   // »Áπ˚e‘⁄lb÷–¥Ê¥¢,Ω´∆‰≤Â»ÎµΩlc÷–
+		la.GetElem(i, e);		// ÂèñÂá∫la‰∏≠Á¨¨i‰∏™ÂÖÉÁ¥†e
+		if (lb.LocateElem(e))   // Â¶ÇÊûúeÂú®lb‰∏≠Â≠òÂÇ®,Â∞ÜÂÖ∂ÊèíÂÖ•Âà∞lc‰∏≠
 			lc.InsertElem(e); 
 	}
 	
-	cout << "ºØ∫œA:";
-	la.Traverse(Write);		    // œ‘ æºØ∫œA
+	cout << "ÈõÜÂêàA:";
+	la.Traverse(Write);		    // ÊòæÁ§∫ÈõÜÂêàA
 	cout << endl;
 
-	cout << "ºØ∫œB:";
-	lb.Traverse(Write);		    // œ‘ æºØ∫œB
+	cout << "ÈõÜÂêàB:";
+	lb.Traverse(Write);		    // ÊòæÁ§∫ÈõÜÂêàB
 	cout << endl;
 
-	cout << "ºØ∫œC:";
-	lc.Traverse(Write);		    // œ‘ æºØ∫œC
+	cout << "ÈõÜÂêàC:";
+	lc.Traverse(Write);		    // ÊòæÁ§∫ÈõÜÂêàC
 	cout << endl;
 
-	system("PAUSE");            // µ˜”√ø‚∫Ø ˝system()‘›Õ£œµÕ≥‘À–– 
-	return 0;                   // ∑µªÿ≤Ÿ◊˜œµÕ≥
+	system("PAUSE");            // Ë∞ÉÁî®Â∫ìÂáΩÊï∞system()ÊöÇÂÅúÁ≥ªÁªüËøêË°å 
+	return 0;                   // ËøîÂõûÊìç‰ΩúÁ≥ªÁªü
 }
