@@ -10,48 +10,52 @@ struct AkmType
 int Akm(int m, int n)
 {
     SeqStack<AkmType> s;
-    AkmType w, e;
-    w._m = m;
-    w._n = n;
-    int result;
-    s.PushElem(w);
+    AkmType a, b; //a存储着每次循环开始时的栈顶元素；b是临时变量，用后即丢
+    a._m = m;
+    a._n = n;
+    s.PushElem(a);
+    int result = 0;
 
-    do
+    while (!s.IsEmpty())
     {
-        e = s.TopElem();
-        while (e._m != 0)
+        a = s.TopElem();
+        if (a._m != 0)
         {
-            while (e._n != 0) //m != 0 && n != 0时，将其化为m != 0, m == 0
+            if (a._n != 0) //m != 0 && n != 0
             {
-                w._n--;
-                s.PushElem(w);
-                e = s.TopElem();
+                b._m = a._m;
+                b._n = a._n - 1;
+                s.PushElem(b);
             }
-            //m != 0,m == 0时，将其化为m = m - 1, n=1
-            w = s.TopElem();
-            s.PopElem();
-            w._m--;
-            w._n = 1;
-            s.PushElem(w);
-            e = s.TopElem();
+            else //m != 0 && n == 0
+            {
+                b = s.TopElem();
+                s.PopElem();
+                b._m--;
+                b._n = 1;
+                s.PushElem(b);
+            }
         }
-        w = s.TopElem();
-        s.PopElem();
-        result = ++w._n;
-        if (!s.IsEmpty()) //若栈非空，改栈顶为(m-1, v)
+        else //m == 0 ，此时元素出栈计算结果，同时修改出栈后栈顶的值
         {
-            w = s.TopElem();
+            result = a._n + 1;
             s.PopElem();
-            w._m--;
-            w._n = result;
-            s.PushElem(w);
+            if (s.IsEmpty())
+                return result;
+            b = s.TopElem();
+            b._m--;
+            b._n = result;
+            s.PopElem();   //将要修改的栈顶出栈
+            s.PushElem(b); //传入修改后的栈顶
         }
-    } while (!s.IsEmpty());
-
+    }
     return result;
 }
 
 int main()
 {
+    int m = 2, n = 1;
+    int result = Akm(m, n);
+    cout << result << endl;
     system("pause");
 }

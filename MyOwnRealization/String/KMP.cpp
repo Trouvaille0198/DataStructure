@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-static int next[];
-
 void GetNext(const string &pat, int *next)
 //p[k]表示前缀，p[j]表示后缀
 {

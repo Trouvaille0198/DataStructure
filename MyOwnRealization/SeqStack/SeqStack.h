@@ -91,7 +91,7 @@ template <class DataType>
 bool SeqStack<DataType>::IsEmpty() const
 //判空
 {
-    return (_top == 0);
+    return (_top == -1);
 }
 
 template <class DataType>
@@ -133,7 +133,7 @@ DataType SeqStack<DataType>::TopElem()
     if (IsEmpty())
     {
         cout << "顺序栈已空，无法取出栈顶元素！" << endl;
-        return NULL;
+        //return NULL;
     }
     else
     {
