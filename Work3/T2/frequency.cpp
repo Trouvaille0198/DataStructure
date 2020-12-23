@@ -47,8 +47,5 @@ int main()
 {
     string str = "abcaabcb";
     frequency(str);
-    /* string str1 = "123";
-    char str2[] = {'1', '2', '3'};
-    cout << (str1[0] == str2[0]) << endl; */
     system("pause");
 }
