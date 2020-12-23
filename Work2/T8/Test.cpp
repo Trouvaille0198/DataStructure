@@ -3,6 +3,7 @@
 using namespace std;
 
 void Test()
+//倒加函数
 {
     int sum = 0;
     SeqStack<int> s;

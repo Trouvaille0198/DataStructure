@@ -8,7 +8,7 @@ int main()
     l1.PushElem(2, 1);
     l1.PushElem(3, 2);
     l1.PushElem(4, 2);
-    cout << l1.IsFull() << endl;
+    //cout << l1.IsFull() << endl;
     l1.DisplayStack();
     /* DblSeqStack<int> l2(l1);
     DblSeqStack<int> l3;

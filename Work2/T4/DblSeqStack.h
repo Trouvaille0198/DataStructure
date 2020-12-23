@@ -20,7 +20,7 @@ public:
     virtual ~DblSeqStack();                                            //析构函数
     DblSeqStack<DataType> &operator=(const DblSeqStack<DataType> &sa); //赋值运算符重载
 
-    void ClearStack();             //清空顺序表，暂时不知道有啥用
+    void ClearStack();             //清空顺序表
     int GetLength(int flag) const; //返回长度
     bool IsFull() const;           //判满
     bool IsEmpty(int flag) const;  //判空
