@@ -20,15 +20,12 @@ int main()
     t1.SetElem(9, 9, 100);
 
     t2.SetElem(0, 0, 6);
-    t2.SetElem(1, 3, 6);
-    t2.SetElem(2, 5, 6);
+    t2.SetElem(0, 4, 6);
+    t2.SetElem(2, 4, 6);
     t2.SetElem(3, 4, -5);
-    //TriSparseMatrix<int> tt(50, 50, 100);
-    //tt = t1 + t2;
-    t2.Display();
-    t2.FastTranspose(t1);
-    t2 = t1;
-    t2.Display();
-    //cout << tt.GetNum() << endl;
+    TriSparseMatrix<int> tt(50, 50, 100);
+    tt = t1 + t2;
+    tt.Display();
+    cout << tt.GetNum() << endl;
     system("pause");
 }

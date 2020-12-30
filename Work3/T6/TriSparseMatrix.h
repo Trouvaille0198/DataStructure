@@ -24,11 +24,10 @@ public:
     int GetCols() const { return _cols; }
     int GetNum() const { return _num; }
     void SetElem(int row, int col, const DataType &v);
-    DataType GetElem(int row, int col);
     void Display();
+    DataType GetElem(int row, int col);
 
-    void SimpleTranspose(TriSparseMatrix<DataType> &e); //简单转置
-    void FastTranspose(TriSparseMatrix<DataType> &e);   //快速转置
+    void FastTranspose(const TriSparseMatrix<DataType> &source, const TriSparseMatrix<DataType> &dest);
 };
 
 template <class DataType>
@@ -114,20 +113,6 @@ DataType TriSparseMatrix<DataType>::GetElem(int row, int col)
 }
 
 template <class DataType>
-TriSparseMatrix<DataType>::TriSparseMatrix(const TriSparseMatrix<DataType> &copy)
-{
-    _rows = copy._rows;
-    _cols = copy._cols;
-    _maxLen = copy._maxLen;
-    _num = copy._num;
-    _data = new Triple<DataType>[_maxLen];
-    for (int i = 0; i < _num; i++)
-    {
-        _data[i] = copy._data[i];
-    }
-}
-
-template <class DataType>
 TriSparseMatrix<DataType> &TriSparseMatrix<DataType>::operator=(const TriSparseMatrix<DataType> &copy)
 {
     if (&copy != this)
@@ -208,62 +193,6 @@ TriSparseMatrix<DataType> TriSparseMatrix<DataType>::operator+(const TriSparseMa
         j++;
     }
     return result;
-}
-
-template <class DataType>
-void TriSparseMatrix<DataType>::SimpleTranspose(TriSparseMatrix<DataType> &e)
-//简单转置，时间复杂度O(_rows*_cols)
-{
-    e._rows = _rows;
-    e._cols = _cols;
-    e._num = 0;
-    e._maxLen = _maxLen;
-    delete[] e._data;
-    e._data = new Triple<DataType>[_maxLen];
-    for (int col = 0; col < _cols; col++) //对整个矩阵的列进行遍历
-    {
-        for (int i = 0; i < _num; i++) //对_data进行遍历
-        {
-            if (col == _data[i]._col) //若_data[i]中出现相应列，添加到e中
-            {
-                e.SetElem(_data[i]._col, _data[i]._row, _data[i]._value);
-            }
-        }
-    }
-    //*this = e;
-}
-
-template <class DataType>
-void TriSparseMatrix<DataType>::FastTranspose(TriSparseMatrix<DataType> &e)
-//快速转置，时间复杂度O(_num)
-{
-    e._rows = _rows;
-    e._cols = _cols;
-    e._num = _num;
-    e._maxLen = _maxLen;
-    delete[] e._data;
-    e._data = new Triple<DataType>[_maxLen];
-
-    int *DataNumInCol = new int[_cols]; //存放原矩阵每一列非零个数
-    int *FirstDataIne = new int[_cols]; //存放每一列第一个非零元素在e中的索引位置
-    for (int i = 0; i < _cols; i++)     //赋初值为0
-        DataNumInCol[i] = 0;
-    for (int i = 0; i < _num; i++) //记录每列的非零元素个数
-        DataNumInCol[_data[i]._col]++;
-    FirstDataIne[0] = 0;            //零行第一个非零元素必在0位置
-    for (int i = 1; i < _cols; i++) //当前列第一个元素的索引位置=上一列的索引位置+上一列的元素个数
-        FirstDataIne[i] = FirstDataIne[i - 1] + DataNumInCol[i - 1];
-    for (int i = 0; i < _num; i++)
-    {
-        int j = FirstDataIne[_data[i]._col]; //j记录当前列的索引
-        e._data[j]._row = _data[i]._col;
-        e._data[j]._col = _data[i]._row;
-        e._data[j]._value = _data[i]._value;
-        FirstDataIne[_data[i]._col]++; //当前列的索引值+1
-    }
-    delete[] DataNumInCol;
-    delete[] FirstDataIne;
-    //*this = e;
 }
 
 #endif
