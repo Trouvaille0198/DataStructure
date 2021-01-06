@@ -4,6 +4,13 @@
 #include "GenList.h"
 using namespace std;
 
+enum NodeType
+{
+    _HEAD,
+    _ATOM,
+    _LIST
+};
+
 template <class DataType>
 class GenNode
 {
@@ -12,14 +19,15 @@ private:
     int tag_;
     union
     {
-        int ref;
-        DataType atom;
+        int ref_;
+        DataType atom_;
         GenList<DataType> *hlink_;
 
     } value_;
 
 public:
     friend class GenList<DataType>;
+    GenNode(DataType tag)
 };
 
 #endif
