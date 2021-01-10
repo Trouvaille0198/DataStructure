@@ -21,10 +21,11 @@ void GetNext(const string &pat, int *next)
 
 int KMP(const string &ob, const string &pat, const int start = 0)
 {
+    int n = pat.length(), m = ob.length();
     int *next = new int[pat.length()];
     GetNext(pat, next);
     int i = start, j = 0;
-    while ((j == -1) || (ob[i] != '\0' && pat[j] != '\0'))
+    while (i < m && j < n && (m - i) >= (n - j))
     {
         if (j == -1 || ob[i] == pat[j])
         {
@@ -35,7 +36,7 @@ int KMP(const string &ob, const string &pat, const int start = 0)
             j = next[j]; //寻找新的匹配字符位置，模式串尽可能向右滑动
     }
     //delete[] next;
-    if (pat[j] == '\0')
+    if (j >= n)
         return (i - j); //匹配成功返回下标
     else
         return -1; //匹配失败返回-1
@@ -43,8 +44,8 @@ int KMP(const string &ob, const string &pat, const int start = 0)
 
 int main()
 {
-    string a = "aabbc";
-    string b = "bc";
+    string a = "aakdgukfoiehoiughbsoichiuwbcledfhuiodsbrffhsdhahjazdfbsetrjhavoiwsbhvcobsaiuadcbiduasfvwsfvsncusbcoiusadgvoisgvbdjbghspjfosbbc";
+    string b = "spjf";
     cout << KMP(a, b) << endl;
     system("pause");
 }
