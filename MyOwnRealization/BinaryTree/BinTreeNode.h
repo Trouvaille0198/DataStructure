@@ -6,12 +6,11 @@ using namespace std;
 template <class DataType>
 class BinTreeNode
 {
-private:
+public:
     DataType _data;
     BinTreeNode<DataType> *_leftChild;
     BinTreeNode<DataType> *_rightChild;
 
-protected:
     BinTreeNode() : _leftChild(NULL), _rightChild(NULL) {}
     BinTreeNode(const DataType data,
                 BinTreeNode<DataType> *leftChild = NULL,

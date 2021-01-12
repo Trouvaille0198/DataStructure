@@ -1,4 +1,5 @@
 //二叉树的二叉链表类模板
+//疑问：遍历为什么不能用常函数？为什么不能传指针变量的常引用？GetParent的传参问题
 #include "../LinkQueue/LinkQueue.h"
 #include "../LinkStack/LinkStack.h"
 #include "BinTreeNode.h"
@@ -10,75 +11,83 @@ class BinaryTree
 {
 protected:
     BinTreeNode<T> *_root; //二叉树根节点的指针
+    T _refValue;           //创建二叉树时的结束标志
     //辅助函数
     /* 创建二叉树 */
+    void CreateBinTree_PreOrder(BinTreeNode<T> *&root); //利用已知的二叉树的前序遍历创建二叉树
     /* 遍历二叉树 */
-    void PreOrder(const BinTreeNode<T> *root) const;            //前序遍历
-    void InOrder(const BinTreeNode<T> *root) const;             //中序遍历
-    void PostOrder(const BinTreeNode<T> *root) const;           //后序遍历
-    void PreOrder_NoRecurve(const BinTreeNode<T> *root) const;  //前序遍历非递归
-    void InOrder_NoRecurve(const BinTreeNode<T> *root) const;   //中序遍历非递归
-    void PostOrder_NoRecurve(const BinTreeNode<T> *root) const; //后序遍历非递归
-    void LevelOrder(const BinTreeNode<T> *root) const;          //层次遍历
+    void PreOrder(BinTreeNode<T> *&root);            //前序遍历
+    void InOrder(BinTreeNode<T> *&root);             //中序遍历
+    void PostOrder(BinTreeNode<T> *&root);           //后序遍历
+    void PreOrder_NoRecurve(BinTreeNode<T> *&root);  //前序遍历非递归
+    void InOrder_NoRecurve(BinTreeNode<T> *&root);   //中序遍历非递归
+    void PostOrder_NoRecurve(BinTreeNode<T> *&root); //后序遍历非递归
+    void LevelOrder(BinTreeNode<T> *&root);          //层次遍历
     /* 获取信息 */
-    int GetHeight(const BinTreeNode<T> *root) const;  //求高度
-    int GetNodeNum(const BinTreeNode<T> *root) const; //求节点个数
+    int GetHeight(const BinTreeNode<T> *root) const;                                //求高度
+    int GetNodeNum(const BinTreeNode<T> *root) const;                               //求节点个数
+    BinTreeNode<T> *GetParent(BinTreeNode<T> *root, const BinTreeNode<T> *p) const; //求父节点
     /* 其他 */
-    BinTreeNode<T> *CopyTree(BinTreeNode<T> *t); //复制二叉树
-    void DestroyTree(BinTreeNode<T> *&root);     //删除二叉树
+    BinTreeNode<T> *CopyTree(const BinTreeNode<T> *originNode); //复制二叉树
+    void DestroyTree(BinTreeNode<T> *&root);                    //删除二叉树
+    bool IsEqual(const BinTreeNode<T> *&a, const BinTreeNode<T> *&b) const;
+
 public:
     /* 构造与析构 */
-    BinaryTree() : _root(NULL);
-    BinaryTree(const T &e) : _root(e);
+    BinaryTree() : _root(NULL){};
+    BinaryTree(T refValue) : _refValue(refValue), _root(NULL) {} //构造函数，指定结束标志refValue
     virtual ~BinaryTree() { DestroyTree(_root); };
+    BinaryTree(const BinaryTree<T> &copy);
+    /*运算符重载*/
+    BinaryTree<T> &operator=(const BinaryTree<T> &copy);
+    bool operator==(BinaryTree<T> *s) { return (IsEqual(_root, s->_root)); }
     /* 创建二叉树 */
-
+    void CreateBinTree_PreOrder() { CreateBinTree_PreOrder(_root); }
     /* 遍历二叉树 */
-    void PreOrder() const { PreOrder(_root); }
-    void InOrder() const { InOrder(_root); }
-    void PostOrder() const { PostOrder(_root); }
-    void PreOrder_NoRecurve() const { PreOrder(_root); }
-    void InOrder_NoRecurve() const { InOrder(_root); }
-    void PostOrder_NoRecurve() const { PostOrder(_root); }
+    void PreOrder() { PreOrder(_root); }
+    void InOrder() { InOrder(_root); }
+    void PostOrder() { PostOrder(_root); }
+    void PreOrder_NoRecurve() { PreOrder(_root); }
+    void InOrder_NoRecurve() { InOrder(_root); }
+    void PostOrder_NoRecurve() { PostOrder(_root); }
+    void LevelOrder() { LevelOrder(_root); }
     /* 获取信息 */
-    BinTreeNode<T> *GetRoot() { return _root; }
+    BinTreeNode<T> *GetRoot() const { return _root; }
     int GetHeight() const { GetHeight(_root); }
     int GetNodeNum() const { GetNodeNum(_root); }
-    BinTreeNode<T> *GetParent(const BinTreeNode<T> *p) const { return (_root == NULL || _root == p) ? NULL : Parent(_root, p); }
+    BinTreeNode<T> *GetParent(const BinTreeNode<T> *p) const { return (_root == NULL || _root == p) ? NULL : GetParent(_root, p); }
     BinTreeNode<T> *GetLeftChild(const BinTreeNode<T> *p) const { return (p == NULL) ? NULL : p->_leftChild; }
     BinTreeNode<T> *GetRightChild(const BinTreeNode<T> *p) const { return (p == NULL) ? NULL : p->_rightChild; }
+    BinTreeNode<T> *GetLeftSibling(const BinTreeNode<T> *p) const;
+    BinTreeNode<T> *GetRightSibling(const BinTreeNode<T> *p) const;
     /* 其他 */
     BinTreeNode<T> *CopyTree() { CopyTree(_root); }
     void DestroyTree() { DestroyTree(_root); }
-    bool IsEmpty() const { return (root == NULL) ? true : false; }
-    T GetElem(BinTreeNode<T> *p);
-    void SetElem(BinTreeNode<T> *p, T data)
+    bool IsEmpty() const { return (_root == NULL) ? true : false; }
+    void InsertLeftChild(BinTreeNode<T> *&p, const T &data);
+    void InsertRightChild(BinTreeNode<T> *&p, const T &data);
+    T GetElem(BinTreeNode<T> *p) const { return p->_data; }
+    void SetElem(BinTreeNode<T> *p, T data) { p->_data = data; }
 };
 
 template <class T>
-void BinaryTree<T>::PreOrder(const BinTreeNode<T> *root) const
+BinaryTree<T>::BinaryTree(const BinaryTree<T> &copy)
 {
-    if (root != NULL)
-    {
-        PreOrder(root->_leftChild);
-        cout << root->_data << " ";
-        PreOrder(root->_rightChild);
-    }
+    _root = CopyTree(copy._root);
 }
 
 template <class T>
-void BinaryTree<T>::InOrder(const BinTreeNode<T> *root) const
+BinaryTree<T> &BinaryTree<T>::operator=(const BinaryTree<T> &copy)
 {
-    if (root != NULL)
+    if (&copy != this)
     {
-        PreOrder(root->_leftChild);
-        PreOrder(root->_rightChild);
-        cout << root->_data << " ";
+        _root = CopyTree(copy._root);
     }
+    return *this;
 }
 
 template <class T>
-void BinaryTree<T>::PostOrder(const BinTreeNode<T> *root) const
+void BinaryTree<T>::PreOrder(BinTreeNode<T> *&root)
 {
     if (root != NULL)
     {
@@ -89,7 +98,29 @@ void BinaryTree<T>::PostOrder(const BinTreeNode<T> *root) const
 }
 
 template <class T>
-void BinaryTree<T>::PreOrder_NoRecurve(const BinTreeNode<T> *root) const
+void BinaryTree<T>::InOrder(BinTreeNode<T> *&root)
+{
+    if (root != NULL)
+    {
+        InOrder(root->_leftChild);
+        cout << root->_data << " ";
+        InOrder(root->_rightChild);
+    }
+}
+
+template <class T>
+void BinaryTree<T>::PostOrder(BinTreeNode<T> *&root)
+{
+    if (root != NULL)
+    {
+        PostOrder(root->_leftChild);
+        PostOrder(root->_rightChild);
+        cout << root->_data << " ";
+    }
+}
+
+template <class T>
+void BinaryTree<T>::PreOrder_NoRecurve(BinTreeNode<T> *&root)
 //DLR 节点不为空时即打印
 {
     if (root == NULL)
@@ -114,7 +145,7 @@ void BinaryTree<T>::PreOrder_NoRecurve(const BinTreeNode<T> *root) const
 }
 
 template <class T>
-void BinaryTree<T>::InOrder_NoRecurve(const BinTreeNode<T> *root) const
+void BinaryTree<T>::InOrder_NoRecurve(BinTreeNode<T> *&root)
 //LDR 左节点为空时访问（或 即将转到右节点时访问）
 {
     if (root == NULL)
@@ -139,7 +170,7 @@ void BinaryTree<T>::InOrder_NoRecurve(const BinTreeNode<T> *root) const
 }
 
 template <class T>
-void BinaryTree<T>::PostOrder_NoRecurve(const BinTreeNode<T> *root) const
+void BinaryTree<T>::PostOrder_NoRecurve(BinTreeNode<T> *&root)
 //LRD 出栈时，需要判定左右节点遍历的完成情况
 {
     if (_root == NULL)
@@ -175,7 +206,7 @@ void BinaryTree<T>::PostOrder_NoRecurve(const BinTreeNode<T> *root) const
 }
 
 template <class T>
-void BinaryTree<T>::LevelOrder(const BinTreeNode<T> *root) const
+void BinaryTree<T>::LevelOrder(BinTreeNode<T> *&root)
 //层序遍历
 {
     LinkQueue<BinTreeNode<T> *> Queue;
@@ -195,6 +226,183 @@ void BinaryTree<T>::LevelOrder(const BinTreeNode<T> *root) const
         if (p->_rightChild != NULL) //若右节点非空，入队
         {
             Queue.EnterQueue(p->_rightChild);
+        }
+    }
+}
+
+template <class T>
+void BinaryTree<T>::DestroyTree(BinTreeNode<T> *&root)
+//销毁二叉树，递归进行。先删左子树再删右子树，最后删自己
+{
+    if (root != NULL)
+    {
+        DestroyTree(root->_leftChild);
+        DestroyTree(root->_rightChild);
+        delete root;
+        root = NULL;
+    }
+}
+
+template <class T>
+BinTreeNode<T> *BinaryTree<T>::CopyTree(const BinTreeNode<T> *originNode)
+//复制二叉树，返回一个指针，给出一个以originNode为根复制的二叉树的副本
+{
+    if (originNode == NULL)
+    {
+        return NULL;
+    }
+    BinTreeNode<T> *p = new BinTreeNode<T>;
+    p->_data = originNode->_data;
+    p->_leftChild = CopyTree(originNode->_leftChild);
+    p->_rightChild = CopyTree(originNode->_rightChild);
+    return p;
+}
+
+template <class T>
+bool BinaryTree<T>::IsEqual(const BinTreeNode<T> *&a, const BinTreeNode<T> *&b) const
+{
+    if (a == NULL && b == NULL)
+    {
+        return true;
+    }
+    if (a != NULL && b != NULL && a->_data == b->_data && IsEqual(a->_leftChild, b->_rightChild) && IsEqual(a->_rightChild, b->_rightChild))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+template <class T>
+int BinaryTree<T>::GetNodeNum(const BinTreeNode<T> *root) const
+{
+    if (root == NULL)
+    {
+        return 0;
+    }
+    return 1 + GetNodeNum(root->_leftChild) + GetNodeNum(root->_rightChild);
+}
+
+template <class T>
+int BinaryTree<T>::GetHeight(const BinTreeNode<T> *root) const
+{
+    if (root == NULL)
+    {
+        return 0;
+    }
+    int i = GetHeight(root->_leftChild);
+    int j = GetHeight(root->_rightChild);
+    return i > j ? i + 1 : j + 1;
+}
+
+template <class T>
+BinTreeNode<T> *BinaryTree<T>::GetParent(BinTreeNode<T> *root, const BinTreeNode<T> *p) const
+//从root开始搜索p的父节点
+{
+    if (root == NULL)
+    {
+        return NULL;
+    }
+    if (root->_leftChild == p || root->_rightChild == p) //如果找到，返回父节点root
+    {
+        return root;
+    }
+    if (GetParent(root->_leftChild, p) == p) //递归在左子树中搜索
+    {
+        return GetParent(root->_leftChild, p);
+    }
+    else //递归右子树中搜索
+    {
+        return GetParent(root->_rightChild, p);
+    }
+}
+
+template <class T>
+BinTreeNode<T> *BinaryTree<T>::GetLeftSibling(const BinTreeNode<T> *p) const
+{
+    BinTreeNode<T> *r = GetParent(_root, p);
+    if (r == NULL)
+    {
+        return NULL;
+    }
+    if (r->_rightChild == p)
+    {
+        return r->_leftChild;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+template <class T>
+BinTreeNode<T> *BinaryTree<T>::GetRightSibling(const BinTreeNode<T> *p) const
+{
+    BinTreeNode<T> *r = GetParent(_root, p);
+    if (r == NULL)
+    {
+        return NULL;
+    }
+    if (r->_leftChild == p)
+    {
+        return r->_rightChild;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+template <class T>
+void BinaryTree<T>::InsertLeftChild(BinTreeNode<T> *&p, const T &data)
+{
+    if (p == NULL)
+    {
+        return;
+    }
+    if (p->_leftChild != NULL)
+        p->_leftChild->_data = data;
+    else
+    {
+        BinTreeNode<T> *r = new BinTreeNode<T>(data);
+        p->_leftChild = r;
+    }
+}
+
+template <class T>
+void BinaryTree<T>::InsertRightChild(BinTreeNode<T> *&p, const T &data)
+{
+    if (p == NULL)
+    {
+        return;
+    }
+    if (p->_rightChild != NULL)
+        p->_rightChild->_data = data;
+    else
+    {
+        BinTreeNode<T> *r = new BinTreeNode<T>(data);
+        p->_rightChild = r;
+    }
+}
+
+template <class T>
+void BinaryTree<T>::CreateBinTree_PreOrder(BinTreeNode<T> *&root)
+//创建二叉树(利用已知的二叉树的前序遍历创建)用#表示空结点
+{
+    T data;
+    cout << "input data: " << endl;
+    if (cin >> data)
+    {
+        if (data != _refValue)
+        {
+            CreateBinTree_PreOrder(root->_leftChild);  //递归创建左子树
+            CreateBinTree_PreOrder(root->_rightChild); //递归创建右子树
+        }
+        else
+        {
+            root = NULL;
         }
     }
 }
