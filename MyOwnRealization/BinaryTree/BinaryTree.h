@@ -1,5 +1,5 @@
 //二叉树的二叉链表类模板
-//疑问：遍历为什么不能用常函数？为什么不能传指针变量的常引用？GetParent的传参问题
+//疑问：遍历为什么不能用常函数？为什么不能传指针变量的常引用？GetParent、GetMaxWidth的传参问题
 #include "../LinkQueue/LinkQueue.h"
 #include "../LinkStack/LinkStack.h"
 #include "BinTreeNode.h"
@@ -27,6 +27,8 @@ protected:
     int GetHeight(const BinTreeNode<T> *root) const;                                //求高度
     int GetNodeNum(const BinTreeNode<T> *root) const;                               //求节点个数
     BinTreeNode<T> *GetParent(BinTreeNode<T> *root, const BinTreeNode<T> *p) const; //求父节点
+    int GetMaxWidth(BinTreeNode<T> *root) const;
+    int GetLeafNum(const BinTreeNode<T> *root) const;
     /* 其他 */
     BinTreeNode<T> *CopyTree(const BinTreeNode<T> *originNode); //复制二叉树
     void DestroyTree(BinTreeNode<T> *&root);                    //删除二叉树
@@ -35,7 +37,8 @@ protected:
 public:
     /* 构造与析构 */
     BinaryTree() : _root(NULL){};
-    BinaryTree(T refValue) : _refValue(refValue), _root(NULL) {} //构造函数，指定结束标志refValue
+    BinaryTree(T refValue) : _refValue(refValue) { _root = new BinTreeNode<T>; } //构造函数，指定结束标志refValue
+    //BinaryTree(T refValue) : _refValue(refValue), _root(NULL) {} //构造函数，指定结束标志refValue
     virtual ~BinaryTree() { DestroyTree(_root); };
     BinaryTree(const BinaryTree<T> &copy);
     /*运算符重载*/
@@ -53,8 +56,10 @@ public:
     void LevelOrder() { LevelOrder(_root); }
     /* 获取信息 */
     BinTreeNode<T> *GetRoot() const { return _root; }
-    int GetHeight() const { GetHeight(_root); }
-    int GetNodeNum() const { GetNodeNum(_root); }
+    int GetHeight() const { return GetHeight(_root); }
+    int GetNodeNum() const { return GetNodeNum(_root); }
+    int GetMaxWidth() const { return GetMaxWidth(_root); }
+    int GetLeafNum() const { return GetLeafNum(_root); }
     BinTreeNode<T> *GetParent(const BinTreeNode<T> *p) const { return (_root == NULL || _root == p) ? NULL : GetParent(_root, p); }
     BinTreeNode<T> *GetLeftChild(const BinTreeNode<T> *p) const { return (p == NULL) ? NULL : p->_leftChild; }
     BinTreeNode<T> *GetRightChild(const BinTreeNode<T> *p) const { return (p == NULL) ? NULL : p->_rightChild; }
@@ -397,6 +402,7 @@ void BinaryTree<T>::CreateBinTree_PreOrder(BinTreeNode<T> *&root)
     {
         if (data != _refValue)
         {
+            root = new BinTreeNode<T>(data);
             CreateBinTree_PreOrder(root->_leftChild);  //递归创建左子树
             CreateBinTree_PreOrder(root->_rightChild); //递归创建右子树
         }
@@ -405,4 +411,54 @@ void BinaryTree<T>::CreateBinTree_PreOrder(BinTreeNode<T> *&root)
             root = NULL;
         }
     }
+}
+
+template <class T>
+int BinaryTree<T>::GetMaxWidth(BinTreeNode<T> *root) const
+//获取二叉树最大宽度，采用层序遍历
+{
+    LinkQueue<BinTreeNode<T> *> Queue;
+    BinTreeNode<T> *p;
+    int maxw = 0, curw = 0, nextw; //最大节点数，当前层节点数，下一层节点数
+    if (root != NULL)              //根节点
+    {
+        maxw = 1;
+        curw = 1;
+        Queue.EnterQueue(root); //若根非空，则入队
+    }
+    while (!Queue.IsEmpty())
+    {
+        nextw = 0; //nextw归零
+        for (int i = 0; i < curw; i++)
+        {
+            p = Queue.GetFront(); //取队头
+            Queue.DeleteQueue();  //出队
+
+            if (p->_leftChild != NULL) //若当前节点有左孩子，nextw++
+            {
+                Queue.EnterQueue(p->_leftChild);
+                nextw++;
+            }
+            if (p->_rightChild != NULL) //若当前节点有右孩子，nextw++
+            {
+                Queue.EnterQueue(p->_rightChild);
+                nextw++;
+            }
+        }
+        curw = nextw; //此时进入下一层的遍历
+        if (curw > maxw)
+            maxw = curw;
+    }
+    return maxw;
+}
+
+template <class T>
+int BinaryTree<T>::GetLeafNum(const BinTreeNode<T> *root) const
+{
+    if (root == NULL)
+        return 0;
+    else if (root->_leftChild == NULL && root->_rightChild == NULL)
+        return 1;
+    else
+        return GetLeafNum(root->_leftChild) + GetLeafNum(root->_rightChild);
 }
