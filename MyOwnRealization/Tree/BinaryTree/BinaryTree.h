@@ -1,7 +1,7 @@
 //二叉树的二叉链表类模板
-//疑问：遍历为什么不能用常函数？为什么不能传指针变量的常引用？GetParent、GetMaxWidth的传参问题
-#include "../LinkQueue/LinkQueue.h"
-#include "../LinkStack/LinkStack.h"
+//疑问：遍历为什么不能用常函数？为什么不能传指针变量的常引用？GetParent、GetmaxWidth的传参问题
+#include "../../LinkQueue/LinkQueue.h"
+#include "../../LinkStack/LinkStack.h"
 #include "BinTreeNode.h"
 #include <bits/stdc++.h>
 using namespace std;
@@ -27,8 +27,8 @@ protected:
     int GetHeight(const BinTreeNode<T> *root) const;                                //求高度
     int GetNodeNum(const BinTreeNode<T> *root) const;                               //求节点个数
     BinTreeNode<T> *GetParent(BinTreeNode<T> *root, const BinTreeNode<T> *p) const; //求父节点
-    int GetMaxWidth(BinTreeNode<T> *root) const;
-    int GetLeafNum(const BinTreeNode<T> *root) const;
+    int GetmaxWidth(BinTreeNode<T> *root) const;                                    //求最大宽度
+    int GetLeafNum(const BinTreeNode<T> *root) const;                               //求叶子节点数目
     /* 其他 */
     BinTreeNode<T> *CopyTree(const BinTreeNode<T> *originNode); //复制二叉树
     void DestroyTree(BinTreeNode<T> *&root);                    //删除二叉树
@@ -45,7 +45,7 @@ public:
     BinaryTree<T> &operator=(const BinaryTree<T> &copy);
     bool operator==(BinaryTree<T> *s) { return (IsEqual(_root, s->_root)); }
     /* 创建二叉树 */
-    void CreateBinTree_PreOrder() { CreateBinTree_PreOrder(_root); }
+    void CreateBinTree_PreOrder() { CreateBinTree_PreOrder(_root); } //用先序遍历结果创建二叉树
     /* 遍历二叉树 */
     void PreOrder() { PreOrder(_root); }
     void InOrder() { InOrder(_root); }
@@ -58,7 +58,7 @@ public:
     BinTreeNode<T> *GetRoot() const { return _root; }
     int GetHeight() const { return GetHeight(_root); }
     int GetNodeNum() const { return GetNodeNum(_root); }
-    int GetMaxWidth() const { return GetMaxWidth(_root); }
+    int GetmaxWidth() const { return GetmaxWidth(_root); }
     int GetLeafNum() const { return GetLeafNum(_root); }
     BinTreeNode<T> *GetParent(const BinTreeNode<T> *p) const { return (_root == NULL || _root == p) ? NULL : GetParent(_root, p); }
     BinTreeNode<T> *GetLeftChild(const BinTreeNode<T> *p) const { return (p == NULL) ? NULL : p->_leftChild; }
@@ -414,42 +414,42 @@ void BinaryTree<T>::CreateBinTree_PreOrder(BinTreeNode<T> *&root)
 }
 
 template <class T>
-int BinaryTree<T>::GetMaxWidth(BinTreeNode<T> *root) const
+int BinaryTree<T>::GetmaxWidth(BinTreeNode<T> *root) const
 //获取二叉树最大宽度，采用层序遍历
 {
     LinkQueue<BinTreeNode<T> *> Queue;
     BinTreeNode<T> *p;
-    int maxw = 0, curw = 0, nextw; //最大节点数，当前层节点数，下一层节点数
-    if (root != NULL)              //根节点
+    int maxWidth = 0, curWidth = 0, nextWidth; //最大节点数，当前层节点数，下一层节点数
+    if (root != NULL)                          //根节点
     {
-        maxw = 1;
-        curw = 1;
+        maxWidth = 1;
+        curWidth = 1;
         Queue.EnterQueue(root); //若根非空，则入队
     }
     while (!Queue.IsEmpty())
     {
-        nextw = 0; //nextw归零
-        for (int i = 0; i < curw; i++)
+        nextWidth = 0; //nextWidth归零
+        for (int i = 0; i < curWidth; i++)
         {
             p = Queue.GetFront(); //取队头
             Queue.DeleteQueue();  //出队
 
-            if (p->_leftChild != NULL) //若当前节点有左孩子，nextw++
+            if (p->_leftChild != NULL) //若当前节点有左孩子，nextWidth++
             {
                 Queue.EnterQueue(p->_leftChild);
-                nextw++;
+                nextWidth++;
             }
-            if (p->_rightChild != NULL) //若当前节点有右孩子，nextw++
+            if (p->_rightChild != NULL) //若当前节点有右孩子，nextWidth++
             {
                 Queue.EnterQueue(p->_rightChild);
-                nextw++;
+                nextWidth++;
             }
         }
-        curw = nextw; //此时进入下一层的遍历
-        if (curw > maxw)
-            maxw = curw;
+        curWidth = nextWidth; //此时进入下一层的遍历
+        if (curWidth > maxWidth)
+            maxWidth = curWidth;
     }
-    return maxw;
+    return maxWidth;
 }
 
 template <class T>
