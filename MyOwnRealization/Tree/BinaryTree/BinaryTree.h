@@ -38,7 +38,6 @@ public:
     /* 构造与析构 */
     BinaryTree() : _root(NULL){};
     BinaryTree(T refValue) : _refValue(refValue) { _root = new BinTreeNode<T>; } //构造函数，指定结束标志refValue
-    //BinaryTree(T refValue) : _refValue(refValue), _root(NULL) {} //构造函数，指定结束标志refValue
     virtual ~BinaryTree() { DestroyTree(_root); };
     BinaryTree(const BinaryTree<T> &copy);
     /*运算符重载*/
