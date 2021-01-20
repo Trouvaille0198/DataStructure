@@ -14,11 +14,10 @@ int main()
     InThreadBinTree<string> itbt1("#");
     itbt1.CreateTree_PreOrder();
     ThreadNode<string> *root = itbt1.GetRoot();
-    //cout << "Step1" << endl;
-    //itbt1.InThread();
-    //cout << "Step2" << endl;
-    //itbt1.InOrder();
-    //cout << "Step3" << endl;
-    cout << (root == NULL) << endl;
+    cout << "Step1" << endl;
+    itbt1.InThread();
+    cout << "Step2" << endl;
+    itbt1.InOrder();
+    cout << "Step3" << endl;
     system("pause");
 }

@@ -30,7 +30,7 @@ protected:
     T _RefValue;
     //辅助函数
     void InThread(ThreadNode<T> *root, ThreadNode<T> *&pre); //中序遍历线索化二叉树
-    void CreateTree_PreOrder(ThreadNode<T> *root);           //先序遍历结果创造线索二叉树（未线索化）
+    void CreateTree_PreOrder(ThreadNode<T> *&root);          //先序遍历结果创造线索二叉树（未线索化）
     ThreadNode<T> *Transform(BinTreeNode<T> &root);          //将以root为根的二叉树转换成线索二叉树（未线索化）
     void InOrder(ThreadNode<T> *root) const;
     ThreadNode<T> *GetFirstNode(ThreadNode<T> *cur) const;
@@ -77,10 +77,10 @@ void InThreadBinTree<T>::InThread(ThreadNode<T> *root, ThreadNode<T> *&pre)
             root->_leftChild = pre;
             root->_leftTag = 1;
         }
-        if (root->_rightChild == NULL)
+        if (pre != NULL && pre->_rightChild == NULL)
         {
-            root->_rightChild = pre;
-            root->_rightTag = 1;
+            pre->_rightChild = pre;
+            pre->_rightTag = 1;
         }
         pre = root;
         InThread(root->_rightChild, pre);
@@ -88,7 +88,7 @@ void InThreadBinTree<T>::InThread(ThreadNode<T> *root, ThreadNode<T> *&pre)
 }
 
 template <class T>
-void InThreadBinTree<T>::CreateTree_PreOrder(ThreadNode<T> *root)
+void InThreadBinTree<T>::CreateTree_PreOrder(ThreadNode<T> *&root)
 {
     T data;
     if (cin >> data)
