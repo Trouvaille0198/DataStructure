@@ -31,8 +31,10 @@ int main()
      t1.InsertRightChild(root, "C");
      t1.InsertLeftChild(root->_leftChild, "D");
      t1.LevelOrder();
-     cout << endl
-          << t1.GetmaxWidth() << endl;
+     t1.InOrder();
+     cout
+         << endl
+         << t1.GetmaxWidth() << endl;
      //cout << (root == NULL) << endl;
      system("pause");
 }
