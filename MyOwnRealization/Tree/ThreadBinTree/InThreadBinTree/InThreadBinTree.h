@@ -31,8 +31,8 @@ protected:
     //辅助函数
     void InThread(ThreadNode<T> *root, ThreadNode<T> *&pre); //中序遍历对二叉树进行线索化
     void CreateTree_PreOrder(ThreadNode<T> *&root);          //用先序遍历结果创造二叉树（未线索化）
-    ThreadNode<T> *Transform(BinTreeNode<T> &root);          //将以root为根的二叉树转换成线索二叉树（未线索化）
-    void InOrder(ThreadNode<T> *root) const;
+    ThreadNode<T> *Transform(BinTreeNode<T> &root);          //TODO 将以root为根的二叉树转换成线索二叉树（未线索化）
+    void InOrder(ThreadNode<T> *root) const;                 //打印中序遍历结果
     ThreadNode<T> *GetFirstNode(ThreadNode<T> *cur) const;
     ThreadNode<T> *GetLastNode(ThreadNode<T> *cur) const;
 
@@ -122,10 +122,11 @@ void InThreadBinTree<T>::CreateTree_PreOrder(ThreadNode<T> *&root)
 
 template <class T>
 ThreadNode<T> *InThreadBinTree<T>::GetFirstNode(ThreadNode<T> *cur) const
-//寻找中序下的第一个节点
+//寻找以cur为根的树在中序下的第一个节点
 {
     ThreadNode<T> *p = cur;
-    while (p->_leftTag != 1)
+    while (p->_leftTag == 0)
+    // 若p有左孩子，则p指向p的左孩子
     {
         p = p->_leftChild;
     }
@@ -150,9 +151,11 @@ ThreadNode<T> *InThreadBinTree<T>::GetNextNode(ThreadNode<T> *cur) const
 {
     ThreadNode<T> *p = cur->_rightChild;
     if (cur->_rightTag == 0)
+    //若cur有右孩子，找p右子树的最左边节点
     {
         return GetFirstNode(p);
     }
+    //若cur有后继，则直接返回后继
     return p;
 }
 

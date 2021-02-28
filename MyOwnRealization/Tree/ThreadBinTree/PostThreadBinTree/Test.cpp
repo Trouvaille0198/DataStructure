@@ -1,4 +1,4 @@
-#include "InThreadBinTree.h"
+#include "PostThreadBinTree.h"
 using namespace std;
 
 int main()
@@ -11,13 +11,14 @@ int main()
     bt1.InsertLeftChild(root->_leftChild, "D"); */
     //bt1.InOrder();
 
-    InThreadBinTree<string> itbt1("#");
+    PostThreadBinTree<string> itbt1("#");
     itbt1.CreateTree_PreOrder();
     ThreadNode<string> *root = itbt1.GetRoot();
-    cout << "Step1 中序线索化" << endl;
-    itbt1.InThread(); //中序线索化
-    cout << "Step2 打印中序遍历结果" << endl;
-    itbt1.InOrder(); //打印中序遍历结果
-    // cout << "Step3" << endl;
+    cout << "Step1 后序线索化" << endl;
+    itbt1.PostThread(); //中序线索化
+    cout << "Step2 打印后序遍历结果" << endl;
+    itbt1.PostOrder(); //打印中序遍历结果
+    // abd##eg###c#f##
+    //输出 dgebfca
     system("pause");
 }
