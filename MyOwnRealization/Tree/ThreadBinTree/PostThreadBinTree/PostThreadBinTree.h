@@ -20,6 +20,7 @@ struct ThreadNode //结点类
         _leftTag = 0;
         _rightTag = 0;
     }
+    T GetData() { return this->_data; }
 };
 
 template <typename T>
@@ -70,9 +71,29 @@ public:
     ThreadNode<T> *GetNextNode(ThreadNode<T> *cur) const;
     ThreadNode<T> *GetPriorNode(ThreadNode<T> *cur) const;
     ThreadNode<T> *GetRoot() const { return _root; };
-    ThreadNode<T> *GetParent(const ThreadNode<T> *p) const { return GetParent(_root, p); }
+    ThreadNode<T> *GetParent(const ThreadNode<T> *p) const
+    {
+        return (_root == NULL || _root == p) ? NULL : GetParent(_root, p);
+    }
+    ThreadNode<T> *GetNodeByName(T p) const
+    {
+        ThreadNode<T> *root = GetFirstNode(_root);
+        while (root != NULL)
+        {
+            if (root->GetData() == p)
+            {
+                return root;
+            }
+            root = GetNextNode(root);
+        }
+        return NULL;
+    }
+
     /*遍历*/
-    void PostOrder() const { PostOrder(_root); }
+    void PostOrder() const
+    {
+        PostOrder(_root);
+    }
 };
 
 template <class T>
@@ -158,7 +179,7 @@ ThreadNode<T> *PostThreadBinTree<T>::GetNextNode(ThreadNode<T> *cur) const
     if (cur->_rightTag == 0)
     //若cur有右孩子
     {
-        ThreadNode<T> *parent = GetParent(_root, cur);
+        ThreadNode<T> *parent = GetParent(cur);
         if (parent->_rightChild == cur || parent->_rightTag == 1)
         {
             return parent;
@@ -226,16 +247,36 @@ ThreadNode<T> *PostThreadBinTree<T>::GetParent(ThreadNode<T> *root, const Thread
     {
         return NULL;
     }
-    if (root->_leftChild == p || root->_rightChild == p) //如果找到，返回父节点root
+    if ((root->_leftTag == 0 && root->_leftChild == p) || (root->_rightTag == 0 && root->_rightChild == p)) //如果找到，返回父节点root
     {
         return root;
     }
-    if (GetParent(root->_leftChild, p) == p) //递归在左子树中搜索
+
+    ThreadNode<T> *tmp;
+    if (root->_leftTag == 0)
     {
-        return GetParent(root->_leftChild, p);
+        tmp = GetParent(root->_leftChild, p);
     }
-    else //递归右子树中搜索
+    else
     {
-        return GetParent(root->_rightChild, p);
+        tmp = NULL;
     }
+
+    if (tmp != NULL)
+    {
+        return tmp;
+    }
+
+    if (root->_rightTag == 0)
+    {
+        tmp = GetParent(root->_rightChild, p);
+    }
+    else
+    {
+        tmp = NULL;
+    }
+    if (tmp != NULL)
+        return tmp;
+    else
+        return NULL;
 }

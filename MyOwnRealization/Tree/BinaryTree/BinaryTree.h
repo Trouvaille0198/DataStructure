@@ -182,6 +182,8 @@ void BinaryTree<T>::PostOrder_NoRecurve(BinTreeNode<T> *&root)
     LinkStack<BinTreeNode<T> *> Stack;
     LinkStack<BinTreeNode<T> *> Tag;
     BinTreeNode<T> *p = root;
+    Stack.PushElem(p);
+    Tag.PushElem(0);
     while (!Stack.IsEmpty())
     {
         if (p != NULL)
@@ -196,7 +198,8 @@ void BinaryTree<T>::PostOrder_NoRecurve(BinTreeNode<T> *&root)
             {
                 p = Stack.TopElem(); //预出栈
                 Tag.PopElem();
-                Tag.PushElem(0); //将Tag栈顶改为1，表示已经遍历完左节点
+                Tag.PushElem(1); //将Tag栈顶改为1，表示已经遍历完左节点
+                p = p->_rightChild;
             }
             else //此时右节点已经遍历完
             {
@@ -204,6 +207,7 @@ void BinaryTree<T>::PostOrder_NoRecurve(BinTreeNode<T> *&root)
                 Stack.PopElem(); //真正出栈
                 Tag.PopElem();
                 cout << p->_data << " ";
+                p = p->_rightChild;
             }
         }
     }
