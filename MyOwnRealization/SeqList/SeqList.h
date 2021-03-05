@@ -3,58 +3,58 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template <class DataType>
+template <class T>
 class SeqList
 {
 protected:
     static const int DEFAULT_SIZE = 100;
     int _length;
     int _maxlen;
-    DataType *_data;
+    T *_data;
 
 public:
-    SeqList(int maxlen = DEFAULT_SIZE);                          //建立空表
-    SeqList(DataType *a, int length, int maxlen = DEFAULT_SIZE); //根据数组创建新表
-    SeqList(const SeqList<DataType> &sa);                        //拷贝构造函数
-    virtual ~SeqList();                                          //析构函数
-    SeqList<DataType> &operator=(const SeqList<DataType> &sa);   //赋值运算符重载
+    SeqList(int maxlen = DEFAULT_SIZE);                   //建立空表
+    SeqList(T *a, int length, int maxlen = DEFAULT_SIZE); //根据数组创建新表
+    SeqList(const SeqList<T> &sa);                        //拷贝构造函数
+    virtual ~SeqList();                                   //析构函数
+    SeqList<T> &operator=(const SeqList<T> &sa);          //赋值运算符重载
 
-    void ClearList();                        //清空顺序表，暂时不知道有啥用
-    int GetLength() const;                   //返回长度
-    bool IsEmpty() const;                    //判空
-    bool IsFull() const;                     //判满
-    void DisplayList() const;                //遍历显示顺序表
-    int LocateElem(const DataType &e) const; //元素定位，返回指定元素位置
+    void ClearList();                 //清空顺序表，暂时不知道有啥用
+    int GetLength() const;            //返回长度
+    bool IsEmpty() const;             //判空
+    bool IsFull() const;              //判满
+    void DisplayList() const;         //遍历显示顺序表
+    int LocateElem(const T &e) const; //元素定位，返回指定元素位置
 
-    DataType GetElem(int i) const;             //查找元素，返回查找的元素
-    void SetElem(int i, const DataType &e);    //修改i位置的元素值
-    void InsertElem(int i, const DataType &e); //在i位置插入新元素
-    void InsertElem(const DataType &e);        //在末尾插入新元素
-    void DeleteElemByIndex(int i);             //删除i位置的元素
-    void DeleteElemByValue(const DataType &e); //删除指定元素
+    T GetElem(int i) const;             //查找元素，返回查找的元素
+    void SetElem(int i, const T &e);    //修改i位置的元素值
+    void InsertElem(int i, const T &e); //在i位置插入新元素
+    void InsertElem(const T &e);        //在末尾插入新元素
+    void DeleteElemByIndex(int i);      //删除i位置的元素
+    void DeleteElemByValue(const T &e); //删除指定元素
 };
 
 /*建立一个有默认最大长度的空表*/
-template <class DataType>
-SeqList<DataType>::SeqList(int maxlen) : _length(0), _maxlen(maxlen)
+template <class T>
+SeqList<T>::SeqList(int maxlen) : _length(0), _maxlen(maxlen)
 {
-    _data = new DataType[_maxlen]; //申请存储空间
+    _data = new T[_maxlen]; //申请存储空间
 }
 
-template <class DataType>
-SeqList<DataType>::SeqList(DataType *a, int length, int maxlen) : _length(length), _maxlen(maxlen)
+template <class T>
+SeqList<T>::SeqList(T *a, int length, int maxlen) : _length(length), _maxlen(maxlen)
 {
-    _data = new DataType[maxlen];
+    _data = new T[maxlen];
     for (int i = 0; i < length; i++)
         _data[i] = a[i];
 }
 
-template <class DataType>
-SeqList<DataType>::SeqList(const SeqList<DataType> &sa)
+template <class T>
+SeqList<T>::SeqList(const SeqList<T> &sa)
 {
-    DataType e;
+    T e;
     _maxlen = sa._maxlen;
-    _data = new DataType[_maxlen];
+    _data = new T[_maxlen];
     _length = 0;
     for (int i = 1; i <= sa._length; i++)
     {
@@ -63,23 +63,23 @@ SeqList<DataType>::SeqList(const SeqList<DataType> &sa)
     }
 }
 
-template <class DataType>
-SeqList<DataType>::~SeqList()
+template <class T>
+SeqList<T>::~SeqList()
 {
     if (_data)
         delete[] _data;
 }
 
-template <class DataType>
-SeqList<DataType> &SeqList<DataType>::operator=(const SeqList<DataType> &sa)
+template <class T>
+SeqList<T> &SeqList<T>::operator=(const SeqList<T> &sa)
 {
     if (&sa != this)
     {
-        DataType e;
+        T e;
         _maxlen = sa._maxlen;
         if (_data)
             delete[] _data; //相较于拷贝构造函数，多了释放被赋值对象原来的空间这个步骤
-        _data = new DataType[_maxlen];
+        _data = new T[_maxlen];
         _length = 0;
         for (int i = 1; i <= sa._length; i++)
         {
@@ -90,40 +90,40 @@ SeqList<DataType> &SeqList<DataType>::operator=(const SeqList<DataType> &sa)
     return *this;
 }
 
-template <class DataType>
-void SeqList<DataType>::ClearList()
+template <class T>
+void SeqList<T>::ClearList()
 {
     _length = 0; //直接使长度清零即可
 }
 
-template <class DataType>
-int SeqList<DataType>::GetLength() const
+template <class T>
+int SeqList<T>::GetLength() const
 {
     return _length;
 }
 
-template <class DataType>
-bool SeqList<DataType>::IsEmpty() const
+template <class T>
+bool SeqList<T>::IsEmpty() const
 {
     return (_length == 0);
 }
 
-template <class DataType>
-bool SeqList<DataType>::IsFull() const
+template <class T>
+bool SeqList<T>::IsFull() const
 {
     return (_length == _maxlen);
 }
 
-template <class DataType>
-void SeqList<DataType>::DisplayList() const
+template <class T>
+void SeqList<T>::DisplayList() const
 {
     for (int i = 0; i < _length - 1; i++)
         cout << _data[i] << ", ";
     cout << _data[_length - 1] << endl;
 }
 
-template <class DataType>
-int SeqList<DataType>::LocateElem(const DataType &e) const
+template <class T>
+int SeqList<T>::LocateElem(const T &e) const
 {
     for (int i = 0; i < _length; i++)
     {
@@ -134,8 +134,8 @@ int SeqList<DataType>::LocateElem(const DataType &e) const
     return 0; //不存在则返回0
 }
 
-template <class DataType>
-DataType SeqList<DataType>::GetElem(int i) const
+template <class T>
+T SeqList<T>::GetElem(int i) const
 {
     if (i >= 1 && i <= _length)
         return _data[i - 1]; //第i个元素的数组索引为i-1
@@ -143,8 +143,8 @@ DataType SeqList<DataType>::GetElem(int i) const
     return NULL; //此处有Warning
 }
 
-template <class DataType>
-void SeqList<DataType>::SetElem(int i, const DataType &e)
+template <class T>
+void SeqList<T>::SetElem(int i, const T &e)
 {
     if (i > 0 && i <= _length)
         _data[i - 1] = e;
@@ -152,8 +152,8 @@ void SeqList<DataType>::SetElem(int i, const DataType &e)
         cout << "位置不合理！" << endl;
 }
 
-template <class DataType>
-void SeqList<DataType>::InsertElem(int i, const DataType &e)
+template <class T>
+void SeqList<T>::InsertElem(int i, const T &e)
 {
     if (IsFull())
     {
@@ -167,17 +167,17 @@ void SeqList<DataType>::InsertElem(int i, const DataType &e)
     }
     else
     {
-        for (int j = _length; j >= i; j--)
+        for (int j = _length; j >= i; j--) //i及其后的元素向后移动一格
         {
             _data[j] = _data[j - 1];
         }
         _data[i - 1] = e;
-        _length++;
+        _length++; //总长+1
     }
 }
 
-template <class DataType>
-void SeqList<DataType>::InsertElem(const DataType &e)
+template <class T>
+void SeqList<T>::InsertElem(const T &e)
 {
     if (IsFull())
     {
@@ -188,8 +188,8 @@ void SeqList<DataType>::InsertElem(const DataType &e)
     _length++;
 }
 
-template <class DataType>
-void SeqList<DataType>::DeleteElemByIndex(int i)
+template <class T>
+void SeqList<T>::DeleteElemByIndex(int i)
 {
     if (IsEmpty())
     {
@@ -208,8 +208,8 @@ void SeqList<DataType>::DeleteElemByIndex(int i)
     _length--;
 }
 
-template <class DataType>
-void SeqList<DataType>::DeleteElemByValue(const DataType &e)
+template <class T>
+void SeqList<T>::DeleteElemByValue(const T &e)
 {
     int i = LocateElem(e);
     DeleteElemByIndex(i);
