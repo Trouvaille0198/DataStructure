@@ -1,26 +1,26 @@
 #ifndef NODE
 #define NODE
 #include <bits/stdc++.h>
-template <class DataType>
+template <class T>
 struct Node
 {
 
-    DataType data;        // 数据域
-    Node<DataType> *next; // 指针域
+    T data;        // 数据域
+    Node<T> *next; // 指针域
 
-    Node(Node<DataType> *pnext = NULL); // 无参构造函数
-    Node(DataType e, Node<DataType> *pnext = NULL);
+    Node(Node<T> *pnext = NULL); // 无参构造函数
+    Node(T e, Node<T> *pnext = NULL);
 };
 
-template <class DataType>
-Node<DataType>::Node(Node<DataType> *pnext)
+template <class T>
+Node<T>::Node(Node<T> *pnext)
 //构造指针域为空的结点
 {
     next = pnext;
 }
 
-template <class DataType>
-Node<DataType>::Node(DataType e, Node<DataType> *pnext)
+template <class T>
+Node<T>::Node(T e, Node<T> *pnext)
 //构造一个数据域为e和指针域为next的结点
 {
     data = e;
