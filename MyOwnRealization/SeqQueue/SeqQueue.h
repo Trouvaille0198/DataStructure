@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template <class DataType>
+template <class T>
 class SeqQueue
 {
 protected:
@@ -11,13 +11,13 @@ protected:
     int _front;
     int _rear;
     int _maxlen; //包含被闲置的那一个存储空间，真实供存储的最大值为_maxlen-1
-    DataType *_data;
+    T *_data;
 
 public:
     SeqQueue(int maxlen = DEFAULT_SIZE);
     virtual ~SeqQueue();
-    SeqQueue(const SeqQueue<DataType> &q);
-    SeqQueue<DataType> &operator=(const SeqQueue<DataType> &q);
+    SeqQueue(const SeqQueue<T> &q);
+    SeqQueue<T> &operator=(const SeqQueue<T> &q);
 
     int GetLength() const;
     bool IsEmpty() const;
@@ -25,44 +25,44 @@ public:
     void ClearQueue();
     void DisplayQueue() const;
 
-    void EnterQueue(const DataType &e); //入队
-    DataType GetFront() const;          //取队头
-    void DeleteQueue();                 //出队
+    void EnterQueue(const T &e); //入队
+    T GetFront() const;          //取队头
+    void DeleteQueue();          //出队
 };
 
-template <class DataType>
-SeqQueue<DataType>::SeqQueue(int maxlen) : _maxlen(maxlen + 1), _rear(0), _front(0)
+template <class T>
+SeqQueue<T>::SeqQueue(int maxlen) : _maxlen(maxlen + 1), _rear(0), _front(0)
 //构造函数
 {
     //if (_data != NULL)
     //    delete[] _data;
-    _data = new DataType[maxlen];
+    _data = new T[maxlen];
 }
 
-template <class DataType>
-SeqQueue<DataType>::~SeqQueue()
+template <class T>
+SeqQueue<T>::~SeqQueue()
 //析构函数，不用修改_maxlen,_rear,_front的值
 {
     delete[] _data;
 }
 
-template <class DataType>
-SeqQueue<DataType>::SeqQueue(const SeqQueue<DataType> &q)
+template <class T>
+SeqQueue<T>::SeqQueue(const SeqQueue<T> &q)
 //拷贝构造函数
 {
 
     _front = q._front;
     _rear = q._rear;
     _maxlen = q._maxlen;
-    _data = new DataType[_maxlen];
+    _data = new T[_maxlen];
     for (int i = _front; i != _rear; i = (i + 1) % _maxlen)
     {
         _data[i] = q._data[i];
     }
 }
 
-template <class DataType>
-SeqQueue<DataType> &SeqQueue<DataType>::operator=(const SeqQueue<DataType> &q)
+template <class T>
+SeqQueue<T> &SeqQueue<T>::operator=(const SeqQueue<T> &q)
 //赋值运算符重载
 {
     if (&q != this)
@@ -72,7 +72,7 @@ SeqQueue<DataType> &SeqQueue<DataType>::operator=(const SeqQueue<DataType> &q)
         _maxlen = q._maxlen;
         if (_data)
             delete[] _data; //相较于拷贝构造函数，多了释放被赋值对象原来的空间这个步骤
-        _data = new DataType[_maxlen];
+        _data = new T[_maxlen];
         for (int i = _front; i != _rear; i = (i + 1) % _maxlen)
         {
             _data[i] = q._data[i];
@@ -80,35 +80,35 @@ SeqQueue<DataType> &SeqQueue<DataType>::operator=(const SeqQueue<DataType> &q)
     }
 }
 
-template <class DataType>
-int SeqQueue<DataType>::GetLength() const
+template <class T>
+int SeqQueue<T>::GetLength() const
 //当 rear > front 时，长度为 rear-front;当 rear < front 时，长度为(QueueSize-front)+rear
 {
     return (_rear - _front + _maxlen) % _maxlen;
 }
 
-template <class DataType>
-bool SeqQueue<DataType>::IsEmpty() const
+template <class T>
+bool SeqQueue<T>::IsEmpty() const
 {
     return _rear == _front;
 }
 
-template <class DataType>
-bool SeqQueue<DataType>::IsFull() const
+template <class T>
+bool SeqQueue<T>::IsFull() const
 
 {
     return (_rear + 1) % _maxlen == _front;
 }
 
-template <class DataType>
-void SeqQueue<DataType>::ClearQueue()
+template <class T>
+void SeqQueue<T>::ClearQueue()
 //清空队列，不需要清空存储的元素
 {
     _rear = _front = 0;
 }
 
-template <class DataType>
-void SeqQueue<DataType>::DisplayQueue() const
+template <class T>
+void SeqQueue<T>::DisplayQueue() const
 {
     if (IsEmpty())
         cout << "队列中无元素！" << endl;
@@ -123,8 +123,8 @@ void SeqQueue<DataType>::DisplayQueue() const
     }
 }
 
-template <class DataType>
-void SeqQueue<DataType>::EnterQueue(const DataType &e)
+template <class T>
+void SeqQueue<T>::EnterQueue(const T &e)
 //入队
 {
     if (IsFull())
@@ -136,8 +136,8 @@ void SeqQueue<DataType>::EnterQueue(const DataType &e)
     }
 }
 
-template <class DataType>
-DataType SeqQueue<DataType>::GetFront() const
+template <class T>
+T SeqQueue<T>::GetFront() const
 {
     if (IsEmpty())
         cout << "队列为空，队头元素不存在！" << endl;
@@ -147,8 +147,8 @@ DataType SeqQueue<DataType>::GetFront() const
     }
 }
 
-template <class DataType>
-void SeqQueue<DataType>::DeleteQueue()
+template <class T>
+void SeqQueue<T>::DeleteQueue()
 //出队
 {
     if (IsEmpty())

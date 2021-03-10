@@ -3,14 +3,14 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template <class DataType>
+template <class T>
 struct Triple
 {
     int _row, _col;
-    DataType _value;
+    T _value;
 
     Triple(){};
-    Triple(int row, int col, DataType value) : _row(row), _col(col), _value(value){};
+    Triple(int row, int col, T value) : _row(row), _col(col), _value(value){};
 };
 
 #endif

@@ -4,50 +4,50 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template <class DataType>
+template <class T>
 class TriSparseMatrix
 //三元组顺序表实现
 {
 protected:
     static const int DEFAULT_SIZE = 100;
-    Triple<DataType> *_data; //存储三元组的数组
-    int _maxLen;             //非零元素最大个数
-    int _rows, _cols, _num;  //行数、列数、非零元素个数
+    Triple<T> *_data;       //存储三元组的数组
+    int _maxLen;            //非零元素最大个数
+    int _rows, _cols, _num; //行数、列数、非零元素个数
 public:
     TriSparseMatrix(int rows = DEFAULT_SIZE, int cols = DEFAULT_SIZE, int maxLen = DEFAULT_SIZE);
     ~TriSparseMatrix();
-    TriSparseMatrix(const TriSparseMatrix<DataType> &copy);
-    TriSparseMatrix<DataType> &operator=(const TriSparseMatrix<DataType> &copy);
-    TriSparseMatrix<DataType> operator+(const TriSparseMatrix<DataType> &copy);
+    TriSparseMatrix(const TriSparseMatrix<T> &copy);
+    TriSparseMatrix<T> &operator=(const TriSparseMatrix<T> &copy);
+    TriSparseMatrix<T> operator+(const TriSparseMatrix<T> &copy);
 
     int GetRows() const { return _rows; }
     int GetCols() const { return _cols; }
     int GetNum() const { return _num; }
-    void SetElem(int row, int col, const DataType &v);
-    DataType GetElem(int row, int col);
+    void SetElem(int row, int col, const T &v);
+    T GetElem(int row, int col);
     void Display();
 
-    void SimpleTranspose(TriSparseMatrix<DataType> &e); //简单转置
-    void FastTranspose(TriSparseMatrix<DataType> &e);   //快速转置
+    void SimpleTranspose(TriSparseMatrix<T> &e); //简单转置
+    void FastTranspose(TriSparseMatrix<T> &e);   //快速转置
 };
 
-template <class DataType>
-TriSparseMatrix<DataType>::TriSparseMatrix(int rows, int cols, int maxLen) : _rows(rows), _cols(cols), _maxLen(maxLen)
+template <class T>
+TriSparseMatrix<T>::TriSparseMatrix(int rows, int cols, int maxLen) : _rows(rows), _cols(cols), _maxLen(maxLen)
 //构造空稀疏矩阵
 {
-    _data = new Triple<DataType>[_maxLen];
+    _data = new Triple<T>[_maxLen];
     _num = 0;
 }
 
-template <class DataType>
-TriSparseMatrix<DataType>::~TriSparseMatrix()
+template <class T>
+TriSparseMatrix<T>::~TriSparseMatrix()
 {
     if (_data)
         delete[] _data;
 }
 
-template <class DataType>
-void TriSparseMatrix<DataType>::SetElem(int row, int col, const DataType &v)
+template <class T>
+void TriSparseMatrix<T>::SetElem(int row, int col, const T &v)
 //三种情况：非零变零，零变非零，非零变非零
 {
     if (v == 0) //若设置非零值为零
@@ -72,7 +72,7 @@ void TriSparseMatrix<DataType>::SetElem(int row, int col, const DataType &v)
     }
     else
     {
-        Triple<DataType> e(row, col, v);
+        Triple<T> e(row, col, v);
         int i;
         for (i = 0; i < _num; i++)
         {
@@ -87,8 +87,8 @@ void TriSparseMatrix<DataType>::SetElem(int row, int col, const DataType &v)
     }
 }
 
-template <class DataType>
-void TriSparseMatrix<DataType>::Display()
+template <class T>
+void TriSparseMatrix<T>::Display()
 {
     for (int i = 0; i < _num - 1; i++)
     {
@@ -98,10 +98,10 @@ void TriSparseMatrix<DataType>::Display()
          << ", " << _data[_num - 1]._value << ")" << endl;
 }
 
-template <class DataType>
-DataType TriSparseMatrix<DataType>::GetElem(int row, int col)
+template <class T>
+T TriSparseMatrix<T>::GetElem(int row, int col)
 {
-    DataType result = 0;
+    T result = 0;
     for (int i = 0; i < _num; i++)
     {
         if (_data[i]._row == row && _data[i]._col == col)
@@ -113,22 +113,22 @@ DataType TriSparseMatrix<DataType>::GetElem(int row, int col)
     return result;
 }
 
-template <class DataType>
-TriSparseMatrix<DataType>::TriSparseMatrix(const TriSparseMatrix<DataType> &copy)
+template <class T>
+TriSparseMatrix<T>::TriSparseMatrix(const TriSparseMatrix<T> &copy)
 {
     _rows = copy._rows;
     _cols = copy._cols;
     _maxLen = copy._maxLen;
     _num = copy._num;
-    _data = new Triple<DataType>[_maxLen];
+    _data = new Triple<T>[_maxLen];
     for (int i = 0; i < _num; i++)
     {
         _data[i] = copy._data[i];
     }
 }
 
-template <class DataType>
-TriSparseMatrix<DataType> &TriSparseMatrix<DataType>::operator=(const TriSparseMatrix<DataType> &copy)
+template <class T>
+TriSparseMatrix<T> &TriSparseMatrix<T>::operator=(const TriSparseMatrix<T> &copy)
 {
     if (&copy != this)
     {
@@ -138,7 +138,7 @@ TriSparseMatrix<DataType> &TriSparseMatrix<DataType>::operator=(const TriSparseM
         _cols = copy._cols;
         _maxLen = copy._maxLen;
         _num = copy._num;
-        _data = new Triple<DataType>[_maxLen];
+        _data = new Triple<T>[_maxLen];
         for (int i = 0; i < _num; i++)
         {
             _data[i] = copy._data[i];
@@ -147,10 +147,10 @@ TriSparseMatrix<DataType> &TriSparseMatrix<DataType>::operator=(const TriSparseM
     return *this;
 }
 
-template <class DataType>
-TriSparseMatrix<DataType> TriSparseMatrix<DataType>::operator+(const TriSparseMatrix<DataType> &e)
+template <class T>
+TriSparseMatrix<T> TriSparseMatrix<T>::operator+(const TriSparseMatrix<T> &e)
 {
-    TriSparseMatrix<DataType> result(_rows, _cols, DEFAULT_SIZE);
+    TriSparseMatrix<T> result(_rows, _cols, DEFAULT_SIZE);
     //result._num = 0;
     if (_rows != e._rows || _cols != e._cols)
     {
@@ -159,7 +159,7 @@ TriSparseMatrix<DataType> TriSparseMatrix<DataType>::operator+(const TriSparseMa
     }
     int i = 0;                     //控制左值，即this
     int j = 0;                     //控制右值，即e
-    DataType value;                //存放临时的非零值值
+    T value;                       //存放临时的非零值值
     while (i < _num && j < e._num) //直到一个矩阵的非零元素被遍历完
     {
         if (_data[i]._row == e._data[j]._row) //行号相等时
@@ -173,7 +173,6 @@ TriSparseMatrix<DataType> TriSparseMatrix<DataType>::operator+(const TriSparseMa
                 }
                 i++;
                 j++;
-                //continue;
             }
             else if (_data[i]._col > e._data[j]._col) //行号相等，左值列号>右值列号
             {
@@ -210,8 +209,8 @@ TriSparseMatrix<DataType> TriSparseMatrix<DataType>::operator+(const TriSparseMa
     return result;
 }
 
-template <class DataType>
-void TriSparseMatrix<DataType>::SimpleTranspose(TriSparseMatrix<DataType> &e)
+template <class T>
+void TriSparseMatrix<T>::SimpleTranspose(TriSparseMatrix<T> &e)
 //简单转置，时间复杂度O(_rows*_cols)
 {
     e._rows = _rows;
@@ -219,7 +218,7 @@ void TriSparseMatrix<DataType>::SimpleTranspose(TriSparseMatrix<DataType> &e)
     e._num = 0;
     e._maxLen = _maxLen;
     delete[] e._data;
-    e._data = new Triple<DataType>[_maxLen];
+    e._data = new Triple<T>[_maxLen];
     for (int col = 0; col < _cols; col++) //对整个矩阵的列进行遍历
     {
         for (int i = 0; i < _num; i++) //对_data进行遍历
@@ -233,8 +232,8 @@ void TriSparseMatrix<DataType>::SimpleTranspose(TriSparseMatrix<DataType> &e)
     //*this = e;
 }
 
-template <class DataType>
-void TriSparseMatrix<DataType>::FastTranspose(TriSparseMatrix<DataType> &e)
+template <class T>
+void TriSparseMatrix<T>::FastTranspose(TriSparseMatrix<T> &e)
 //快速转置，时间复杂度O(_num)
 {
     e._rows = _rows;
@@ -242,15 +241,15 @@ void TriSparseMatrix<DataType>::FastTranspose(TriSparseMatrix<DataType> &e)
     e._num = _num;
     e._maxLen = _maxLen;
     delete[] e._data;
-    e._data = new Triple<DataType>[_maxLen];
+    e._data = new Triple<T>[_maxLen];
 
     int *DataNumInCol = new int[_cols]; //存放原矩阵每一列非零个数
-    int *FirstDataIne = new int[_cols]; //存放每一列第一个非零元素在e中的索引位置
+    int *FirstDataIne = new int[_cols]; //存放原矩阵中每一列第一个非零元素在e中应有的索引位置
     for (int i = 0; i < _cols; i++)     //赋初值为0
         DataNumInCol[i] = 0;
     for (int i = 0; i < _num; i++) //记录每列的非零元素个数
         DataNumInCol[_data[i]._col]++;
-    FirstDataIne[0] = 0;            //零行第一个非零元素必在0位置
+    FirstDataIne[0] = 0;            //零列第一个非零元素必在索引为0的位置
     for (int i = 1; i < _cols; i++) //当前列第一个元素的索引位置=上一列的索引位置+上一列的元素个数
         FirstDataIne[i] = FirstDataIne[i - 1] + DataNumInCol[i - 1];
     for (int i = 0; i < _num; i++)
