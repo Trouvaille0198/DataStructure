@@ -49,9 +49,9 @@ public:
     void PreOrder() { PreOrder(_root); }
     void InOrder() { InOrder(_root); }
     void PostOrder() { PostOrder(_root); }
-    void PreOrder_NoRecurve() { PreOrder(_root); }
-    void InOrder_NoRecurve() { InOrder(_root); }
-    void PostOrder_NoRecurve() { PostOrder(_root); }
+    void PreOrder_NoRecurve() { PreOrder_NoRecurve(_root); }
+    void InOrder_NoRecurve() { InOrder_NoRecurve(_root); }
+    void PostOrder_NoRecurve() { PostOrder_NoRecurve(_root); }
     void LevelOrder() { LevelOrder(_root); }
     /* 获取信息 */
     BinTreeNode<T> *GetRoot() const { return _root; }
@@ -131,7 +131,7 @@ void BinaryTree<T>::PreOrder_NoRecurve(BinTreeNode<T> *&root)
         return;
     LinkStack<BinTreeNode<T> *> Stack;
     BinTreeNode<T> *p = root;
-    while (!Stack.IsEmpty())
+    while (!Stack.IsEmpty() || p != NULL)
     {
         if (p != NULL)
         {
@@ -141,9 +141,14 @@ void BinaryTree<T>::PreOrder_NoRecurve(BinTreeNode<T> *&root)
         }
         else
         {
-            p = Stack.TopElem(); //回溯到父节点
-            Stack.PopElem();     //父节点出栈
-            p = p->_rightChild;  //转到右节点
+            if (!Stack.IsEmpty())
+            {
+                p = Stack.TopElem(); //回溯到父节点
+                Stack.PopElem();     //父节点出栈
+                p = p->_rightChild;  //转到右节点
+            }
+            else
+                return;
         }
     }
 }
@@ -156,7 +161,7 @@ void BinaryTree<T>::InOrder_NoRecurve(BinTreeNode<T> *&root)
         return;
     LinkStack<BinTreeNode<T> *> Stack;
     BinTreeNode<T> *p = root;
-    while (!Stack.IsEmpty())
+    while (!Stack.IsEmpty() || p != NULL)
     {
         if (p != NULL)
         {
@@ -165,10 +170,15 @@ void BinaryTree<T>::InOrder_NoRecurve(BinTreeNode<T> *&root)
         }
         else
         {
-            p = Stack.TopElem();
-            Stack.PopElem();         //栈顶出栈
-            cout << p->_data << " "; //即将转到右节点时，打印栈顶
-            p = p->_rightChild;      //转到右节点
+            if (!Stack.IsEmpty())
+            {
+                p = Stack.TopElem();
+                Stack.PopElem();         //栈顶出栈
+                cout << p->_data << " "; //即将转到右节点时，打印栈顶
+                p = p->_rightChild;      //转到右节点
+            }
+            else
+                return;
         }
     }
 }
@@ -180,11 +190,11 @@ void BinaryTree<T>::PostOrder_NoRecurve(BinTreeNode<T> *&root)
     if (_root == NULL)
         return;
     LinkStack<BinTreeNode<T> *> Stack;
-    LinkStack<BinTreeNode<T> *> Tag;
+    LinkStack<int> Tag;
     BinTreeNode<T> *p = root;
-    Stack.PushElem(p);
-    Tag.PushElem(0);
-    while (!Stack.IsEmpty())
+    //Stack.PushElem(p);
+    //Tag.PushElem(0);
+    while (!Stack.IsEmpty() || p != NULL)
     {
         if (p != NULL)
         {
@@ -194,21 +204,26 @@ void BinaryTree<T>::PostOrder_NoRecurve(BinTreeNode<T> *&root)
         }
         else
         {
-            if (Tag.TopElem() == 0) //此时左节点已经遍历完
+            while (!Stack.IsEmpty())
             {
-                p = Stack.TopElem(); //预出栈
-                Tag.PopElem();
-                Tag.PushElem(1); //将Tag栈顶改为1，表示已经遍历完左节点
-                p = p->_rightChild;
+                if (Tag.TopElem() == 0) //此时左节点已经遍历完
+                {
+                    p = Stack.TopElem(); //预出栈
+                    Tag.PopElem();
+                    Tag.PushElem(1); //将Tag栈顶改为1，表示已经遍历完左节点
+                    p = p->_rightChild;
+                    break;
+                }
+                else //此时右节点已经遍历完
+                {
+                    p = Stack.TopElem();
+                    Stack.PopElem(); //真正出栈
+                    Tag.PopElem();
+                    cout << p->_data << " ";
+                }
             }
-            else //此时右节点已经遍历完
-            {
-                p = Stack.TopElem();
-                Stack.PopElem(); //真正出栈
-                Tag.PopElem();
-                cout << p->_data << " ";
-                p = p->_rightChild;
-            }
+            if (Stack.IsEmpty())
+                return;
         }
     }
 }
@@ -273,7 +288,7 @@ bool BinaryTree<T>::IsEqual(const BinTreeNode<T> *&a, const BinTreeNode<T> *&b) 
     {
         return true;
     }
-    if (a != NULL && b != NULL && a->_data == b->_data && IsEqual(a->_leftChild, b->_rightChild) && IsEqual(a->_rightChild, b->_rightChild))
+    if (a != NULL && b != NULL && a->_data == b->_data && IsEqual(a->_leftChild, b->_leftChild) && IsEqual(a->_rightChild, b->_rightChild))
     {
         return true;
     }
