@@ -8,8 +8,8 @@ int main()
     int n = 10;
     ChildSiblingTree<char> t(items, parents, n);
     //        A
-    //   B    C    D
-    // E  F      G   H
+    //   B    C    D   E
+    // F  G      H
     //          I
     //        J
     cout << "树的度为：" << t.GetDegree() << endl;
