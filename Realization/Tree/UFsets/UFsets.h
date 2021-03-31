@@ -141,19 +141,19 @@ void UnionFindSets<T>::Show() const
          << "Index:  ";
     for (int i = 0; i < _size; i++)
     {
-        cout << setw(3) << i;
+        cout << setw(4) << i;
     }
     cout << endl
          << "Data:   ";
     for (int i = 0; i < _size; i++)
     {
-        cout << setw(3) << _sets[i]._data;
+        cout << setw(4) << _sets[i]._data;
     }
     cout << endl
          << "Parent: ";
     for (int i = 0; i < _size; i++)
     {
-        cout << setw(3) << _sets[i]._parent;
+        cout << setw(4) << _sets[i]._parent;
     }
     cout << endl;
 }

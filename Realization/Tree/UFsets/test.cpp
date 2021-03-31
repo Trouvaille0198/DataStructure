@@ -9,16 +9,21 @@ int main()
     UnionFindSets<int> Set1(a, n);
     UnionFindSets<int> Set2(a, n);
     UnionFindSets<int> Set3(a, n);
+    cout << "Normal Union";
     for (int i = 0; i < n; i++)
     {
         Set1.Union(b[i], c[i]);
     }
     Set1.Show();
+    cout << endl
+         << "Weighted Union";
     for (int i = 0; i < n; i++)
     {
         Set2.WeightedUnion(b[i], c[i]);
     }
     Set2.Show();
+    cout << endl
+         << "Depth Union";
     for (int i = 0; i < n; i++)
     {
         Set3.DepthUnion(b[i], c[i]);
