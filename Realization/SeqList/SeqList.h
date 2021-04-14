@@ -56,7 +56,7 @@ SeqList<T>::SeqList(const SeqList<T> &sa)
     _maxlen = sa._maxlen;
     _data = new T[_maxlen];
     _length = 0;
-    for (int i = 1; i <= sa._length; i++)
+    for (int i = 0; i < sa._length; i++)
     {
         e = sa.GetElem(i);
         InsertElem(e);
@@ -81,7 +81,7 @@ SeqList<T> &SeqList<T>::operator=(const SeqList<T> &sa)
             delete[] _data; //相较于拷贝构造函数，多了释放被赋值对象原来的空间这个步骤
         _data = new T[_maxlen];
         _length = 0;
-        for (int i = 1; i <= sa._length; i++)
+        for (int i = 0; i < sa._length; i++)
         {
             e = sa.GetElem(i);
             InsertElem(e);
@@ -128,7 +128,7 @@ int SeqList<T>::LocateElem(const T &e) const
     for (int i = 0; i < _length; i++)
     {
         if (_data[i] == e)
-            return i + 1;
+            return i;
     }
     cout << "表中不存在该元素！" << endl;
     return -1; //不存在则返回0
@@ -137,8 +137,8 @@ int SeqList<T>::LocateElem(const T &e) const
 template <class T>
 T SeqList<T>::GetElem(int i) const
 {
-    if (i >= 1 && i <= _length)
-        return _data[i - 1]; //第i个元素的数组索引为i-1
+    if (i >= 0 && i < _length)
+        return _data[i];
     cout << "位置不合理！" << endl;
     return NULL; //此处有Warning
 }
@@ -146,8 +146,8 @@ T SeqList<T>::GetElem(int i) const
 template <class T>
 void SeqList<T>::SetElem(int i, const T &e)
 {
-    if (i > 0 && i <= _length)
-        _data[i - 1] = e;
+    if (i >= 0 && i < _length)
+        _data[i] = e;
     else
         cout << "位置不合理！" << endl;
 }
@@ -160,18 +160,18 @@ void SeqList<T>::InsertElem(int i, const T &e)
         cout << "线性表已满,不可添加新元素!" << endl;
         return;
     }
-    if (i < 1 || i > _length)
+    if (i < 0 || i >= _length)
     {
         cout << "位置不合理！" << endl;
         return;
     }
     else
     {
-        for (int j = _length; j >= i; j--) //i及其后的元素向后移动一格
+        for (int j = _length; j > i; j--) //i及其后的元素向后移动一格
         {
             _data[j] = _data[j - 1];
         }
-        _data[i - 1] = e;
+        _data[i] = e;
         _length++; //总长+1
     }
 }
@@ -196,12 +196,12 @@ void SeqList<T>::DeleteElemByIndex(int i)
         cout << "线性表已空,不可删除元素!" << endl;
         return;
     }
-    if (i < 1 || i > _length)
+    if (i < 0 || i >= _length)
     {
         cout << "位置不合理！" << endl;
         return;
     }
-    for (int j = i - 1; j < _length - 1; j++)
+    for (int j = i; j < _length - 1; j++)
     {
         _data[j] = _data[j + 1];
     }
