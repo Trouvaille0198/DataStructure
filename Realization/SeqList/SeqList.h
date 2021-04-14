@@ -131,7 +131,7 @@ int SeqList<T>::LocateElem(const T &e) const
             return i + 1;
     }
     cout << "表中不存在该元素！" << endl;
-    return 0; //不存在则返回0
+    return -1; //不存在则返回0
 }
 
 template <class T>
