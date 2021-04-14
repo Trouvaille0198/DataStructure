@@ -34,6 +34,7 @@ public:
     int GetTag(int v) const;                        //求顶点v的标志值
     void SetTag(int v, int value);                  //设置顶点v的标志值
     void Display() const;                           //打印图
+    void SetArcs(int **arcs, int vexNum);           //设置新的邻接矩阵
 };
 
 template <class T>
@@ -210,17 +211,17 @@ void AdjMatrixUndiGraph<T>::InsertArc(int v1, int v2, int weight)
     if (v1 < 0 || v1 > _vexMaxNum || v2 < 0 || v2 > _vexMaxNum || v1 == v2)
     {
         cout << "v1不合法!" << endl;
-        return NULL;
+        return;
     }
     if (v2 < 0 || v2 > _vexMaxNum || v1 == v2)
     {
         cout << "v2不合法!" << endl;
-        return NULL;
+        return;
     }
     if (v1 == v2)
     {
         cout << "v1不可等于v2!" << endl;
-        return NULL;
+        return;
     }
     if (_arcs[v1][v2] == 0)
     {
@@ -232,16 +233,123 @@ void AdjMatrixUndiGraph<T>::InsertArc(int v1, int v2, int weight)
 template <class T>
 void AdjMatrixUndiGraph<T>::DeleteVex(const T &vex)
 {
-    int v = _vertexes.LocateElem(vex); //找到vex在顶点集中的位置
-    _vertexes.DeleteElemByValue(vex);
+    int i = _vertexes.LocateElem(vex); //找到vex在顶点集中的位置
+
+    //删除关联边
+    for (int j = 0; j < _vertexes.GetLength(); j++)
+    {
+        if (_arcs[i][j] != 0)
+        {
+            _arcNum--;
+            _arcs[i][j] = 0;
+            _arcs[j][i] = 0;
+        }
+    }
+    int _vexNum = _vertexes.GetLength() - 1; //记录删点后顶点的个数
+    if (i < _vexNum)
+    //若待删除点的位置不在最后，将最后的顶点前移
+    {
+        //顶点集前移
+        _vertexes.GetElem(i) = _vertexes.GetElem(_vexNum);
+        _vertexes.DeleteElemByIndex(_vexNum);
+        //标志集前移
+        _tag[i] = _tag[_vexNum];
+        //邻接矩阵前移
+        for (int col = 0; col <= _vexNum; col++)
+            _arcs[i][col] = _arcs[_vexNum][col]; //删行
+        for (int row = 0; row <= _vexNum; row++)
+            _arcs[row][i] = _arcs[row][_vexNum]; //删列
+    }
 }
 template <class T>
-void AdjMatrixUndiGraph<T>::DeleteArc(int v1, int v2) {}
+void AdjMatrixUndiGraph<T>::DeleteArc(int v1, int v2)
+{
+    if (v1 < 0 || v1 > _vexMaxNum || v2 < 0 || v2 > _vexMaxNum || v1 == v2)
+    {
+        cout << "v1不合法!" << endl;
+        return;
+    }
+    if (v2 < 0 || v2 > _vexMaxNum || v1 == v2)
+    {
+        cout << "v2不合法!" << endl;
+        return;
+    }
+    if (v1 == v2)
+    {
+        cout << "v1不可等于v2!" << endl;
+        return;
+    }
+    if (_arcs[v1][v2] != 0)
+    {
+        _arcNum--;
+        _arcs[v1][v2] = 0;
+        _arcs[v2][v1] = 0;
+    }
+}
 template <class T>
-int AdjMatrixUndiGraph<T>::GetTag(int v) const {}
+int AdjMatrixUndiGraph<T>::GetTag(int v) const
+{
+    if (v < 0 || v > _vexMaxNum)
+    {
+        cout << "v 不合法!" << endl;
+        return NULL;
+    }
+    return _tag[v];
+}
 template <class T>
-void AdjMatrixUndiGraph<T>::SetTag(int v, int value) {}
+void AdjMatrixUndiGraph<T>::SetTag(int v, int value)
+{
+    if (v < 0 || v > _vexMaxNum)
+    {
+        cout << "v 不合法!" << endl;
+        return;
+    }
+    _tag[v] = value;
+}
+
 template <class T>
-void AdjMatrixUndiGraph<T>::Display() const {}
+void AdjMatrixUndiGraph<T>::Display() const
+{
+    for (int i = 0; i < _vertexes.GetLength(); i++)
+    {
+        cout << "\t" << _vertexes.GetElem(i);
+    }
+    cout << endl;
+
+    for (int row = 0; row < _vertexes.GetLength(); row++)
+    {
+        cout << _vertexes.GetElem(row);
+        for (int col = 0; col < _vertexes.GetLength(); col++)
+        {
+            if (_arcs[row][col] == 0)
+                cout << "\t"
+                     << "0";
+            else
+                cout << "\t" << _arcs[row][col];
+        }
+        cout << endl;
+    }
+}
+
+template <class T>
+void AdjMatrixUndiGraph<T>::SetArcs(int **arcs, int vexNum)
+{
+    if (vexNum != _vertexes.GetLength())
+    {
+        cout << "新的邻接矩阵的个数与原图不匹配!" << endl;
+        return;
+    }
+    int arcNum = 0;
+    for (int row = 0; row < vexNum; row++)
+    {
+        for (int col = 0; col < vexNum; col++)
+        {
+            if (*((int *)arcs + row * vexNum + col) != 0)
+                arcNum++;
+            _arcs[row][col] = *((int *)arcs + row * vexNum + col);
+        }
+    }
+    _arcNum = arcNum / 2;
+}
 
 #endif
