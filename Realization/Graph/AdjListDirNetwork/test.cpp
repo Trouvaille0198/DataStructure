@@ -1,10 +1,10 @@
-#include "AdjListDirNetwork.h"
+#include "AdjListGraph.h"
 using namespace std;
 
 int main()
 {
     char es[4] = {'a', 'b', 'c', 'd'};
-    AdjListDirNetwork<char, int> g1(es, 4);
+    AdjListGraph<char, int> g1(es, 4);
     g1.InsertArc(0, 2, 4);
     g1.InsertArc(0, 3, 5);
     g1.InsertArc(1, 2, 6);

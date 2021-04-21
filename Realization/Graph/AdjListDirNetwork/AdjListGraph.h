@@ -11,7 +11,7 @@ const int DEFAULT_INFINITY = 1000;
 
 // 有向网的邻接表类
 template <class ElemType, class WeightType>
-class AdjListDirNetwork
+class AdjListGraph
 {
 protected:
     //注意，顶点数包含在顺序表的数据成员中
@@ -22,11 +22,11 @@ protected:
 
 public:
     //int v表示顶点v的索引; ElemType vexValue表示顶点vex的元素值
-    AdjListDirNetwork(int vexMaxNum = DEFAULT_SIZE,
-                      WeightType infinity = (WeightType)DEFAULT_INFINITY);
-    AdjListDirNetwork(ElemType *vex, int vexNum, int vexMaxNum = DEFAULT_SIZE,
-                      WeightType infinity = (WeightType)DEFAULT_INFINITY);
-    ~AdjListDirNetwork();
+    AdjListGraph(int vexMaxNum = DEFAULT_SIZE,
+                 WeightType infinity = (WeightType)DEFAULT_INFINITY);
+    AdjListGraph(ElemType *vex, int vexNum, int vexMaxNum = DEFAULT_SIZE,
+                 WeightType infinity = (WeightType)DEFAULT_INFINITY);
+    ~AdjListGraph();
     void Clear();
     bool IsEmpty();
     int GetOrder(ElemType vex) const;             //求顶点序号
@@ -49,7 +49,7 @@ public:
 };
 
 template <class ElemType, class WeightType>
-AdjListDirNetwork<ElemType, WeightType>::AdjListDirNetwork(int vexMaxNum, WeightType infinity)
+AdjListGraph<ElemType, WeightType>::AdjListGraph(int vexMaxNum, WeightType infinity)
 // 操作结果：构造顶点最大数目为vexMaxNum,infinity表示无穷大的空有向网
 {
 
@@ -62,8 +62,8 @@ AdjListDirNetwork<ElemType, WeightType>::AdjListDirNetwork(int vexMaxNum, Weight
 }
 
 template <class ElemType, class WeightType>
-AdjListDirNetwork<ElemType, WeightType>::AdjListDirNetwork(ElemType *vex, int vexNum,
-                                                           int vexMaxNum, WeightType infinity)
+AdjListGraph<ElemType, WeightType>::AdjListGraph(ElemType *vex, int vexNum,
+                                                 int vexMaxNum, WeightType infinity)
 {
     _vexMaxNum = vexMaxNum;
     _infinity = infinity;
@@ -83,7 +83,7 @@ AdjListDirNetwork<ElemType, WeightType>::AdjListDirNetwork(ElemType *vex, int ve
 }
 
 template <class ElemType, class WeightType>
-void AdjListDirNetwork<ElemType, WeightType>::Clear()
+void AdjListGraph<ElemType, WeightType>::Clear()
 // 释放所有边，并把顶点数和边数设为零
 {
     ArcNode<WeightType> *p;
@@ -103,56 +103,56 @@ void AdjListDirNetwork<ElemType, WeightType>::Clear()
 }
 
 template <class ElemType, class WeightType>
-AdjListDirNetwork<ElemType, WeightType>::~AdjListDirNetwork()
+AdjListGraph<ElemType, WeightType>::~AdjListGraph()
 {
     Clear();
     delete[] _tag;
 }
 
 template <class ElemType, class WeightType>
-bool AdjListDirNetwork<ElemType, WeightType>::IsEmpty()
+bool AdjListGraph<ElemType, WeightType>::IsEmpty()
 {
     return _vexTable.GetLength() == 0;
 }
 
 template <class ElemType, class WeightType>
-int AdjListDirNetwork<ElemType, WeightType>::GetOrder(ElemType vex) const
+int AdjListGraph<ElemType, WeightType>::GetOrder(ElemType vex) const
 {
     return _vexTable.LocateElem(vex);
 }
 
 template <class ElemType, class WeightType>
-ElemType AdjListDirNetwork<ElemType, WeightType>::GetElem(int index) const
+ElemType AdjListGraph<ElemType, WeightType>::GetElem(int index) const
 {
     return _vexTable.GetElem(index);
 }
 
 template <class ElemType, class WeightType>
-void AdjListDirNetwork<ElemType, WeightType>::SetElem(int index, ElemType vex)
+void AdjListGraph<ElemType, WeightType>::SetElem(int index, ElemType vex)
 {
     _vexTable.SetElem(index, vex);
 }
 
 template <class ElemType, class WeightType>
-WeightType AdjListDirNetwork<ElemType, WeightType>::GetInfinity() const
+WeightType AdjListGraph<ElemType, WeightType>::GetInfinity() const
 {
     return _infinity;
 }
 
 template <class ElemType, class WeightType>
-int AdjListDirNetwork<ElemType, WeightType>::GetVexNum() const
+int AdjListGraph<ElemType, WeightType>::GetVexNum() const
 {
     return _vexTable.GetLength();
 }
 
 template <class ElemType, class WeightType>
-int AdjListDirNetwork<ElemType, WeightType>::GetArcNum() const
+int AdjListGraph<ElemType, WeightType>::GetArcNum() const
 {
     return _arcNum;
 }
 
 template <class ElemType, class WeightType>
-int AdjListDirNetwork<ElemType, WeightType>::FirstAdjVex(int v) const
+int AdjListGraph<ElemType, WeightType>::FirstAdjVex(int v) const
 // 返回顶点v的第一个邻接点
 {
     if (_vexTable.GetElem(v)._firstArc == NULL)
@@ -165,7 +165,7 @@ int AdjListDirNetwork<ElemType, WeightType>::FirstAdjVex(int v) const
 }
 
 template <class ElemType, class WeightType>
-int AdjListDirNetwork<ElemType, WeightType>::NextAdjVex(int v1, int v2) const
+int AdjListGraph<ElemType, WeightType>::NextAdjVex(int v1, int v2) const
 // 返回顶点v1的相对于v2的下一个邻接点
 {
     if (v1 < 0 || v1 > _vexMaxNum || v2 < 0 || v2 > _vexMaxNum || v1 == v2)
@@ -197,7 +197,7 @@ int AdjListDirNetwork<ElemType, WeightType>::NextAdjVex(int v1, int v2) const
 }
 
 template <class ElemType, class WeightType>
-void AdjListDirNetwork<ElemType, WeightType>::InsertVex(const ElemType &vexValue)
+void AdjListGraph<ElemType, WeightType>::InsertVex(const ElemType &vexValue)
 // 在顶点表的表尾插入元素值为vexValue的顶点。
 {
     int _vexNum = GetVexNum();
@@ -210,7 +210,7 @@ void AdjListDirNetwork<ElemType, WeightType>::InsertVex(const ElemType &vexValue
 }
 
 template <class ElemType, class WeightType>
-void AdjListDirNetwork<ElemType, WeightType>::InsertArc(int v1, int v2, WeightType w)
+void AdjListGraph<ElemType, WeightType>::InsertArc(int v1, int v2, WeightType w)
 // 插入：v1到v2,权为w的边
 {
     int _vexNum = GetVexNum();
@@ -242,7 +242,7 @@ void AdjListDirNetwork<ElemType, WeightType>::InsertArc(int v1, int v2, WeightTy
 }
 
 template <class ElemType, class WeightType>
-void AdjListDirNetwork<ElemType, WeightType>::DeleteArc(int v1, int v2)
+void AdjListGraph<ElemType, WeightType>::DeleteArc(int v1, int v2)
 // 删除顶点索引为v1到v2的边
 {
     int _vexNum = GetVexNum();
@@ -283,7 +283,7 @@ void AdjListDirNetwork<ElemType, WeightType>::DeleteArc(int v1, int v2)
 }
 
 template <class ElemType, class WeightType>
-void AdjListDirNetwork<ElemType, WeightType>::DeleteVex(const ElemType &vexValue)
+void AdjListGraph<ElemType, WeightType>::DeleteVex(const ElemType &vexValue)
 // 删除元素值为vexValue的顶点, 很复杂, 一般不用
 {
 
@@ -330,7 +330,7 @@ void AdjListDirNetwork<ElemType, WeightType>::DeleteVex(const ElemType &vexValue
 }
 
 template <class ElemType, class WeightType>
-WeightType AdjListDirNetwork<ElemType, WeightType>::GetWeight(int v1, int v2) const
+WeightType AdjListGraph<ElemType, WeightType>::GetWeight(int v1, int v2) const
 // 返回顶点索引为v1和v2的边的权值
 {
     int _vexNum = GetVexNum();
@@ -355,7 +355,7 @@ WeightType AdjListDirNetwork<ElemType, WeightType>::GetWeight(int v1, int v2) co
 }
 
 template <class ElemType, class WeightType>
-void AdjListDirNetwork<ElemType, WeightType>::SetWeight(int v1, int v2, WeightType w)
+void AdjListGraph<ElemType, WeightType>::SetWeight(int v1, int v2, WeightType w)
 // 设置顶点索引为v1和v2的边的权值
 {
     int _vexNum = GetVexNum();
@@ -387,7 +387,7 @@ void AdjListDirNetwork<ElemType, WeightType>::SetWeight(int v1, int v2, WeightTy
 }
 
 template <class ElemType, class WeightType>
-int AdjListDirNetwork<ElemType, WeightType>::GetTag(int v) const
+int AdjListGraph<ElemType, WeightType>::GetTag(int v) const
 // 返回顶点索引为v的标志
 {
     if (v < 0 || v >= GetVexNum())
@@ -396,7 +396,7 @@ int AdjListDirNetwork<ElemType, WeightType>::GetTag(int v) const
 }
 
 template <class ElemType, class WeightType>
-void AdjListDirNetwork<ElemType, WeightType>::SetTag(int v, int value)
+void AdjListGraph<ElemType, WeightType>::SetTag(int v, int value)
 // 设置顶点v的标志为value
 {
     if (v < 0 || v >= GetVexNum())
@@ -406,7 +406,7 @@ void AdjListDirNetwork<ElemType, WeightType>::SetTag(int v, int value)
 }
 
 template <class ElemType, class WeightType>
-void AdjListDirNetwork<ElemType, WeightType>::Display() const
+void AdjListGraph<ElemType, WeightType>::Display() const
 {
     for (int i = 0; i < GetVexNum(); i++)
     {
