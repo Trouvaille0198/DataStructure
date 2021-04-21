@@ -417,9 +417,10 @@ void AdjListDirNetwork<ElemType, WeightType>::Display() const
     {
         cout << endl
              << _vexTable.GetElem(i)._data;
-        p = _vexTable.GetElem(i)._firstArc;
+
         for (int j = 0; j < GetVexNum(); j++)
         {
+            p = _vexTable.GetElem(i)._firstArc;
             if (i == j)
             {
                 cout << "\t"
@@ -428,7 +429,7 @@ void AdjListDirNetwork<ElemType, WeightType>::Display() const
             }
             while (p != NULL)
             {
-                if (p->_adjVex = j)
+                if (p->_adjVex == j)
                 {
                     cout << "\t" << p->_weight;
                     break;
@@ -440,6 +441,7 @@ void AdjListDirNetwork<ElemType, WeightType>::Display() const
                      << "∞";
         }
     }
+    cout << endl;
 }
 
 #endif
