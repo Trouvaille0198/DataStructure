@@ -1,19 +1,19 @@
 #ifndef ADJ_MATRIX_UNDI_GRAPH
 #define ADJ_MATRIX_UNDI_GRAPH
 #include <bits/stdc++.h>
-#include "../SeqList/SeqList.h"
+#include "../../SeqList/SeqList.h"
 using namespace std;
 
 const int DEFAULT_SIZE = 100;
-
+//无向图的邻接矩阵类
 template <class T>
 class AdjMatrixUndiGraph
 {
 protected:
-    int _vexNum, _vexMaxNum, _arcNum; //最大顶点数，边数
-    int *_tag;                        //标志数组
-    SeqList<T> _vertexes;             // 顶点数组
-    int **_arcs;                      //邻接矩阵，二维数组
+    int _vexMaxNum, _arcNum; //最大顶点数，边数
+    int *_tag;               //标志数组
+    SeqList<T> _vertexes;    // 顶点数组
+    int **_arcs;             //邻接矩阵，二维数组
 public:
     AdjMatrixUndiGraph(int vexMaxNum = DEFAULT_SIZE);                    //默认构造函数
     AdjMatrixUndiGraph(T *es, int vexNum, int vexMaxNum = DEFAULT_SIZE); //构造函数
@@ -26,7 +26,7 @@ public:
     T GetElem(int index) const;                     //求指定下标的顶点值
     void SetElem(int index, T vex);                 //更新指定下标的顶点值
     int FirstAdjVex(int v) const;                   //求v的第一个邻接点的下标
-    int NextAdjVex(int v1, int v2) const;           //求v1相对于v2的下一个临界点的下标
+    int NextAdjVex(int v1, int v2) const;           //求v1相对于v2的下一个邻接点的下标
     void InsertVex(const T &vex);                   //插入顶点
     void InsertArc(int v1, int v2, int weight = 1); //插入边
     void DeleteVex(const T &vex);                   //删除顶点
@@ -48,7 +48,7 @@ AdjMatrixUndiGraph<T>::AdjMatrixUndiGraph(int vexMaxNum)
     _arcNum = 0;
     _vexMaxNum = vexMaxNum;
 
-    _vertexes = SeqList<T>(DEFAULT_SIZE);
+    _vertexes = SeqList<T>(vexMaxNum);
     _tag = new int[vexMaxNum];
     _arcs = (int **)new int *[vexMaxNum];
     for (int i = 0; i < vexMaxNum; i++)
