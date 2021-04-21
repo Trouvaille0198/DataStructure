@@ -208,12 +208,13 @@ void AdjMatrixUndiGraph<T>::InsertVex(const T &vex)
 template <class T>
 void AdjMatrixUndiGraph<T>::InsertArc(int v1, int v2, int weight)
 {
-    if (v1 < 0 || v1 > _vexMaxNum || v2 < 0 || v2 > _vexMaxNum || v1 == v2)
+    int _vexNum = GetVexNum();
+    if (v1 < 0 || v1 >= _vexNum || v2 < 0)
     {
         cout << "v1不合法!" << endl;
         return;
     }
-    if (v2 < 0 || v2 > _vexMaxNum || v1 == v2)
+    if (v2 < 0 || v2 >= _vexNum)
     {
         cout << "v2不合法!" << endl;
         return;
