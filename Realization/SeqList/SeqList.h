@@ -6,13 +6,13 @@ using namespace std;
 template <class T>
 class SeqList
 {
-protected:
+
+public:
     static const int DEFAULT_SIZE = 100;
     int _length;
     int _maxlen;
     T *_data;
 
-public:
     SeqList(int maxlen = DEFAULT_SIZE);                   //建立空表
     SeqList(T *a, int length, int maxlen = DEFAULT_SIZE); //根据数组创建新表
     SeqList(const SeqList<T> &sa);                        //拷贝构造函数

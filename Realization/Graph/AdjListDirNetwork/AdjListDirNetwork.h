@@ -4,6 +4,7 @@
 #include "ArcNode.h"               // 网络邻接表的边结点类
 #include "VexNode.h"               // 网络邻接表的顶点结点类
 #include "../../SeqList/SeqList.h" //顺序表
+#include <bits/stdc++.h>
 using namespace std;
 const int DEFAULT_SIZE = 100;
 const int DEFAULT_INFINITY = 1000;
@@ -69,7 +70,12 @@ AdjListDirNetwork<ElemType, WeightType>::AdjListDirNetwork(ElemType *vex, int ve
     _arcNum = 0;
 
     _tag = new int[_vexMaxNum];
-    _vexTable = SeqList<VexNode<ElemType, WeightType>>(vex, vexNum, _vexMaxNum);
+
+    VexNode<ElemType, WeightType> node[vexNum];
+    for (int i = 0; i < vexNum; i++)
+        node[i]._data = vex[i];
+
+    _vexTable = SeqList<VexNode<ElemType, WeightType>>(node, vexNum, _vexMaxNum);
     for (int i = 0; i < vexMaxNum; i++)
     {
         _tag[i] = 0;
@@ -87,9 +93,9 @@ void AdjListDirNetwork<ElemType, WeightType>::Clear()
         while (p != NULL)
         // 遍历并删除节点
         {
-            _vexTable[i]._firstArc = p->_nextArc;
+            _vexTable._data[i]._firstArc = p->_nextArc;
             delete p;
-            p = vexTable[i]._firstArc;
+            p = _vexTable.GetElem(i)._firstArc;
         }
     }
     _vexTable.ClearList(); //顶点数置零
@@ -200,7 +206,7 @@ void AdjListDirNetwork<ElemType, WeightType>::InsertVex(const ElemType &vexValue
 
     VexNode<ElemType, WeightType> *p(vexValue);
     _vexTable.InsertElem(p);
-    tag[_vexNum] = 0;
+    _tag[_vexNum] = 0;
 }
 
 template <class ElemType, class WeightType>
@@ -231,7 +237,7 @@ void AdjListDirNetwork<ElemType, WeightType>::InsertArc(int v1, int v2, WeightTy
 
     ArcNode<WeightType> *p;
     p = _vexTable.GetElem(v1)._firstArc;
-    _vexTable.GetElem(v1)._firstArc = new ArcNode<WeightType>(v2, w, p);
+    _vexTable._data[v1]._firstArc = new ArcNode<WeightType>(v2, w, p);
     _arcNum++;
 }
 
@@ -321,6 +327,119 @@ void AdjListDirNetwork<ElemType, WeightType>::DeleteVex(const ElemType &vexValue
                 p = p->_nextArc;
             }
         }
+}
+
+template <class ElemType, class WeightType>
+WeightType AdjListDirNetwork<ElemType, WeightType>::GetWeight(int v1, int v2) const
+// 返回顶点索引为v1和v2的边的权值
+{
+    int _vexNum = GetVexNum();
+    if (v1 < 0 || v1 >= _vexNum || v2 < 0)
+    {
+        cout << "v1不合法!" << endl;
+        return;
+    }
+    if (v2 < 0 || v2 >= _vexNum)
+    {
+        cout << "v2不合法!" << endl;
+        return;
+    }
+
+    ArcNode<WeightType> *p = _vexTable.GetElem(v1)._firstArc;
+    while (p != NULL && p->_adjVex != v2)
+        p = p->_nextArc;
+    if (p != NULL)
+        return p->_weight;
+    else
+        return _infinity; //边不存在
+}
+
+template <class ElemType, class WeightType>
+void AdjListDirNetwork<ElemType, WeightType>::SetWeight(int v1, int v2, WeightType w)
+// 设置顶点索引为v1和v2的边的权值
+{
+    int _vexNum = GetVexNum();
+    if (v1 < 0 || v1 >= _vexNum || v2 < 0)
+    {
+        cout << "v1不合法!" << endl;
+        return;
+    }
+    if (v2 < 0 || v2 >= _vexNum)
+    {
+        cout << "v2不合法!" << endl;
+        return;
+    }
+    if (v1 == v2)
+    {
+        cout << "v1不可等于v2!" << endl;
+        return;
+    }
+    if (w == _infinity)
+    {
+        cout << "权重不可为无限大！" << endl;
+        return;
+    }
+    ArcNode<WeightType> *p = _vexTable.GetElem(v1)._firstArc;
+    while (p != NULL && p->_adjVex != v2)
+        p = p->_nextArc;
+    if (p != NULL)
+        p->_weight = w;
+}
+
+template <class ElemType, class WeightType>
+int AdjListDirNetwork<ElemType, WeightType>::GetTag(int v) const
+// 返回顶点索引为v的标志
+{
+    if (v < 0 || v >= GetVexNum())
+        cout << "v不合法!" << endl;
+    return _tag[v];
+}
+
+template <class ElemType, class WeightType>
+void AdjListDirNetwork<ElemType, WeightType>::SetTag(int v, int value)
+// 设置顶点v的标志为value
+{
+    if (v < 0 || v >= GetVexNum())
+        cout << "v不合法!" << endl;
+
+    _tag[v] = value;
+}
+
+template <class ElemType, class WeightType>
+void AdjListDirNetwork<ElemType, WeightType>::Display() const
+{
+    for (int i = 0; i < GetVexNum(); i++)
+    {
+        cout << "\t" << _vexTable.GetElem(i)._data;
+    }
+    ArcNode<WeightType> *p;
+    for (int i = 0; i < GetVexNum(); i++)
+    {
+        cout << endl
+             << _vexTable.GetElem(i)._data;
+        p = _vexTable.GetElem(i)._firstArc;
+        for (int j = 0; j < GetVexNum(); j++)
+        {
+            if (i == j)
+            {
+                cout << "\t"
+                     << "0";
+                continue;
+            }
+            while (p != NULL)
+            {
+                if (p->_adjVex = j)
+                {
+                    cout << "\t" << p->_weight;
+                    break;
+                }
+                p = p->_nextArc;
+            }
+            if (p == NULL)
+                cout << "\t"
+                     << "∞";
+        }
+    }
 }
 
 #endif
