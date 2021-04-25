@@ -3,19 +3,22 @@ using namespace std;
 
 int main()
 {
+    //T4,
     cout << "无向图" << endl;
-    char es[5] = {'a', 'b', 'c', 'd', 'e'};
-    AdjMatrixGraph<char, int> g1(es, 5, 1, 1);
-    g1.InsertArc(0, 1, 10);
-    g1.InsertArc(0, 3, 30);
-    g1.InsertArc(0, 4, 100);
-    g1.InsertArc(1, 2, 50);
-    g1.InsertArc(2, 4, 10);
-    g1.InsertArc(3, 2, 20);
-    g1.InsertArc(3, 4, 60);
+    char es1[6] = {'0', '1', '2', '3', '4', '5'};
+    AdjMatrixGraph<char, int> g1(es1, 6, 1, 1);
+    g1.InsertArc(0, 1, 45);
+    g1.InsertArc(0, 2, 50);
+    g1.InsertArc(0, 3, 15);
+    g1.InsertArc(1, 2, 5);
+    g1.InsertArc(1, 4, 20);
+    g1.InsertArc(1, 5, 15);
+    g1.InsertArc(3, 0, 10);
+    g1.InsertArc(3, 1, 10);
+    g1.InsertArc(3, 4, 79);
+    g1.InsertArc(4, 1, 30);
+    g1.InsertArc(5, 4, 20);
 
-    // g1.DeleteVex('b');
-    cout << "测试插入" << endl;
     g1.Display();
     cout << g1.GetArcNum() << endl;
     g1.Dijkstra(0);
@@ -32,16 +35,37 @@ int main()
     // g2.Display();
     // cout << g2.GetArcNum() << endl;
 
-    // cout << "有向图" << endl;
-    // AdjMatrixGraph<char, int> g3(es, 4, 10, 1, 1);
-    // g3.InsertArc(0, 2, 6);
-    // g3.InsertArc(0, 3, 9);
-    // g3.InsertArc(1, 2, 12);
-    // g3.InsertArc(3, 1, 8);
-    // // g3.DeleteVex('b');
-    // cout << "测试插入" << endl;
-    // g3.Display();
-    // cout << g3.GetArcNum() << endl;
+    //T7,拓扑排序
+    char es2[6] = {'0', '1', '2', '3', '4', '5'};
+    int arc1[6][6] = {
+        {0, 0, 1, 1, 0, 0},
+        {1, 0, 0, 0, 1, 0},
+        {0, 0, 0, 1, 0, 0},
+        {0, 0, 0, 0, 0, 0},
+        {1, 0, 0, 0, 0, 0},
+        {0, 0, 1, 1, 1, 0}};
+    AdjMatrixGraph<char, int> g2(es2, 6, 1, 0);
+    g2.SetArcs((int **)arc1, 6);
+    g2.Display();
+    // for (int vexNum = 0; vexNum < g2.GetVexNum(); vexNum++)
+    //     cout << vexNum << ": " << g2.GetInDegree(vexNum) << endl;
+
+    g2.TopSort();
+
+    //T8,AOE网络
+
+    char es3[7] = {'0', '1', '2', '3', '4', '5', '6'};
+    int arc2[7][7] = {
+        {0, 8, 0, 4, 5, 0, 0},
+        {0, 0, 3, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 6},
+        {0, 0, 0, 0, 1, 0, 0},
+        {0, 2, 7, 0, 0, 2, 0},
+        {0, 0, 3, 0, 0, 0, 9},
+        {0, 0, 0, 0, 0, 0, 0}};
+    AdjMatrixGraph<char, int> g3(es3, 7, 1, 1);
+    g3.SetArcs((int **)arc2, 7);
+    g3.Display();
 
     system("pause");
 }

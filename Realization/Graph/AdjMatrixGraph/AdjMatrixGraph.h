@@ -2,6 +2,8 @@
 #define ADJ_MATRIX_GRAPH
 #include <bits/stdc++.h>
 #include "../../SeqList/SeqList.h"
+#include "../../SeqStack/SeqStack.h"
+#include "../../SeqQueue/SeqQueue.h"
 using namespace std;
 
 const int DEFAULT_SIZE = 100;
@@ -33,8 +35,8 @@ public:
     int GetOrder(ElemType vex) const;               // 求顶点序号
     ElemType GetElem(int index) const;              // 求指定下标的顶点值
     void SetElem(int index, ElemType vex);          // 更新指定下标的顶点值
-    int FirstAdjVex(int v) const;                   // 求v的第一个邻接点的下标
-    int NextAdjVex(int v1, int v2) const;           // 求v1相对于v2的下一个邻接点的下标
+    int GetFirstAdjVex(int v) const;                // 求v的第一个邻接点的下标
+    int GetNextAdjVex(int v1, int v2) const;        // 求v1相对于v2的下一个邻接点的下标
     void InsertVex(const ElemType &vex);            // 插入顶点
     void InsertArc(int v1, int v2, int weight = 1); // 插入边
     void DeleteVex(const ElemType &vex);            // 删除顶点
@@ -46,6 +48,9 @@ public:
     void Display() const;                           // 打印图
     void SetArcs(int **arcs, int vexNum);           // 设置新的邻接矩阵
     void Dijkstra(int v);                           //迪杰斯特拉算法
+    int GetInDegree(int v) const;                   //求v的入度
+    void TopSort() const;                           //有向无权图的拓扑排序
+    void CriticalPath() const;                      //AOE网络的开始时间、关键路径
 };
 
 template <class ElemType, class WeightType>
@@ -162,7 +167,7 @@ void AdjMatrixGraph<ElemType, WeightType>::SetElem(int index, ElemType vex)
     _vertexes.SetElem(index, vex);
 }
 template <class ElemType, class WeightType>
-int AdjMatrixGraph<ElemType, WeightType>::FirstAdjVex(int v) const
+int AdjMatrixGraph<ElemType, WeightType>::GetFirstAdjVex(int v) const
 {
     if (v < 0 || v > _vexMaxNum)
     {
@@ -180,7 +185,7 @@ int AdjMatrixGraph<ElemType, WeightType>::FirstAdjVex(int v) const
 }
 
 template <class ElemType, class WeightType>
-int AdjMatrixGraph<ElemType, WeightType>::NextAdjVex(int v1, int v2) const
+int AdjMatrixGraph<ElemType, WeightType>::GetNextAdjVex(int v1, int v2) const
 {
     if (v1 < 0 || v1 > _vexMaxNum || v2 < 0 || v2 > _vexMaxNum || v1 == v2)
     {
@@ -385,9 +390,13 @@ void AdjMatrixGraph<ElemType, WeightType>::SetArcs(int **arcs, int vexNum)
     {
         for (int col = 0; col < vexNum; col++)
         {
-            if (*((int *)arcs + row * vexNum + col) != _infinity)
+            if (*((int *)arcs + row * vexNum + col) == 0)
+                _arcs[row][col] = _infinity;
+            else
+            {
                 arcNum++;
-            _arcs[row][col] = *((int *)arcs + row * vexNum + col);
+                _arcs[row][col] = *((int *)arcs + row * vexNum + col);
+            }
         }
     }
     _arcNum = arcNum / 2;
@@ -448,7 +457,7 @@ void AdjMatrixGraph<ElemType, WeightType>::Dijkstra(int v)
             }
         }
         SetTag(finalVex, 1);
-        for (int j = FirstAdjVex(finalVex); j != -1; j = NextAdjVex(finalVex, j))
+        for (int j = GetFirstAdjVex(finalVex); j != -1; j = GetNextAdjVex(finalVex, j))
         // 从上一次找到的最短路径的顶点出发, 依次判断各顶点的最短路径能否更新
         {
             if (_tag[j] == 0 && min + GetWeight(finalVex, j) < dist[j])
@@ -471,6 +480,91 @@ void AdjMatrixGraph<ElemType, WeightType>::Dijkstra(int v)
         }
         cout << "从顶点 " << GetElem(v) << " 到顶点 " << GetElem(i) << " 的最短路径为: " << pathStr
              << ", 长度为: " << dist[i] << endl;
+    }
+}
+
+template <class ElemType, class WeightType>
+int AdjMatrixGraph<ElemType, WeightType>::GetInDegree(int v) const
+//固定列,遍历行, 行中非零,则入度+1
+{
+    if (_dirType != 1)
+        return 0;
+    int InDegree = 0;
+    for (int row = 0; row < GetVexNum(); row++)
+    {
+        if (_arcs[row][v] != _infinity)
+            InDegree++;
+    }
+    return InDegree;
+}
+
+template <class ElemType, class WeightType>
+void AdjMatrixGraph<ElemType, WeightType>::TopSort() const
+{
+    int *InDegree = new int[GetVexNum()]; //入度数组
+    SeqStack<int> s;                      //存放入度为零的顶点索引栈
+    for (int i = 0; i < GetVexNum(); i++)
+    {
+        InDegree[i] = GetInDegree(i);
+        if (GetInDegree(i) == 0)
+            s.PushElem(i); //将入度为0的顶点索引入栈
+    }
+    int v, count = 0;
+    while (!s.IsEmpty())
+    {
+        v = s.TopElem();
+        s.PopElem();
+        cout << GetElem(v) << " ";
+        count++;
+        for (int u = GetFirstAdjVex(v); u != -1; u = GetNextAdjVex(v, u))
+        //找到零入度顶点指向的顶点,将他们入度 -1,若 -1后入度为 0,将他们入栈
+        {
+            if (--InDegree[u] == 0)
+                s.PushElem(u);
+        }
+    }
+    cout << endl;
+    delete[] InDegree;
+    if (count < GetVexNum())
+        cout << "图有回路,无法进行拓扑排序!" << endl;
+}
+
+template <class ElemType, class WeightType>
+void AdjMatrixGraph<ElemType, WeightType>::CriticalPath() const
+{
+    int *InDegree = new int[GetVexNum()];  //入度数组
+    WeightType *ve = new int[GetVexNum()]; //事件的最早开始时间
+    WeightType *vl = new int[GetVexNum()]; //事件的最晚开始时间
+
+    SeqQueue<int> q;             //入度为零的顶点队列
+    SeqStack<int> s;             //用于实现逆拓扑序列的栈
+    int ee, el, u, v, count = 0; //活动的开始时间不单独开辟数组
+    ElemType e1, e2;
+    for (int i = 0; i < GetVexNum(); i++)
+        //初始化最早开始时间数组
+        ve[i] = 0;
+    for (int i = 0; i < GetVexNum(); i++)
+    //统计顶点入度,并将入度为0的顶点索引入队
+    {
+        InDegree[i] = GetInDegree(i);
+        if (GetInDegree(i) == 0)
+            q.EnterQueue(i);
+    }
+    while (!q.IsEmpty())
+    {
+        v = q.GetFront();
+        q.DeleteQueue();
+        s.PushElem(v); //v入栈,之后出栈即可得到逆拓扑序列
+        count++;
+        for (int u = GetFirstAdjVex(v); u != -1; u = GetNextAdjVex(v, u))
+        {
+            if (--InDegree[u] == 0)
+                //找到顶点v指向的顶点u,将他们入度 -1,若 -1后入度为 0,将他们入队
+                q.EnterQueue(u);
+            if (ve[v] + GetWeight(v, u) > ve[u])
+                //取弧尾v加边权值的最大值,赋值给u的ve
+                ve[u] = ve[v] + GetWeight(v, u);
+        }
     }
 }
 
