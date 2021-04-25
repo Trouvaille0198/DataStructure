@@ -51,6 +51,8 @@ public:
     int GetInDegree(int v) const;                   // 求v的入度
     void TopSort() const;                           // 有向无权图的拓扑排序
     void CriticalPath() const;                      // AOE网络的开始时间、关键路径
+    //bool IsConnected() const;                       //判断图是否连通
+    void DFS(int v); //深度优先搜索
 };
 
 template <class ElemType, class WeightType>
@@ -614,4 +616,17 @@ void AdjMatrixGraph<ElemType, WeightType>::CriticalPath() const
     delete[] vl;
 }
 
+template <class ElemType, class WeightType>
+void AdjMatrixGraph<ElemType, WeightType>::DFS(int v)
+{
+    SetTag(v, 1);
+    cout << GetElem(v) << " ";
+    for (int u = GetFirstAdjVex(v); u != -1; u = GetNextAdjVex(v, u))
+    {
+        if (_tag[u] == 0)
+            DFS(u);
+        else
+            break;
+    }
+}
 #endif

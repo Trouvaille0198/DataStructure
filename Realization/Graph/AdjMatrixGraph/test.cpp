@@ -21,6 +21,7 @@ int main()
     g1.InsertArc(5, 4, 20);
 
     g1.Display();
+    cout << "迪杰斯特拉算法" << endl;
     g1.Dijkstra(0);
 
     //T7,拓扑排序
@@ -37,8 +38,7 @@ int main()
     AdjMatrixGraph<char, int> g2(es2, 6, 1, 0);
     g2.SetArcs((int **)arc1, 6);
     g2.Display();
-    // for (int vexNum = 0; vexNum < g2.GetVexNum(); vexNum++)
-    //     cout << vexNum << ": " << g2.GetInDegree(vexNum) << endl;
+    cout << "拓扑排序" << endl;
     g2.TopSort();
 
     //T8,AOE网络
@@ -56,7 +56,7 @@ int main()
     AdjMatrixGraph<char, int> g3(es3, 7, 1, 1);
     g3.SetArcs((int **)arc2, 7);
     g3.Display();
+    cout << "关键路径" << endl;
     g3.CriticalPath();
-
     system("pause");
 }
