@@ -76,12 +76,13 @@ template <class T>
 MinMap<T>::MinMap(int maxSize) : _maxSize(maxSize)
 // 默认构造函数
 {
-    _elems = new SeqList(maxSize);
+    _elems = SeqList<T>(maxSize);
 }
+
 template <class T>
-MinMap<T>::MinMap(T e[], int n, int maxsize) : _maxSize(maxSize)
+MinMap<T>::MinMap(T e[], int n, int maxSize) : _maxSize(maxSize)
 {
-    _elems = new SeqList(e, n, maxSize);
+    _elems = SeqList<T>(e, n, maxSize);
 
     for (int i = 0; i < n; i++)
     {

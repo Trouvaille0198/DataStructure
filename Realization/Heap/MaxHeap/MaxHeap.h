@@ -34,11 +34,11 @@ void MaxMap<T>::FilterDown(int start)
     int j = 2 * i + 1;
     while (j <= GetSize() - 1)
     {
-        if (j < GetSize() - 1 && _elems.GetElem(j) > _elems.GetElem(j + 1))
+        if (j < GetSize() - 1 && _elems.GetElem(j) < _elems.GetElem(j + 1))
 
             j++;
 
-        if (temp <= _elems.GetElem(j))
+        if (temp >= _elems.GetElem(j))
 
             break;
 
@@ -60,7 +60,7 @@ void MaxMap<T>::FilterUp(int end)
     int i = (j - 1) / 2;
     while (j > 0)
     {
-        if (_elems.GetElem(i) <= temp)
+        if (_elems.GetElem(i) > temp)
             break;
 
         else
@@ -76,12 +76,12 @@ template <class T>
 MaxMap<T>::MaxMap(int maxSize) : _maxSize(maxSize)
 // 默认构造函数
 {
-    _elems = new SeqList(maxSize);
+    _elems = SeqList<T>(maxSize);
 }
 template <class T>
-MaxMap<T>::MaxMap(T e[], int n, int maxsize) : _maxSize(maxSize)
+MaxMap<T>::MaxMap(T e[], int n, int maxSize) : _maxSize(maxSize)
 {
-    _elems = new SeqList(e, n, maxSize);
+    _elems = SeqList<T>(e, n, maxSize);
 
     for (int i = 0; i < n; i++)
     {
