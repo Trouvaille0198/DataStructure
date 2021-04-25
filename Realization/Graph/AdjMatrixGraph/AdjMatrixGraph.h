@@ -52,7 +52,8 @@ public:
     void TopSort() const;                           // 有向无权图的拓扑排序
     void CriticalPath() const;                      // AOE网络的开始时间、关键路径
     //bool IsConnected() const;                       //判断图是否连通
-    void DFS(int v); //深度优先搜索
+    void DFS(int v);    //深度优先搜索
+    void DFSTraverse(); //深度优先遍历
 };
 
 template <class ElemType, class WeightType>
@@ -628,5 +629,15 @@ void AdjMatrixGraph<ElemType, WeightType>::DFS(int v)
         else
             break;
     }
+}
+
+template <class ElemType, class WeightType>
+void AdjMatrixGraph<ElemType, WeightType>::DFSTraverse()
+{
+    for (int i = 0; i < GetVexNum(); i++)
+        SetTag(i, 0);
+    for (int i = 0; i < GetVexNum(); i++)
+        if (GetTag(i) == 0)
+            DFS(i);
 }
 #endif
