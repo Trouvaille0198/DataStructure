@@ -47,10 +47,10 @@ public:
     void SetTag(int v, int value);                  // 设置顶点v的标志值
     void Display() const;                           // 打印图
     void SetArcs(int **arcs, int vexNum);           // 设置新的邻接矩阵
-    void Dijkstra(int v);                           //迪杰斯特拉算法
-    int GetInDegree(int v) const;                   //求v的入度
-    void TopSort() const;                           //有向无权图的拓扑排序
-    void CriticalPath() const;                      //AOE网络的开始时间、关键路径
+    void Dijkstra(int v);                           // 迪杰斯特拉算法
+    int GetInDegree(int v) const;                   // 求v的入度
+    void TopSort() const;                           // 有向无权图的拓扑排序
+    void CriticalPath() const;                      // AOE网络的开始时间、关键路径
 };
 
 template <class ElemType, class WeightType>
@@ -536,8 +536,8 @@ void AdjMatrixGraph<ElemType, WeightType>::CriticalPath() const
     WeightType *ve = new int[GetVexNum()]; //事件的最早开始时间
     WeightType *vl = new int[GetVexNum()]; //事件的最晚开始时间
 
-    SeqQueue<int> q;             //入度为零的顶点队列
-    SeqStack<int> s;             //用于实现逆拓扑序列的栈
+    SeqQueue<int> q;             //入度为零的顶点队列,用来求 ve
+    SeqStack<int> s;             //用于实现逆拓扑序列的栈,用来求 vl
     int ee, el, u, v, count = 0; //活动的开始时间不单独开辟数组
     ElemType e1, e2;
     for (int i = 0; i < GetVexNum(); i++)
@@ -551,21 +551,67 @@ void AdjMatrixGraph<ElemType, WeightType>::CriticalPath() const
             q.EnterQueue(i);
     }
     while (!q.IsEmpty())
+    //计算事件最早开始时间
     {
         v = q.GetFront();
         q.DeleteQueue();
         s.PushElem(v); //v入栈,之后出栈即可得到逆拓扑序列
         count++;
-        for (int u = GetFirstAdjVex(v); u != -1; u = GetNextAdjVex(v, u))
+        for (u = GetFirstAdjVex(v); u != -1; u = GetNextAdjVex(v, u))
+        // 刷新最早开始时间
         {
             if (--InDegree[u] == 0)
                 //找到顶点v指向的顶点u,将他们入度 -1,若 -1后入度为 0,将他们入队
                 q.EnterQueue(u);
             if (ve[v] + GetWeight(v, u) > ve[u])
-                //取弧尾v加边权值的最大值,赋值给u的ve
+                //取弧尾 v的 ve加边权值的最大值,赋值给 u的 ve
                 ve[u] = ve[v] + GetWeight(v, u);
         }
     }
+
+    if (count < GetVexNum())
+    {
+        delete[] InDegree;
+        delete[] ve;
+        delete[] vl;
+        cout << "图有回路,不是 AOE 网络!" << endl;
+    }
+    v = s.TopElem(); //取栈顶,栈顶为汇点
+    s.PopElem();
+    for (int i = 0; i < GetVexNum(); i++)
+        // 初始化最迟开始时间
+        vl[i] = ve[v];
+    while (!s.IsEmpty())
+    // 计算事件最迟开始时间
+    {
+        v = s.TopElem();
+        s.PopElem();
+        for (u = GetFirstAdjVex(v); u != -1; u = GetNextAdjVex(v, u))
+            // 刷新最迟开始时间
+            if (vl[u] - GetWeight(v, u) < vl[v])
+                //取弧头 u的 vl减边权值的最小值,赋值给 v的 vl
+                vl[v] = vl[u] - GetWeight(v, u);
+    }
+    for (u = 0; u < GetVexNum(); u++)
+    // 求关键路径
+    {
+        for (v = GetFirstAdjVex(u); v != -1; v = GetNextAdjVex(u, v))
+        {
+            ee = ve[u];                   //ee为弧尾的vl
+            el = vl[v] - GetWeight(u, v); //el为弧头的vl减权值
+            if (ee == el)
+            // 输出关键活动
+            {
+                e1 = GetElem(u);
+                e2 = GetElem(v);
+                cout << "<" << e1 << ", " << e2 << "> ";
+            }
+        }
+    }
+    cout << endl;
+    delete[] InDegree;
+    delete[] ve;
+    delete[] vl;
 }
 
 #endif
