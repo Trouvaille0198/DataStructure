@@ -139,8 +139,11 @@ T SeqList<T>::GetElem(int i) const
 {
     if (i >= 0 && i < _length)
         return _data[i];
-    cout << "位置不合理！" << endl;
-    return NULL; //此处有Warning
+    else
+    {
+        cout << "无法获取元素, 位置不合理！" << endl;
+        //return NULL; //此处有Warning
+    }
 }
 
 template <class T>
@@ -149,7 +152,7 @@ void SeqList<T>::SetElem(int i, const T &e)
     if (i >= 0 && i < _length)
         _data[i] = e;
     else
-        cout << "位置不合理！" << endl;
+        cout << "无法设置元素, 位置不合理！" << endl;
 }
 
 template <class T>
@@ -198,7 +201,7 @@ void SeqList<T>::DeleteElemByIndex(int i)
     }
     if (i < 0 || i >= _length)
     {
-        cout << "位置不合理！" << endl;
+        cout << "无法删除, 位置不合理！" << endl;
         return;
     }
     for (int j = i; j < _length - 1; j++)

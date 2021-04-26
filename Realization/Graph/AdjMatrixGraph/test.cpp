@@ -58,5 +58,22 @@ int main()
     g3.Display();
     cout << "关键路径" << endl;
     g3.CriticalPath();
+
+    // T10, 破圈法
+    cout << endl
+         << "T10 破圈法" << endl;
+    char es4[6] = {'0', '1', '2', '3', '4', '5'};
+    int arc3[6][6] = {
+        {0, 6, 3, 5, 0, 0},
+        {6, 0, 0, 1, 5, 0},
+        {3, 0, 0, 6, 0, 6},
+        {5, 1, 6, 0, 5, 4},
+        {0, 5, 0, 5, 0, 2},
+        {0, 0, 6, 4, 2, 0}};
+    AdjMatrixGraph<char, int> g4(es4, 6, 0, 1);
+    g4.SetArcs((int **)arc3, 6);
+    g4.Display();
+    cout << "破圈法" << endl;
+    g4.TearCycle();
     system("pause");
 }

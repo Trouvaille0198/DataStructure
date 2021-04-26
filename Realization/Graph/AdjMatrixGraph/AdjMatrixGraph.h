@@ -4,9 +4,11 @@
 #include "../../SeqList/SeqList.h"
 #include "../../SeqStack/SeqStack.h"
 #include "../../SeqQueue/SeqQueue.h"
+#include "../../Heap/MaxHeap/MaxHeap.h"
+#include "Arc.h"
 using namespace std;
 
-const int DEFAULT_SIZE = 100;
+//const int DEFAULT_SIZE = 100;
 const int DEFAULT_INFINITY = 1000;
 //图的邻接矩阵类
 template <class ElemType, class WeightType>
@@ -51,9 +53,11 @@ public:
     int GetInDegree(int v) const;                   // 求v的入度
     void TopSort() const;                           // 有向无权图的拓扑排序
     void CriticalPath() const;                      // AOE网络的开始时间、关键路径
-    //bool IsConnected() const;                       //判断图是否连通
-    void DFS(int v);    //深度优先搜索
-    void DFSTraverse(); //深度优先遍历
+    bool IsConnected();                             // 判断图是否连通
+    void DFS(int v);                                // 深度优先搜索
+    void DFSHelp(int v);                            // 深度优先遍历, 无输出
+    void DFSTraverse();                             // 深度优先遍历
+    void TearCycle();                               // 破圈法, 求带权连通无向图的最小生成树
 };
 
 template <class ElemType, class WeightType>
@@ -180,7 +184,6 @@ int AdjMatrixGraph<ElemType, WeightType>::GetFirstAdjVex(int v) const
     int row = v; //顶点在顶点集的位置，即顶点在邻接矩阵中行的位置
     for (int col = 0; col < _vertexes.GetLength(); col++)
     {
-
         if (_arcs[row][col] != _infinity)
             return col;
     }
@@ -402,7 +405,10 @@ void AdjMatrixGraph<ElemType, WeightType>::SetArcs(int **arcs, int vexNum)
             }
         }
     }
-    _arcNum = arcNum / 2;
+    if (_dirType == 0)
+        _arcNum = arcNum / 2;
+    else
+        _arcNum = arcNum;
 }
 
 template <class ElemType, class WeightType>
@@ -623,12 +629,17 @@ void AdjMatrixGraph<ElemType, WeightType>::DFS(int v)
     SetTag(v, 1);
     cout << GetElem(v) << " ";
     for (int u = GetFirstAdjVex(v); u != -1; u = GetNextAdjVex(v, u))
-    {
-        if (_tag[u] == 0)
+        if (GetTag(u) == 0)
             DFS(u);
-        else
-            break;
-    }
+}
+
+template <class ElemType, class WeightType>
+void AdjMatrixGraph<ElemType, WeightType>::DFSHelp(int v)
+{
+    SetTag(v, 1);
+    for (int u = GetFirstAdjVex(v); u != -1; u = GetNextAdjVex(v, u))
+        if (GetTag(u) == 0)
+            DFSHelp(u);
 }
 
 template <class ElemType, class WeightType>
@@ -639,5 +650,50 @@ void AdjMatrixGraph<ElemType, WeightType>::DFSTraverse()
     for (int i = 0; i < GetVexNum(); i++)
         if (GetTag(i) == 0)
             DFS(i);
+}
+
+template <class ElemType, class WeightType>
+bool AdjMatrixGraph<ElemType, WeightType>::IsConnected()
+{
+    for (int i = 0; i < GetVexNum(); i++)
+        SetTag(i, 0);
+    DFSHelp(0); //任意DFS某一元素
+    for (int i = 0; i < GetVexNum(); i++)
+        // 只要有元素没有被遍历到, 该图就不连通
+        if (GetTag(i) == 0)
+            return false;
+    return true;
+}
+
+template <class ElemType, class WeightType>
+void AdjMatrixGraph<ElemType, WeightType>::TearCycle()
+{
+    // 构建边权值的最大堆
+    MaxHeap<Arc<ElemType, WeightType>> maxHeap(GetArcNum());
+    Arc<ElemType, WeightType> arc;
+    ElemType v1, v2; //弧头弧尾的值
+    for (int row = 0; row < GetVexNum(); row++)
+        for (int col = 0; col < GetVexNum(); col++)
+            if (row > col && _arcs[row][col] != _infinity)
+            {
+                v1 = GetElem(row);
+                v2 = GetElem(col);
+                arc.SetElem(v1, v2, _arcs[row][col]);
+                maxHeap.InsertElem(arc);
+            }
+
+    // 依次删最大边
+    int count = 0; // 记录删边数
+
+    while (GetArcNum() > GetVexNum() - 1) // n个顶点, n-1条边
+    {
+        arc = maxHeap.GetTop();
+        maxHeap.DeleteTop();
+        DeleteArc(GetOrder(arc._v1), GetOrder(arc._v2));
+        if (IsConnected())
+            cout << "删除了边 <" << arc._v1 << ", " << arc._v2 << "> ,权值为 " << arc._weight << endl;
+        else
+            InsertArc(GetOrder(arc._v1), GetOrder(arc._v2), arc._weight);
+    }
 }
 #endif

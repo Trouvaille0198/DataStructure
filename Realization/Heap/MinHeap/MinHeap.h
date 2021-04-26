@@ -4,7 +4,7 @@
 
 const int DEFAULT_SIZE = 100;
 template <class T>
-class MinMap
+class MinHeap
 {
 private:
     SeqList<T> _elems;
@@ -13,11 +13,11 @@ private:
     void FilterUp(int end);
 
 public:
-    MinMap(int maxSize = DEFAULT_SIZE);
-    MinMap(T e[], int n, int maxSize = DEFAULT_SIZE);
-    ~MinMap();
+    MinHeap(int maxSize = DEFAULT_SIZE);
+    MinHeap(T e[], int n, int maxSize = DEFAULT_SIZE);
+    ~MinHeap();
     void InsertElem(const T &e);
-    void DeleteTop(T &e);
+    void DeleteTop();
     T GetTop() const;
     bool IsEmpty() const;
     bool IsFull() const;
@@ -26,7 +26,7 @@ public:
     void Display() const;
 };
 template <class T>
-void MinMap<T>::FilterDown(int start)
+void MinHeap<T>::FilterDown(int start)
 // 向下调整
 {
     int i = start;
@@ -35,13 +35,9 @@ void MinMap<T>::FilterDown(int start)
     while (j <= GetSize() - 1)
     {
         if (j < GetSize() - 1 && _elems.GetElem(j) > _elems.GetElem(j + 1))
-
             j++;
-
         if (temp <= _elems.GetElem(j))
-
             break;
-
         else
         {
             _elems.SetElem(i, _elems.GetElem(j));
@@ -52,7 +48,7 @@ void MinMap<T>::FilterDown(int start)
     _elems.SetElem(i, temp);
 }
 template <class T>
-void MinMap<T>::FilterUp(int end)
+void MinHeap<T>::FilterUp(int end)
 // 向上调整
 {
     int j = end;
@@ -73,14 +69,14 @@ void MinMap<T>::FilterUp(int end)
     }
 }
 template <class T>
-MinMap<T>::MinMap(int maxSize) : _maxSize(maxSize)
+MinHeap<T>::MinHeap(int maxSize) : _maxSize(maxSize)
 // 默认构造函数
 {
     _elems = SeqList<T>(maxSize);
 }
 
 template <class T>
-MinMap<T>::MinMap(T e[], int n, int maxSize) : _maxSize(maxSize)
+MinHeap<T>::MinHeap(T e[], int n, int maxSize) : _maxSize(maxSize)
 {
     _elems = SeqList<T>(e, n, maxSize);
 
@@ -96,12 +92,12 @@ MinMap<T>::MinMap(T e[], int n, int maxSize) : _maxSize(maxSize)
     }
 }
 template <class T>
-MinMap<T>::~MinMap()
+MinHeap<T>::~MinHeap()
 {
     Clear();
 }
 template <class T>
-void MinMap<T>::InsertElem(const T &e)
+void MinHeap<T>::InsertElem(const T &e)
 {
     if (IsFull())
     {
@@ -109,53 +105,55 @@ void MinMap<T>::InsertElem(const T &e)
         return;
     }
     _elems.InsertElem(e);
-    FilterUp(GetSize());
+    FilterUp(GetSize() - 1);
 }
 template <class T>
-void MinMap<T>::DeleteTop(T &e)
+void MinHeap<T>::DeleteTop()
 {
     if (IsEmpty())
     {
         cout << "堆已空!" << endl;
         return;
     }
-    //e = _elems[0];
+    _elems.SetElem(0, _elems.GetElem(GetSize() - 1));
+    _elems.DeleteElemByIndex(GetSize() - 1);
     //_elems[0] = _elems[--GetSize()];
-    _elems.DeleteElemByIndex(--GetSize());
-    FilterDown(0);
+    //_elems.DeleteElemByIndex(0);
+    if (GetSize() != 0)
+        FilterDown(0);
 }
 template <class T>
-T MinMap<T>::GetTop() const
+T MinHeap<T>::GetTop() const
 {
     if (IsEmpty())
     {
         cout << "堆已空!" << endl;
-        return;
+        //return;
     }
-    return _elems[0];
+    return _elems.GetElem(0);
 }
 template <class T>
-bool MinMap<T>::IsEmpty() const
+bool MinHeap<T>::IsEmpty() const
 {
     return GetSize() == 0;
 }
 template <class T>
-bool MinMap<T>::IsFull() const
+bool MinHeap<T>::IsFull() const
 {
     return GetSize() == _maxSize;
 }
 template <class T>
-int MinMap<T>::GetSize() const
+int MinHeap<T>::GetSize() const
 {
     return _elems.GetLength();
 }
 template <class T>
-void MinMap<T>::Clear()
+void MinHeap<T>::Clear()
 {
     _elems.ClearList();
 }
 template <class T>
-void MinMap<T>::Display() const
+void MinHeap<T>::Display() const
 {
     for (int i = 0; i < GetSize(); i++)
     {
