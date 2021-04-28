@@ -56,7 +56,7 @@ int main()
     AdjMatrixGraph<char, int> g3(es3, 7, 1, 1);
     g3.SetArcs((int **)arc2, 7);
     g3.Display();
-    cout << "关键路径" << endl;
+    cout << "关键活动" << endl;
     g3.CriticalPath();
 
     // T10, 破圈法
