@@ -14,7 +14,8 @@ protected:
     T _refValue;           //创建二叉树时的结束标志
     //辅助函数
     /* 创建二叉树 */
-    void CreateBinTree_PreOrder(BinTreeNode<T> *&root); //利用已知的二叉树的前序遍历创建二叉树
+    void CreateBinTree_PreOrder(BinTreeNode<T> *&root);                                        //利用已知的二叉树的前序遍历创建二叉树
+    void CreateBinTree_PreOrder_array(BinTreeNode<T> *&root, T *data, int &index, int length); // 传入先序遍历数组创建二叉树
     /* 遍历二叉树 */
     void PreOrder(BinTreeNode<T> *&root);            //前序遍历
     void InOrder(BinTreeNode<T> *&root);             //中序遍历
@@ -45,6 +46,11 @@ public:
     bool operator==(BinaryTree<T> *s) { return (IsEqual(_root, s->_root)); }
     /* 创建二叉树 */
     void CreateBinTree_PreOrder() { CreateBinTree_PreOrder(_root); } //用先序遍历结果创建二叉树
+    void CreateBinTree_PreOrder_array(T *data, int length)
+    {
+        int index = 0;
+        CreateBinTree_PreOrder_array(_root, data, index, length);
+    } //用先序遍历数组创建二叉树
     /* 遍历二叉树 */
     void PreOrder() { PreOrder(_root); }
     void InOrder() { InOrder(_root); }
@@ -411,27 +417,6 @@ void BinaryTree<T>::InsertRightChild(BinTreeNode<T> *&p, const T &data)
 }
 
 template <class T>
-void BinaryTree<T>::CreateBinTree_PreOrder(BinTreeNode<T> *&root)
-//创建二叉树(利用已知的二叉树的前序遍历创建)用#表示空结点
-{
-    T data;
-    cout << "input data: " << endl;
-    if (cin >> data)
-    {
-        if (data != _refValue)
-        {
-            root = new BinTreeNode<T>(data);
-            CreateBinTree_PreOrder(root->_leftChild);  //递归创建左子树
-            CreateBinTree_PreOrder(root->_rightChild); //递归创建右子树
-        }
-        else
-        {
-            root = NULL;
-        }
-    }
-}
-
-template <class T>
 int BinaryTree<T>::GetmaxWidth(BinTreeNode<T> *root) const
 //获取二叉树最大宽度，采用层序遍历
 {
@@ -479,4 +464,40 @@ int BinaryTree<T>::GetLeafNum(const BinTreeNode<T> *root) const
         return 1;
     else
         return GetLeafNum(root->_leftChild) + GetLeafNum(root->_rightChild);
+}
+
+template <class T>
+void BinaryTree<T>::CreateBinTree_PreOrder(BinTreeNode<T> *&root)
+//创建二叉树(利用已知的二叉树的前序遍历创建)用#表示空结点
+{
+    T data;
+    cout << "input data: " << endl;
+    if (cin >> data)
+    {
+        if (data != _refValue)
+        {
+            root = new BinTreeNode<T>(data);
+            CreateBinTree_PreOrder(root->_leftChild);  //递归创建左子树
+            CreateBinTree_PreOrder(root->_rightChild); //递归创建右子树
+        }
+        else
+        {
+            root = NULL;
+        }
+    }
+}
+
+template <class T>
+void BinaryTree<T>::CreateBinTree_PreOrder_array(BinTreeNode<T> *&root, T *data, int &index, int length)
+{
+    if (data[index] != _refValue && index < length)
+    {
+        root = new BinTreeNode<T>(data[index]);
+        CreateBinTree_PreOrder_array(root->_leftChild, data, ++index, length);  //递归创建左子树
+        CreateBinTree_PreOrder_array(root->_rightChild, data, ++index, length); //递归创建右子树
+    }
+    else
+    {
+        root = NULL;
+    }
 }

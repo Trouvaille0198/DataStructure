@@ -33,6 +33,11 @@ int main()
     //  t1.LevelOrder();
     //  t1.InOrder();
     t1.PostOrder_NoRecurve();
+    cout << endl;
     //cout << (root == NULL) << endl;
+    BinaryTree<string> t2("#");
+    string data[] = {"1", "2", "4", "#", "#", "5", "#", "#", "3", "#", "6", "7", "#", "#", "8", "#", "#"};
+    t2.CreateBinTree_PreOrder_array(data, 17);
+    t2.PostOrder_NoRecurve();
     system("pause");
 }

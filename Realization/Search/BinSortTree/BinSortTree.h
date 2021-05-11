@@ -8,11 +8,18 @@ class BinSortTree : public BinaryTree<T>
     // 继承二叉树的根节点数据成员
 public:
     BinSortTree(T refvalue) : BinaryTree<T>(refvalue){};
-    BinSortTree(T *a, int n);                    // 插入数组元素构建二叉排序树, 不用判断
+    BinSortTree(T *a, int n); // 插入数组元素构建二叉排序树, 不用判断
+    ~BinSortTree() {}
     void Insert(const T &x, BinTreeNode<T> *&p); // 以p为根节点, 按大小插入元素
     /*判定是否为二叉排序树*/
-    bool IsBST_Recurve(BinTreeNode<T> *t, T *pre, bool *result); // 递归方式判断是否为二叉排序树
+    bool IsBST_Recurve(BinTreeNode<T> *r, T *pre, bool *result); // 递归方式判断是否为二叉排序树
     bool IsBST_Recurve();
+    void DisplayLarger(BinTreeNode<T> *p, const T &x); // 从大到小输出不小于x的元素
+    void DisplayLarger(const T &x)
+    {
+        DisplayLarger(this->_root, x);
+        cout << endl;
+    }
 };
 
 template <class T>
@@ -74,4 +81,19 @@ bool BinSortTree<T>::IsBST_Recurve()
     }
     IsBST_Recurve(p, &pre, &result);
     return result;
+}
+
+template <class T>
+void BinSortTree<T>::DisplayLarger(BinTreeNode<T> *p, const T &x)
+// 逆中序遍历
+{
+    if (p)
+    {
+        DisplayLarger(p->_rightChild, x);
+        if (p->_data > x)
+            cout << p->_data << " ";
+        else
+            return;
+        DisplayLarger(p->_leftChild, x);
+    }
 }
