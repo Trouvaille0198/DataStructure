@@ -20,6 +20,11 @@ public:
         DisplayLarger(this->_root, x);
         cout << endl;
     }
+    bool Find_NoRecurve(BinTreeNode<T> *&root, const T &x); // 在以root为根的子树中查找x
+    bool Find_NoRecurve(const T &x) { return Find_NoRecurve(this->_root, x); }
+    void Insert_NoRecurve(BinTreeNode<T> *&root, const T &x); // 在以root为根的子树中插入x
+    void Insert_NoRecurve(const T &x) { Insert_NoRecurve(this->_root, x); }
+    bool SearchOrInsert(T &x);
 };
 
 template <class T>
@@ -96,4 +101,69 @@ void BinSortTree<T>::DisplayLarger(BinTreeNode<T> *p, const T &x)
             return;
         DisplayLarger(p->_leftChild, x);
     }
+}
+
+template <class T>
+bool BinSortTree<T>::Find_NoRecurve(BinTreeNode<T> *&root, const T &x)
+{
+    if (root == NULL)
+        // 树空
+        return false;
+    BinTreeNode<T> *temp = root;
+    while (temp != NULL)
+    {
+        if (x == temp->_data)
+        {
+            return true;
+        }
+        if (x < temp->_data)
+            temp = temp->_leftChild;
+        else
+            temp = temp->_rightChild;
+    }
+    return false;
+}
+
+template <class T>
+bool BinSortTree<T>::SearchOrInsert(T &x)
+{
+    if (Find_NoRecurve(x))
+    {
+        return true;
+    }
+    else
+    {
+        Insert_NoRecurve(x);
+        return false;
+    }
+}
+
+template <class T>
+void BinSortTree<T>::Insert_NoRecurve(BinTreeNode<T> *&root, const T &x)
+{
+    if (root == NULL)
+    // 空树
+    {
+        root = new BinTreeNode<T>(x);
+        return;
+    }
+    BinTreeNode<T> *temp = root, *parent = NULL;
+    while (temp != NULL)
+    {
+        if (x == temp->_data)
+        {
+            cout << "要插入的值已存在!" << endl;
+            return;
+        }
+        parent = temp; //记录最后时刻的父节点
+        if (x < temp->_data)
+            temp = temp->_leftChild;
+        else
+            temp = temp->_rightChild;
+    }
+    temp = new BinTreeNode<T>(x);
+    if (x < parent->_data)
+        parent->_leftChild = temp;
+    else
+        parent->_rightChild = temp;
 }
