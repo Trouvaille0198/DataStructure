@@ -1,5 +1,5 @@
 #include "BinSortTree.h"
-
+using namespace std;
 int main()
 {
     BinSortTree<int> t1(-1);
@@ -8,7 +8,7 @@ int main()
     //39 11 8 # # 23 17 # # 34 # # 68 46 # # 75 71 # # 86 # #
     cout << "中序遍历输出树节点" << endl;
     t1.InOrder();
-
+    cout << endl;
     string isBST = t1.IsBST_Recurve() ? "是" : "不是";
     cout << "这棵树" << isBST << "二叉排序树" << endl;
 
@@ -23,5 +23,6 @@ int main()
 
     cout << "中序遍历输出树节点" << endl;
     t1.InOrder();
+    cout << endl;
     system("pause");
 }
