@@ -26,7 +26,7 @@ public:
         CreateBinTree_PreOrder_array(_root, data, index, length);
         GetLsize();
     }
-    BinAVLTreeNode<T> *LocateNode(int k) { return LocateNode(_root, k); }
+    BinAVLTreeNode<T> *LocateNode(int k) { return LocateNode(_root, k); } // 查找第k小的结点
     void PreOrder() { PreOrder(_root); }
     void InOrder() { InOrder(_root); }
 };
