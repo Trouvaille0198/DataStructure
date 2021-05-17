@@ -32,6 +32,7 @@ public:
     void InsertElem(const T &e);        //在末尾插入新元素
     void DeleteElemByIndex(int i);      //删除i位置的元素
     void DeleteElemByValue(const T &e); //删除指定元素
+    void ExchangeElem(int i, int j);    //交换元素
 };
 
 /*建立一个有默认最大长度的空表*/
@@ -218,4 +219,16 @@ void SeqList<T>::DeleteElemByValue(const T &e)
     DeleteElemByIndex(i);
 }
 
+template <class T>
+void SeqList<T>::ExchangeElem(int i, int j)
+{
+    if (i >= 0 && i < _length && j >= 0 && j < _length)
+    {
+        T temp = GetElem(i);
+        SetElem(i, GetElem(j));
+        SetElem(j, temp);
+    }
+    else
+        cout << "下标不合法!" << endl;
+}
 #endif
