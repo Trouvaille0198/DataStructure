@@ -12,18 +12,18 @@ public:
     ~BinSortTree() {}
     void Insert(const T &x, BinTreeNode<T> *&p); // 以p为根节点, 按大小插入元素
     /*判定是否为二叉排序树*/
-    bool IsBST_Recurve(BinTreeNode<T> *r, T *pre, bool *result); // 递归方式判断是否为二叉排序树
-    bool IsBST_Recurve();
+    bool IsBST_Recursive(BinTreeNode<T> *r, T *pre, bool *result); // 递归方式判断是否为二叉排序树
+    bool IsBST_Recursive();
     void DisplayLarger(BinTreeNode<T> *p, const T &x); // 从大到小输出不小于x的元素
     void DisplayLarger(const T &x)
     {
         DisplayLarger(this->_root, x);
         cout << endl;
     }
-    bool Find_NoRecurve(BinTreeNode<T> *&root, const T &x); // 在以root为根的子树中查找x
-    bool Find_NoRecurve(const T &x) { return Find_NoRecurve(this->_root, x); }
-    void Insert_NoRecurve(BinTreeNode<T> *&root, const T &x); // 在以root为根的子树中插入x
-    void Insert_NoRecurve(const T &x) { Insert_NoRecurve(this->_root, x); }
+    bool Find_NoRecursive(BinTreeNode<T> *&root, const T &x); // 在以root为根的子树中查找x
+    bool Find_NoRecursive(const T &x) { return Find_NoRecursive(this->_root, x); }
+    void Insert_NoRecursive(BinTreeNode<T> *&root, const T &x); // 在以root为根的子树中插入x
+    void Insert_NoRecursive(const T &x) { Insert_NoRecursive(this->_root, x); }
     bool SearchOrInsert(T &x);
 };
 
@@ -51,7 +51,7 @@ void BinSortTree<T>::Insert(const T &x, BinTreeNode<T> *&p)
 }
 
 template <class T>
-bool BinSortTree<T>::IsBST_Recurve(BinTreeNode<T> *r, T *pre, bool *result)
+bool BinSortTree<T>::IsBST_Recursive(BinTreeNode<T> *r, T *pre, bool *result)
 // 以r为根节点, 利用递归中序遍历, 判断是否为二叉排序树
 {
     if (!r)
@@ -62,19 +62,19 @@ bool BinSortTree<T>::IsBST_Recurve(BinTreeNode<T> *r, T *pre, bool *result)
     }
     if (r->_leftChild && *result)
         // 从树的最左开始判断, *result 默认为真
-        IsBST_Recurve(r->_leftChild, pre, result); // 此时pre被赋值为当前节点的中序前驱
+        IsBST_Recursive(r->_leftChild, pre, result); // 此时pre被赋值为当前节点的中序前驱
     if (r->_data < *pre)
         // 与其中序前驱相比较
         *result = false;
     *pre = r->_data; // 赋中序值
     if (r->_rightChild && *result)
         // 遍历右子树咯
-        IsBST_Recurve(r->_rightChild, pre, result);
+        IsBST_Recursive(r->_rightChild, pre, result);
     return *result;
 }
 
 template <class T>
-bool BinSortTree<T>::IsBST_Recurve()
+bool BinSortTree<T>::IsBST_Recursive()
 {
     T pre;
     bool result = true;
@@ -84,7 +84,7 @@ bool BinSortTree<T>::IsBST_Recurve()
         cout << "树为空!" << endl;
         return result;
     }
-    IsBST_Recurve(p, &pre, &result);
+    IsBST_Recursive(p, &pre, &result);
     return result;
 }
 
@@ -104,7 +104,7 @@ void BinSortTree<T>::DisplayLarger(BinTreeNode<T> *p, const T &x)
 }
 
 template <class T>
-bool BinSortTree<T>::Find_NoRecurve(BinTreeNode<T> *&root, const T &x)
+bool BinSortTree<T>::Find_NoRecursive(BinTreeNode<T> *&root, const T &x)
 {
     if (root == NULL)
         // 树空
@@ -127,19 +127,19 @@ bool BinSortTree<T>::Find_NoRecurve(BinTreeNode<T> *&root, const T &x)
 template <class T>
 bool BinSortTree<T>::SearchOrInsert(T &x)
 {
-    if (Find_NoRecurve(x))
+    if (Find_NoRecursive(x))
     {
         return true;
     }
     else
     {
-        Insert_NoRecurve(x);
+        Insert_NoRecursive(x);
         return false;
     }
 }
 
 template <class T>
-void BinSortTree<T>::Insert_NoRecurve(BinTreeNode<T> *&root, const T &x)
+void BinSortTree<T>::Insert_NoRecursive(BinTreeNode<T> *&root, const T &x)
 {
     if (root == NULL)
     // 空树

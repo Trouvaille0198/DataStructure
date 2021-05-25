@@ -15,11 +15,11 @@ int main()
     cout << endl;
     t1.PostOrder();
     cout << endl;
-    t1.PreOrder_NoRecurve();
+    t1.PreOrder_NoRecursive();
     cout << endl;
-    t1.InOrder_NoRecurve();
+    t1.InOrder_NoRecursive();
     cout << endl;
-    t1.PostOrder_NoRecurve();
+    t1.PostOrder_NoRecursive();
     cout << endl;
     t1.LevelOrder();
     cout << endl; */
@@ -32,12 +32,12 @@ int main()
     //  t1.InsertLeftChild(root->_leftChild, "D");
     //  t1.LevelOrder();
     //  t1.InOrder();
-    t1.PostOrder_NoRecurve();
+    t1.PostOrder_NoRecursive();
     cout << endl;
     //cout << (root == NULL) << endl;
     BinaryTree<string> t2("#");
     string data[] = {"1", "2", "4", "#", "#", "5", "#", "#", "3", "#", "6", "7", "#", "#", "8", "#", "#"};
     t2.CreateBinTree_PreOrder_array(data, 17);
-    t2.PostOrder_NoRecurve();
+    t2.PostOrder_NoRecursive();
     system("pause");
 }

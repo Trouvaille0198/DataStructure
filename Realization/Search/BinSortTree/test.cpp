@@ -9,7 +9,7 @@ int main()
     cout << "中序遍历输出树节点" << endl;
     t1.InOrder();
     cout << endl;
-    string isBST = t1.IsBST_Recurve() ? "是" : "不是";
+    string isBST = t1.IsBST_Recursive() ? "是" : "不是";
     cout << "这棵树" << isBST << "二叉排序树" << endl;
 
     int n = 60;

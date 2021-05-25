@@ -17,13 +17,13 @@ protected:
     void CreateBinTree_PreOrder(BinTreeNode<T> *&root);                                        //利用已知的二叉树的前序遍历创建二叉树
     void CreateBinTree_PreOrder_array(BinTreeNode<T> *&root, T *data, int &index, int length); // 传入先序遍历数组创建二叉树
     /* 遍历二叉树 */
-    void PreOrder(BinTreeNode<T> *&root);            //前序遍历
-    void InOrder(BinTreeNode<T> *&root);             //中序遍历
-    void PostOrder(BinTreeNode<T> *&root);           //后序遍历
-    void PreOrder_NoRecurve(BinTreeNode<T> *&root);  //前序遍历非递归
-    void InOrder_NoRecurve(BinTreeNode<T> *&root);   //中序遍历非递归
-    void PostOrder_NoRecurve(BinTreeNode<T> *&root); //后序遍历非递归
-    void LevelOrder(BinTreeNode<T> *&root);          //层次遍历
+    void PreOrder(BinTreeNode<T> *&root);              //前序遍历
+    void InOrder(BinTreeNode<T> *&root);               //中序遍历
+    void PostOrder(BinTreeNode<T> *&root);             //后序遍历
+    void PreOrder_NoRecursive(BinTreeNode<T> *&root);  //前序遍历非递归
+    void InOrder_NoRecursive(BinTreeNode<T> *&root);   //中序遍历非递归
+    void PostOrder_NoRecursive(BinTreeNode<T> *&root); //后序遍历非递归
+    void LevelOrder(BinTreeNode<T> *&root);            //层次遍历
     /* 获取信息 */
     int GetHeight(const BinTreeNode<T> *root) const;                                //求高度
     int GetNodeNum(const BinTreeNode<T> *root) const;                               //求节点个数
@@ -55,9 +55,9 @@ public:
     void PreOrder() { PreOrder(_root); }
     void InOrder() { InOrder(_root); }
     void PostOrder() { PostOrder(_root); }
-    void PreOrder_NoRecurve() { PreOrder_NoRecurve(_root); }
-    void InOrder_NoRecurve() { InOrder_NoRecurve(_root); }
-    void PostOrder_NoRecurve() { PostOrder_NoRecurve(_root); }
+    void PreOrder_NoRecursive() { PreOrder_NoRecursive(_root); }
+    void InOrder_NoRecursive() { InOrder_NoRecursive(_root); }
+    void PostOrder_NoRecursive() { PostOrder_NoRecursive(_root); }
     void LevelOrder() { LevelOrder(_root); }
     /* 获取信息 */
     BinTreeNode<T> *GetRoot() const { return _root; }
@@ -130,7 +130,7 @@ void BinaryTree<T>::PostOrder(BinTreeNode<T> *&root)
 }
 
 template <class T>
-void BinaryTree<T>::PreOrder_NoRecurve(BinTreeNode<T> *&root)
+void BinaryTree<T>::PreOrder_NoRecursive(BinTreeNode<T> *&root)
 //DLR 节点不为空时即打印
 {
     if (root == NULL)
@@ -160,7 +160,7 @@ void BinaryTree<T>::PreOrder_NoRecurve(BinTreeNode<T> *&root)
 }
 
 template <class T>
-void BinaryTree<T>::InOrder_NoRecurve(BinTreeNode<T> *&root)
+void BinaryTree<T>::InOrder_NoRecursive(BinTreeNode<T> *&root)
 //LDR 左节点为空时访问（或 即将转到右节点时访问）
 {
     if (root == NULL)
@@ -190,7 +190,7 @@ void BinaryTree<T>::InOrder_NoRecurve(BinTreeNode<T> *&root)
 }
 
 template <class T>
-void BinaryTree<T>::PostOrder_NoRecurve(BinTreeNode<T> *&root)
+void BinaryTree<T>::PostOrder_NoRecursive(BinTreeNode<T> *&root)
 //LRD 出栈时，需要判定左右节点遍历的完成情况
 {
     if (_root == NULL)
