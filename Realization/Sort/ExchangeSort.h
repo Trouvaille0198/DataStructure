@@ -10,9 +10,10 @@ using namespace std;
 template <class T>
 SeqList<T> BubbleSort(SeqList<T> list)
 {
-    for (int i = 0; i < list.GetLength - 1; i++)
-        for (int j = 0; j < list.GetLength() - 1 - i; j++)
-            if (list.GetElem(i) > list.GetElem(i + 1))
+    int n = list.GetLength;
+    for (int i = 0; i < n - 1; i++)
+        for (int j = 0; j < n - 1 - i; j++)
+            if (list[i] > list[i + 1])
                 list.ExchangeElem(i, i + 1);
 }
 
@@ -24,7 +25,7 @@ void QuickSortHelp(SeqList<T> &list, int start, int end)
     bool pivotLocation = true; // true表示基准位置在前
     while (i < j)
     {
-        if (list.GetElem(i) > list.GetElem(j))
+        if (list[i] > list[j])
         {
             list.ExchangeElem(i, j);
             pivotLocation = !pivotLocation;
@@ -49,23 +50,25 @@ void CountSort(SeqList<T> &list)
     // SeqList<T> sortedList(list.GetLength());
     // for (int i = 0; i < list.GetLength()-1;i++)
     //     for (int j = i + 1; j < list.GetLength();j++){
-    //         if(list.GetElem(i)<list.GetElem(j))
+    //         if(list[i]<list[j])
 
     //     }
     int count = 0;
-    SeqList<T> sortedList(list.GetLength());
-    for (int i = 0; i < list.GetLength(); i++)
+    int n = list.GetLength();
+    SeqList<T> sortedList(n);
+    for (int i = 0; i < n; i++)
         sortedList.InsertElem(0);
-    for (int i = 0; i < list.GetLength(); i++)
+    for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < list.GetLength(); j++)
+        for (int j = 0; j < n; j++)
         {
             if (i == j)
                 continue;
-            else if (list.GetElem(j) < list.GetElem(i))
+            else if (list[j] < list[i])
                 count++;
         }
-        sortedList.SetElem(count, list.GetElem(i)); // 将关键字保存在以计数值为索引的位置
+        sortedList[count] = list[i]; // 将关键字保存在以计数值为索引的位置
+        //sortedList.SetElem(count, list[i]);
         count = 0;
     }
     list = sortedList;
@@ -85,7 +88,7 @@ int OneQuickSort(SeqList<T> &list, int start, int end)
     bool pivotLocation = true; // true表示基准位置在前
     while (i < j)
     {
-        if (list.GetElem(i) > list.GetElem(j))
+        if (list[i] > list[j])
         {
             list.ExchangeElem(i, j);
             pivotLocation = !pivotLocation;
@@ -124,7 +127,7 @@ void QuickSort_NoRecursive(SeqList<T> &list)
             bool pivotLocation = true; // true表示基准位置在前
             while (i < j)
             {
-                if (list.GetElem(i) > list.GetElem(j))
+                if (list[i] > list[j])
                 {
                     list.ExchangeElem(i, j);
                     pivotLocation = !pivotLocation;
@@ -154,17 +157,17 @@ void QuickSort_NoRecursive(SeqList<T> &list)
         if (end - start == 2)
         // 长度等于三，暴力交换
         {
-            if (list.GetElem(start) > list.GetElem(start + 1))
+            if (list[start] > list[start + 1])
                 list.ExchangeElem(start, start + 1);
-            if (list.GetElem(start) > list.GetElem(end))
+            if (list[start] > list[end])
                 list.ExchangeElem(start, end);
-            if (list.GetElem(start + 1) > list.GetElem(end))
+            if (list[start + 1] > list[end])
                 list.ExchangeElem(start + 1, end);
         }
         else if (end - start == 1)
         // 长度等于二，暴力交换
         {
-            if (list.GetElem(start) > list.GetElem(end))
+            if (list[start] > list[end])
                 list.ExchangeElem(start, end);
         }
     }
@@ -177,15 +180,70 @@ void StraightInsertionSort(SeqList<T> &list)
     int j;
     for (int i = 1; i < list.GetLength(); i++) // 遍历无序区
     {
-        T e = list.GetElem(i); // 取出无序区第一个元素
-        for (j = i - 1; j >= 0 && list.GetElem(j) > e; j--)
-            list.SetElem(j + 1, list.GetElem(j)); // 将比e大的元素后移一位
-        list.SetElem(j + 1, e);                   //在j+1处插入e
+        T e = list[i]; // 取出无序区第一个元素
+        for (j = i - 1; j >= 0 && list[j] > e; j--)
+            list[j + 1] = list[j]; // 将比e大的元素后移一位
+        list[j + 1] = e;           //在j+1处插入e
     }
 }
 
 template <class T>
-SeqList<T> BinaryInsertionSort(SeqList<T> list) {}
+void BiInsertSort(SeqList<T> &list)
+// 二路插排，运用循环表思想，以0下标为始，较小序列向前延伸，较大序列向后延伸
+{
+    int n = list.GetLength();
+    SeqList<T> d(n);
+    int start = 0; // 指向第一个元素
+    int end = 0;   // 指向最后一个元素
+    int i, j;      // 起指示作用
+    d[0] = list[0];
+    for (i = 1; i < n; i++)
+    {
+        if (list[i] > d[0])
+        // 插入后半部分
+        {
+            j = end;
+            while (j > 0 && list[i] < d[j])
+            // 从最大元素开始比较, 每个元素依次向右移动
+            {
+                d[j + 1] = d[j];
+                j--;
+            }
+            d[j + 1] = list[i];
+            end++;
+        }
+        else
+        // 插入前半部分
+        {
+            if (start == 0)
+            // 初始化
+            {
+                d[n - 1] = list[i];
+                start = n - 1;
+            }
+            else
+            // 从最大元素开始比较, 每个元素依次向左回退
+            {
+                j = start;
+                while (j < n && list[i] > d[j])
+                {
+                    d[j - 1] = d[j];
+                    j++;
+                }
+                d[j - 1] = list[i];
+                start--;
+            }
+        }
+    }
+    list[0] = d[start];
+    for (i = (start + 1) % n, j = 1; j < n; i = (i + 1) % n, j++)
+        list[j] = d[i]; // 覆盖原数组
+}
+
+template <class T>
+SeqList<T> BinaryInsertionSort(SeqList<T> list)
+{
+}
 
 template <class T>
 SeqList<T> ShellSort(SeqList<T> list) {}
@@ -198,9 +256,10 @@ SeqList<T> SimpleSelectionSort(SeqList<T> list) {}
 template <class T>
 void DblLinkList_BubbleSort(DblLinkList<T> &list)
 {
-    for (int i = 0; i < list.GetLength() - 1; i++)
+    int n = list.GetLength();
+    for (int i = 0; i < n - 1; i++)
     {
-        for (int j = 0; j < list.GetLength() - 1 - i; j++)
+        for (int j = 0; j < n - 1 - i; j++)
         {
             if (list.GetElem(j) > list.GetElem(j + 1))
                 list.ExchangeElem(j, j + 1);

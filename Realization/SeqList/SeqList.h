@@ -18,6 +18,7 @@ public:
     SeqList(const SeqList<T> &sa);                        //拷贝构造函数
     virtual ~SeqList();                                   //析构函数
     SeqList<T> &operator=(const SeqList<T> &sa);          //赋值运算符重载
+    T &operator[](int index);                             //间址运算符重载
 
     void ClearList();                 //清空顺序表，暂时不知道有啥用
     int GetLength() const;            //返回长度
@@ -230,5 +231,11 @@ void SeqList<T>::ExchangeElem(int i, int j)
     }
     else
         cout << "下标不合法!" << endl;
+}
+
+template <class T>
+T &SeqList<T>::operator[](int index)
+{
+    return _data[index];
 }
 #endif
