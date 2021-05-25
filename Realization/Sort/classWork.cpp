@@ -5,8 +5,9 @@ using namespace std;
 
 int main()
 {
-    int b[10] = {4, 5, 3, 6, 2, 1, 8};
     int a[10] = {4, 5, 3, 6, 2, 5, 1};
+    int b[10] = {4, 5, 3, 6, 2, 1, 8};
+
     //5 双向链表冒泡
     cout << "T5 双向链表冒泡" << endl;
     DblLinkList<int> l1(a, 7);
@@ -16,7 +17,6 @@ int main()
 
     // 8 计数排序
     cout << "T8 计数排序" << endl;
-
     SeqList<int> l2(b, 7);
     l2.DisplayList();
     CountSort(l2);

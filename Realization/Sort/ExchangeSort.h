@@ -105,18 +105,38 @@ void QuickSort_NoRecursive(SeqList<T> &list)
 {
     int start, end, pivot;
     SeqStack<T> s;
-    s.PushElem(list.GetElem(0));
-    s.PushElem(list.GetElem(list.GetLength() - 1)); // 头尾入栈
+    s.PushElem(0);                    // 头入栈
+    s.PushElem(list.GetLength() - 1); // 尾入栈
+
     while (!s.IsEmpty())
     {
-        start = s.TopElem();
-        s.PopElem();
         end = s.TopElem();
         s.PopElem();
+        start = s.TopElem();
+        s.PopElem();
+
         while (end - start >= 3)
         // 若长度大于三
         {
-            pivot = OneQuickSort(list, start, end); // 来一趟
+            // 来一趟
+            int i = start;             // 基准
+            int j = end;               // 从最后开始比较
+            bool pivotLocation = true; // true表示基准位置在前
+            while (i < j)
+            {
+                if (list.GetElem(i) > list.GetElem(j))
+                {
+                    list.ExchangeElem(i, j);
+                    pivotLocation = !pivotLocation;
+                }
+                if (pivotLocation)
+                    // 基准位置在前
+                    j--;
+                else
+                    // 基准位置在后
+                    i++;
+            }
+            pivot = i;
             // 比较左右子串的长短，短者先排，长者入栈
             if (pivot - start < end - pivot)
             {
