@@ -97,7 +97,7 @@ void OLGraph<ElemType, WeightType>::Clear()
         while (p != NULL)
         // 遍历并删除节点
         {
-            _vexTable._data[i]._firstInArc = p->_headNextArc;
+            _vexTable[i]._firstInArc = p->_headNextArc;
             delete p;
             p = _vexTable[i]._firstInArc;
         }
@@ -134,7 +134,8 @@ ElemType OLGraph<ElemType, WeightType>::GetElem(int index) const
 template <class ElemType, class WeightType>
 void OLGraph<ElemType, WeightType>::SetElem(int index, ElemType vex)
 {
-    _vexTable.SetElem(index, vex);
+    VexNode<ElemType, WeightType> node(vex);
+    _vexTable.SetElem(index, node);
 }
 
 template <class ElemType, class WeightType>
@@ -159,13 +160,13 @@ template <class ElemType, class WeightType>
 int OLGraph<ElemType, WeightType>::FirstAdjVex(int v) const
 // 返回顶点v的第一个邻接点
 {
-    if (_vexTable.GetElem(v)._firstArc == NULL)
+    if (_vexTable[v]._firstOutArc == NULL)
     {
         cout << "不存在邻接点!" << endl;
         return -1;
     }
     else
-        return _vexTable.GetElem(v)._firstArc->_adjVex; //返回此顶点第一条边的弧头顶点
+        return _vexTable[v]._firstOutArc->_headVex; //返回此顶点第一条边的弧头顶点
 }
 
 template <class ElemType, class WeightType>
@@ -188,18 +189,18 @@ int OLGraph<ElemType, WeightType>::NextAdjVex(int v1, int v2) const
         return NULL;
     }
     ArcNode<WeightType> *p;
-    p = _vexTable.GetElem(v1)._firstArc;
-    while (p->_adjVex != v2 && p != NULL)
+    p = _vexTable[v1]._firstOutArc;
+    while (p->_headVex != v2 && p != NULL)
     {
-        p = p->_nextArc;
+        p = p->_tailNextArc;
     }
 
-    if (p == NULL || p->_nextArc == NULL) //若没有v2,或v2是v1最后一个邻接点
+    if (p == NULL || p->_tailNextArc == NULL) //若没有v2,或v2是v1最后一个邻接点
         return -1;
     else
-        return p->_adjVex;
+        return p->_headVex;
 }
-
+//TODO
 template <class ElemType, class WeightType>
 void OLGraph<ElemType, WeightType>::InsertVex(const ElemType &vexValue)
 // 在顶点表的表尾插入元素值为vexValue的顶点。

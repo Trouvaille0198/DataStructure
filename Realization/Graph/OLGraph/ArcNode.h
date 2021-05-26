@@ -21,8 +21,10 @@ template <class WeightType>
 ArcNode<WeightType>::ArcNode()
 //构造一个空的边
 {
-    _nextArc = NULL;
-    _adjVex = -1;
+    _tailNextArc = NULL;
+    _headNextArc = NULL;
+    _tailVex = -1;
+    _headVex = -1;
 }
 
 template <class WeightType>

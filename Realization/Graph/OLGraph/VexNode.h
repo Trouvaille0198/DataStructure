@@ -11,7 +11,7 @@ struct VexNode
     ArcNode<WeightType> *_firstOutArc; //指向以该顶点为弧尾的第一个节点的指针
 
     VexNode();
-    VexNode(ArcNode<WeightType> *firstInArc = NULL, ArcNode<WeightType> *firstOutArc = NULL);
+    VexNode(ElemType data, ArcNode<WeightType> *firstInArc = NULL, ArcNode<WeightType> *firstOutArc = NULL);
 };
 
 template <class ElemType, class WeightType>
@@ -19,12 +19,13 @@ VexNode<ElemType, WeightType>::VexNode()
 //构造空顶点节点
 {
     _firstInArc = NULL;
-    _firstOutArc = NULL
+    _firstOutArc = NULL;
 }
 template <class ElemType, class WeightType>
-VexNode<ElemType, WeightType>::VexNode(ArcNode<WeightType> *firstInArc, ArcNode<WeightType> *firstOutArc)
+VexNode<ElemType, WeightType>::VexNode(ElemType data, ArcNode<WeightType> *firstInArc, ArcNode<WeightType> *firstOutArc)
 //构造空顶点节点
 {
+    _data = data;
     _firstInArc = firstInArc;
     _firstOutArc = firstOutArc;
 }
