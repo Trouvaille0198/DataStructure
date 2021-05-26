@@ -8,7 +8,7 @@ int main()
     l1.InsertElem(3, 100);
     l1.DeleteElem(3);
 
-    l1.DisplayList();
+    l1.Display();
 
     system("pause");
 }

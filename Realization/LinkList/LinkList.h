@@ -22,7 +22,7 @@ public:
     int GetLength() const;
     bool IsEmpty() const;
     int LocateElem(const T &e) const;
-    void DisplayList() const;
+    void Display() const;
 
     T GetElem(int i) const;
     void SetElem(int i, const T &e);
@@ -135,7 +135,7 @@ int LinkList<T>::LocateElem(const T &e) const
 }
 
 template <class T>
-void LinkList<T>::DisplayList() const
+void LinkList<T>::Display() const
 //遍历链表
 {
     Node<T> *p = _head->next;

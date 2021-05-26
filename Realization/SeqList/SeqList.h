@@ -24,7 +24,7 @@ public:
     int GetLength() const;            //返回长度
     bool IsEmpty() const;             //判空
     bool IsFull() const;              //判满
-    void DisplayList() const;         //遍历显示顺序表
+    void Display() const;             //遍历显示顺序表
     int LocateElem(const T &e) const; //元素定位，返回指定元素位置
 
     T GetElem(int i) const;             //查找元素，返回查找的元素
@@ -117,7 +117,7 @@ bool SeqList<T>::IsFull() const
 }
 
 template <class T>
-void SeqList<T>::DisplayList() const
+void SeqList<T>::Display() const
 {
     for (int i = 0; i < _length - 1; i++)
         cout << _data[i] << ", ";
