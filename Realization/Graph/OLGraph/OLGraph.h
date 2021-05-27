@@ -97,7 +97,7 @@ void OLGraph<ElemType, WeightType>::Clear()
         while (p != NULL)
         // 遍历并删除节点
         {
-            _vexTable[i]._firstInArc = p->_headNextArc;
+            _vexTable._data[i]._firstInArc = p->_headNextArc;
             delete p;
             p = _vexTable[i]._firstInArc;
         }
@@ -240,9 +240,10 @@ void OLGraph<ElemType, WeightType>::InsertArc(int v1, int v2, WeightType w)
         return;
     }
 
-    ArcNode<WeightType> *p;
-    p = _vexTable.GetElem(v1)._firstArc;
-    _vexTable._data[v1]._firstArc = new ArcNode<WeightType>(v2, w, p);
+    ArcNode<WeightType> *p, *q;
+    p = _vexTable[v1]._firstOutArc;
+    q = _vexTable[v2]._firstInArc;
+    _vexTable._data[v1]._firstOutArc = new ArcNode<WeightType>(v1, v2, w, p, q);
     _arcNum++;
 }
 
@@ -267,26 +268,45 @@ void OLGraph<ElemType, WeightType>::DeleteArc(int v1, int v2)
         return;
     }
     ArcNode<WeightType> *p, *q;
-    p = _vexTable.GetElem(v1)._firstArc;
-    while (p != NULL && p->_adjVex != v2)
+    // 删除邻接表中的边
+    p = _vexTable[v1]._firstOutArc;
+    while (p != NULL && p->_headVex != v2)
     // 找到指定边, 赋值给p, q为p的上一个节点
     {
         q = p;
-        p = p->_nextArc;
+        p = p->_tailNextArc;
     }
     if (p != NULL)
     {
-        if (_vexTable.GetElem(v1)._firstArc == p)
+        if (_vexTable[v1]._firstOutArc == p)
             // 若指定边恰好是第一条
-            _vexTable.GetElem(v1)._firstArc = p->_nextAr;
+            _vexTable[v1]._firstOutArc = p->_tailNextArc;
         else
             //正常情况,将p删除
-            q->_nextArc = p->_nextArc;
+            q->_tailNextArc = p->_tailNextArc;
+    }
+    // 删除逆邻接表中的边
+    p = _vexTable[v2]._firstInArc;
+    while (p != NULL && p->_tailVex != v1)
+    // 找到指定边, 赋值给p, q为p的上一个节点
+    {
+        q = p;
+        p = p->_headNextArc;
+    }
+    if (p != NULL)
+    {
+        if (_vexTable[v2]._firstInArc == p)
+            // 若指定边恰好是第一条
+            _vexTable[v2]._firstInArc = p->_headNextArc;
+        else
+            //正常情况,将p删除
+            q->_headNextArc = p->_headNextArc;
         delete p;
         _arcNum--;
     }
 }
 
+// TODO
 template <class ElemType, class WeightType>
 void OLGraph<ElemType, WeightType>::DeleteVex(const ElemType &vexValue)
 // 删除元素值为vexValue的顶点, 很复杂, 一般不用
@@ -384,9 +404,9 @@ void OLGraph<ElemType, WeightType>::SetWeight(int v1, int v2, WeightType w)
         cout << "权重不可为无限大！" << endl;
         return;
     }
-    ArcNode<WeightType> *p = _vexTable.GetElem(v1)._firstArc;
-    while (p != NULL && p->_adjVex != v2)
-        p = p->_nextArc;
+    ArcNode<WeightType> *p = _vexTable[v1]._firstOutArc;
+    while (p != NULL && p->_headVex != v2)
+        p = p->_tailNextArc;
     if (p != NULL)
         p->_weight = w;
 }
@@ -425,7 +445,7 @@ void OLGraph<ElemType, WeightType>::Display() const
 
         for (int j = 0; j < GetVexNum(); j++)
         {
-            p = _vexTable.GetElem(i)._firstArc;
+            p = _vexTable.GetElem(i)._firstOutArc;
             if (i == j)
             {
                 cout << "\t"
@@ -434,12 +454,12 @@ void OLGraph<ElemType, WeightType>::Display() const
             }
             while (p != NULL)
             {
-                if (p->_adjVex == j)
+                if (p->_headVex == j)
                 {
                     cout << "\t" << p->_weight;
                     break;
                 }
-                p = p->_nextArc;
+                p = p->_tailNextArc;
             }
             if (p == NULL)
                 cout << "\t"
