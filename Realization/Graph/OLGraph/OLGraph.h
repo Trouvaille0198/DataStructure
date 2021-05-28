@@ -209,7 +209,7 @@ void OLGraph<ElemType, WeightType>::InsertVex(const ElemType &vexValue)
     if (_vexNum == _vexMaxNum)
         cout << "图的顶点数不能超过允许的最大数!" << endl;
 
-    VexNode<ElemType, WeightType> *p(vexValue);
+    VexNode<ElemType, WeightType> p(vexValue);
     _vexTable.InsertElem(p);
     _tag[_vexNum] = 0;
 }
