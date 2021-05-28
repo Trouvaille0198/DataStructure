@@ -41,7 +41,7 @@ public:
     int NextAdjVex(int v1, int v2) const;         // 求v1相对于v2的下一个邻接点的下标
     void InsertVex(const ElemType &vexValue);     // 插入顶点
     void InsertArc(int v1, int v2, WeightType w); // 插入边
-    void DeleteVex(const ElemType &vexValue);     // 删除顶点
+    //void DeleteVex(const ElemType &vexValue);     // 删除顶点
     void DeleteArc(int v1, int v2);               // 删除边
     WeightType GetWeight(int v1, int v2) const;   // 求从顶点为v1到v2的边的权值
     void SetWeight(int v1, int v2, WeightType w); // 设置从顶点为v1到v2的边的权值
@@ -200,7 +200,7 @@ int OLGraph<ElemType, WeightType>::NextAdjVex(int v1, int v2) const
     else
         return p->_headVex;
 }
-//TODO
+
 template <class ElemType, class WeightType>
 void OLGraph<ElemType, WeightType>::InsertVex(const ElemType &vexValue)
 // 在顶点表的表尾插入元素值为vexValue的顶点。
@@ -307,52 +307,52 @@ void OLGraph<ElemType, WeightType>::DeleteArc(int v1, int v2)
 }
 
 // TODO
-template <class ElemType, class WeightType>
-void OLGraph<ElemType, WeightType>::DeleteVex(const ElemType &vexValue)
-// 删除元素值为vexValue的顶点, 很复杂, 一般不用
-{
+// template <class ElemType, class WeightType>
+// void OLGraph<ElemType, WeightType>::DeleteVex(const ElemType &vexValue)
+// // 删除元素值为vexValue的顶点, 很复杂, 一般不用
+// {
 
-    ArcNode<WeightType> *p;
-    int index = _vexTable.LocateElem(vexValue); //找到指定顶点的索引
-    if (index == -1)
-        return;
+//     ArcNode<WeightType> *p;
+//     int index = _vexTable.LocateElem(vexValue); //找到指定顶点的索引
+//     if (index == -1)
+//         return;
 
-    for (int startIndex = 0; startIndex < GetVexNum(); startIndex++) // 删除到达此顶点的弧
-        if (startIndex != index)
-            DeleteArc(startIndex, index);
+//     for (int startIndex = 0; startIndex < GetVexNum(); startIndex++) // 删除到达此顶点的弧
+//         if (startIndex != index)
+//             DeleteArc(startIndex, index);
 
-    p = _vexTable.GetElem(index)._firstArc; // 删除从此顶点出发的弧
-    while (p != NULL)
-    {
-        _vexTable.GetElem(index)._firstArc = p->_nextArc;
-        delete p;
-        p = _vexTable.GetElem(index)._firstArc;
-        _arcNum--;
-    }
+//     p = _vexTable.GetElem(index)._firstArc; // 删除从此顶点出发的弧
+//     while (p != NULL)
+//     {
+//         _vexTable.GetElem(index)._firstArc = p->_nextArc;
+//         delete p;
+//         p = _vexTable.GetElem(index)._firstArc;
+//         _arcNum--;
+//     }
 
-    int _vexNum = GetVexNum() - 1; //记录删点后顶点的个数
-    if (index < _vexNum)
-    //若待删除点的位置不在最后，将最后的顶点前移
-    {
-        //顶点集前移
-        _vexTable.GetElem(index) = _vexTable.GetElem(_vexNum);
-        _vexTable.DeleteElemByIndex(_vexNum); //此时真正的顶点数目已经-1
-        _tag[index] = _tag[_vexNum];
-    }
+//     int _vexNum = GetVexNum() - 1; //记录删点后顶点的个数
+//     if (index < _vexNum)
+//     //若待删除点的位置不在最后，将最后的顶点前移
+//     {
+//         //顶点集前移
+//         _vexTable.GetElem(index) = _vexTable.GetElem(_vexNum);
+//         _vexTable.DeleteElemByIndex(_vexNum); //此时真正的顶点数目已经-1
+//         _tag[index] = _tag[_vexNum];
+//     }
 
-    for (int i = 0; i < _vexNum; i++)
-        //修改所有指向转移顶点的边结点的_adjVex
-        if (i != index)
-        {
-            p = _vexTable.GetElem(i)._firstArc;
-            while (p != NULL)
-            {
-                if (p->_adjVex == _vexNum)
-                    p->_adjVex = i;
-                p = p->_nextArc;
-            }
-        }
-}
+//     for (int i = 0; i < _vexNum; i++)
+//         //修改所有指向转移顶点的边结点的_adjVex
+//         if (i != index)
+//         {
+//             p = _vexTable.GetElem(i)._firstArc;
+//             while (p != NULL)
+//             {
+//                 if (p->_adjVex == _vexNum)
+//                     p->_adjVex = i;
+//                 p = p->_nextArc;
+//             }
+//         }
+// }
 
 template <class ElemType, class WeightType>
 WeightType OLGraph<ElemType, WeightType>::GetWeight(int v1, int v2) const
