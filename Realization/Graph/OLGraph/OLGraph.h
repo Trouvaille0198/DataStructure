@@ -97,7 +97,7 @@ void OLGraph<ElemType, WeightType>::Clear()
         while (p != NULL)
         // 遍历并删除节点
         {
-            _vexTable._data[i]._firstInArc = p->_headNextArc;
+            _vexTable[i]._firstInArc = p->_headNextArc;
             delete p;
             p = _vexTable[i]._firstInArc;
         }
@@ -219,7 +219,7 @@ void OLGraph<ElemType, WeightType>::InsertArc(int v1, int v2, WeightType w)
 // 插入：v1到v2,权为w的边
 {
     int _vexNum = GetVexNum();
-    if (v1 < 0 || v1 >= _vexNum || v2 < 0)
+    if (v1 < 0 || v1 >= _vexNum)
     {
         cout << "v1不合法!" << endl;
         return;
@@ -243,7 +243,7 @@ void OLGraph<ElemType, WeightType>::InsertArc(int v1, int v2, WeightType w)
     ArcNode<WeightType> *p, *q;
     p = _vexTable[v1]._firstOutArc;
     q = _vexTable[v2]._firstInArc;
-    _vexTable._data[v1]._firstOutArc = new ArcNode<WeightType>(v1, v2, w, p, q);
+    _vexTable[v1]._firstOutArc = new ArcNode<WeightType>(v1, v2, w, p, q);
     _arcNum++;
 }
 
@@ -252,7 +252,7 @@ void OLGraph<ElemType, WeightType>::DeleteArc(int v1, int v2)
 // 删除顶点索引为v1到v2的边
 {
     int _vexNum = GetVexNum();
-    if (v1 < 0 || v1 >= _vexNum || v2 < 0)
+    if (v1 < 0 || v1 >= _vexNum)
     {
         cout << "v1不合法!" << endl;
         return;
