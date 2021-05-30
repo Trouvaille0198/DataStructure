@@ -244,6 +244,7 @@ void OLGraph<ElemType, WeightType>::InsertArc(int v1, int v2, WeightType w)
     p = _vexTable[v1]._firstOutArc;
     q = _vexTable[v2]._firstInArc;
     _vexTable[v1]._firstOutArc = new ArcNode<WeightType>(v1, v2, w, p, q);
+    _vexTable[v2]._firstInArc = _vexTable[v1]._firstOutArc;
     _arcNum++;
 }
 
